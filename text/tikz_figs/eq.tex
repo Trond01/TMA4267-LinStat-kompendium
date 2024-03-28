@@ -1,0 +1,49 @@
+\vspace*{2.5em}
+\[
+    y = \EqM{c1}[red]{c_1}p\EqM{p1}[green!50!black]{^{1}} + \EqM{c2}{c_2}p^2 + \ldots{} + \EqM{cn}{c_n}p^{n} + \EqM{cn1}{c_{n+1}}x^{n+1}
+\]
+\vspace*{2.5em}
+\begin{tikzpicture}[
+    remember picture, 
+    overlay,
+    tips=proper,
+    every node/.style={draw},
+]
+    \draw[red,<-] 
+        ++(c1.north) 
+        -- ++(0,2em) 
+        -- ++(-1em,0) 
+        node[anchor=east] {First scalar}; 
+        
+    \draw[green!50!black,<-] 
+        ++(p1.north) 
+        -- ++(0,2em) 
+        -- ++(1em,0) 
+        node[anchor=west] {Lowest exponent}; 
+    
+    \draw[blue] 
+        ++(c1.south) 
+        ++(0, -2em) 
+        node[anchor=north west, outer sep=3pt] (ScalarLabel) {A bunch of different scalars};
+    
+    \draw[blue,->] 
+        ++(ScalarLabel.170)  
+        edge[in=215,out=45] 
+        (c1.south);            
+        
+    \draw[blue,->] 
+        ++(ScalarLabel.163)  
+        edge[in=215,out=45] 
+        (c2.south);            
+
+    \draw[blue,->] 
+        ++(ScalarLabel.19)  
+        edge[in=-45,out=-215] 
+        (cn.south);            
+
+    \draw[blue,->] 
+        ++(ScalarLabel.10)  
+        edge[in=-45,out=-215] 
+        (cn1.south);
+\end{tikzpicture}
+

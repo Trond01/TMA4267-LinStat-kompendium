@@ -1,0 +1,40 @@
+
+\begin{algorithm}
+\SetArgSty{textrm}  
+\DontPrintSemicolon
+\caption{Gradient Descent}
+
+\phantomsection\label{alg:Alg1}
+
+%% INPUT AND OUTPUT
+    \SetKwInOut{Input}{Input}
+    \SetKwInOut{Output}{Output}
+    \Input{Initial parameters $\beta$, method for computing gradient of loss function, $\nabla C(\beta)$ and various hyperparameters.}
+    \Output{New parameters $\beta$.}
+
+%% Algorithm
+
+% {Initialise storage for error etc.} \\
+
+%% EPOCH
+\For {$i=1, ..., n$ epochs} {
+
+    % \tcp*{dette er en kommentar}\\ 
+    {Initialise accumulation variables} \\
+     
+    %% MINIBATCH
+    \For {$i=1, ..., m$ minibatches} {
+
+        {Draw minibatch $D\subset X$} \\
+        
+        {Compute gradient of cost using minibatch: $\nabla_\beta C(\beta, D)$} \\
+
+        {Accumulate parametres} \\
+        
+        {Compute step} \\
+    
+    }
+    
+}
+\Return{New parametres $\beta$}
+\end{algorithm}

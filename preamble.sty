@@ -1,0 +1,123 @@
+
+\usepackage{amsmath, amssymb, amsthm, amsfonts}
+\usepackage{graphicx}
+\usepackage{parskip}
+\usepackage[english]{babel}   % Språk
+\usepackage[utf8]{inputenc}
+\usepackage{csquotes}
+\usepackage{float}
+\usepackage{caption}
+\captionsetup{font=small}
+%\numberwithin{equation}{section} % Likning 3.1 etc
+
+% Figures made in LaTeX, in particular: equations with explanatory arrows. 
+\usepackage{tikz} 
+\usetikzlibrary{positioning}
+\usepackage{xcolor}
+\NewDocumentCommand{\EqM}{ m O{black} m}{\tikz[remember picture, baseline, anchor=base] \node[inner sep=0pt, outer sep=3pt, text=#2] (#1) {\ensuremath{#3}};}
+
+\usepackage{marginnote} % Notes in margin
+
+\usepackage{enumitem}   % Variere lister
+
+\usepackage{multicol} % flere kolonner i del av dokument
+
+%%% TODO list greier
+\newlist{todolist}{itemize}{2}
+\setlist[todolist]{label=$\square$}
+\usepackage{pifont}
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\newcommand{\done}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\cmark}}%
+\hspace{-2.5pt}}
+\newcommand{\wontfix}{\rlap{$\square$}{\large\hspace{1pt}\xmark}}
+
+%%% Kilde greier
+\usepackage[backend=biber,
+    sortcites  = true,
+    giveninits = true,
+    isbn = false,
+    url = true,
+    maxcitenames=1,
+    citestyle=numeric,
+    style=numeric]{biblatex} 
+\DeclareNameAlias{sortname}{family-given} 
+\DeclareNameAlias{default}{family-given} 
+\addbibresource{sources.bib}
+
+% Complete ref (no need to write figure...)
+% NB clever after hyper
+\usepackage{hyperref}
+\usepackage{xcolor}           % set colors
+\hypersetup{
+    colorlinks = false,
+    linkbordercolor = {white}}
+\usepackage{cleveref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% EGENDEFINERTE KOMMANDOER %%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Italics (not in use)
+% \newcommand{\bt}[1]{\textbf{#1}\mbox{}}
+% \newcommand{\tit}[1]{\textit{#1}\mbox{}}
+% \newcommand{\btit}[1]{\textbf{\textit{#1}}\mbox{}}
+
+% Definitions that go in index
+\newcommand{\term}[1]{\emph{#1}\index{#1}}
+
+% Colored text for TODO etc
+\newcommand{\red}[1]{\color{red}{#1}\normalcolor} 
+\newcommand{\TODO}[1]{\color{red}{TODO: #1}\normalcolor} 
+
+% Shorthand for common commands
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+\newcommand{\mr}[1]{\mathrm{#1}}
+
+% Symbols typical for statistics
+\newcommand{\bh}{\widehat{\beta}}
+\renewcommand{\b}{\beta}
+\newcommand{\sh}{\widehat{\sigma}}
+\newcommand{\s}{\sigma}
+\newcommand{\eh}{\widehat{\varepsilon}}
+\newcommand{\e}{\varepsilon}
+
+\newcommand{\Bh}{\widehat{\boldsymbol{\beta}}}
+\newcommand{\B}{\boldsymbol{\beta}}
+\newcommand{\Sh}{\widehat{\boldsymbol{\sigma}}}
+\renewcommand{\S}{\boldsymbol{\sigma}}
+\newcommand{\Eh}{\widehat{\boldsymbol{\varepsilon}}}
+\newcommand{\E}{\boldsymbol{\varepsilon}}
+\newcommand{\M}{\boldsymbol{\mu}}
+
+\newcommand{\x}{\boldsymbol{x}}
+\newcommand{\y}{\boldsymbol{y}}
+\newcommand{\X}{\boldsymbol{X}}
+\newcommand{\Y}{\boldsymbol{Y}}
+
+\newcommand{\var}{\mathrm{Var}}
+\renewcommand{\hat}[1]{\widehat{#1}}
+
+%% Double letters
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+
+% Argmin and argmax
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+% Never write an ugly phi again
+\renewcommand{\phi}{\varphi}
+
+%%%%%%%%%%%% EGENDEFINERTE environments %%%%%%%%%%%%
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem*{remark}{Remark}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
