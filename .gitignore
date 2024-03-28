@@ -1,0 +1,4 @@
+# Ignore files that are auto-generated
+main_tex_file.*
+!main_tex_file.pdf
+!main_tex_file.tex
