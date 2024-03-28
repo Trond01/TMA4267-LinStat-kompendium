@@ -1,7 +1,6 @@
 
 <!-- To preview markdown, press cmd + shift + V -->
 
-# TMA4212 - Numerical methods for ...
-
+# TMA4267 - Linear statistical models
 
 bla bla

@@ -1,5 +1,0 @@
-\babel@toc {english}{}\relax 
-\contentsline {section}{Introduction}{2}{section*.2}%
-\contentsline {section}{Course progress}{2}{section*.3}%
-\contentsline {subsection}{Keywords to know}{2}{section*.4}%
-\contentsline {section}{Part 1 - }{3}{section*.5}%
