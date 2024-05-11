@@ -1,6 +1,4 @@
-
-
-
+\section{The Multivariate Normal Distribution}
 %%%%%%%%%%%%%%% Lecture 7 %%%%%%%%%%%%%%%
 \subsection*{Lecture 7}
 
@@ -27,14 +25,16 @@ Our next goal is to obtain the result for the multivariate case.
 In this case, we have $p$-variate independent randum vectors $\X_1,...,\X_n \sim N(\M, \SS)$ where we denote $\X_i=(X_{i1},\dots,X_{ip})^T$. These make up the columns of the ($n\times p$) \term{data matrix} or \term{feature matrix} $\X$ given as:
 $$
     \X = 
-    \underset{\mr{samples} \rightarrow}{
+    \underset{\mr{features} \rightarrow}{
     \begin{pmatrix}
-        X_{11} & \cdots & X_{n1} \\
+        X_{11} & \cdots & X_{1p} \\
         \vdots & \ddots & \vdots \\
-        X_{1p} & \cdots & X_{np}
+        X_{n1} & \cdots & X_{np}
     \end{pmatrix}}
-    \substack{\text{features} \\ \downarrow}
-    = (\X_1 \cdots \X_n).
+    \substack{\text{samples} \\ \downarrow}
+    = \begin{pmatrix}
+        \X_1^T \\ \vdots \\ \X_n^T
+    \end{pmatrix}= (\X_1 \cdots \X_n)^T.
 $$
 We want to estimate $\M, \SS$. Again we denote:
 \begin{align*}
@@ -43,51 +43,117 @@ We want to estimate $\M, \SS$. Again we denote:
     &= \frac{1}{n} \sum_{i=1}^n (\X_i-\bar{\X})^T(\X_i-\bar{\X}) 
     = \frac{1}{n} \X^T\brac{\mI-\frac{1}{n} \one\one^T}\X.
 \end{align*}
-The matrix $\mC=\mI-\frac{1}{n} \one\one^T$ is called the \term{centering matrix} because
+The matrix $\mC=\mI-\frac{1}{n} \one\one^T$ is called the \term{centering matrix} because its action is to remove the mean of a vector:
 $$
     \mC \y = \begin{pmatrix}
         1-\frac{1}{n} & \cdots & \frac{1}{n} \\
         \vdots & \ddots & \vdots \\
-        \frac{1}{n} & \cdots 1-\frac{1}{n}
+        \frac{1}{n} & \cdots & 1-\frac{1}{n}
     \end{pmatrix}
     \begin{pmatrix}
-        y_1 \\ \vdots \\ y_p
+        y_1 \\ \vdots \\ y_n
     \end{pmatrix}
+    = 
+    \begin{pmatrix}
+        y_1-\bar{y} \\ \vdots \\ y_n-\bar{y}
+    \end{pmatrix}.
 $$
-
-
-
-
-
-
-
-
-dette er en test
-
-$\Bh$, $\B$, $\S$, $\Sh$, $\E$, $\Eh$
-
-$\bh$, $\b$, $\s$, $\sh$, $\e$, $\eh$
-
-
-theorem - trace formula 
-\begin{theorem} \term{(Trace formula)}
-    $$
-        \E(\Y^T\bs{C}\Y) = \mr{tr}(\bs{C\Sigma}) + \M^T\bs{C}\M
-    $$    
-\end{theorem}
+We note that 
+\begin{enumerate}
+    \item $\mC$ is symmetric
+    \item $\mC$ is idempotent
+\end{enumerate}
+For the estimators, we may prove:
+\begin{proposition}
+    $\bar{\X} \sim N(\M, \frac{1}{n}\SS)$
+\end{proposition}
 \begin{proof}
-    \TODO{}
+    By characteristic function.
 \end{proof}
-
-theorem - ...
-
+\begin{proposition}
+    $\ev{\bs{S}} = \frac{n-1}{n} \SS.$
+\end{proposition}
+\begin{proof}
+    
+\end{proof}
+Hence we obtain an unbiased estimator as
+$$
+    \bs{S} = \frac{1}{n-1} \sum_{i=1}^n (\X_i-\bar{\X})(\X_i-\bar{\X})^T.
+$$
 
 %%%%%%%%%%%%%%% Lecture 8 %%%%%%%%%%%%%%%
 \subsection*{Lecture 8}
 
+\subsubsection{Quadratic forms}
+Let $\X=(X_1,\dots,X_p)^T$ be a ($p\times 1$) random vector and $\mA=(a_ij)\in\R^{p\times p}$ a matrix. This gives a \term{quadratic form}:
+$$
+    \X^T\mA\X = \sum_{i,j} X_ia_{ij}X_j.
+$$ 
+\begin{theorem} \term{(Trace formula)}
+    $
+        \ev{\X^T\mA\X} = \mr{tr}(\bs{A\Sigma}) + \M^T\mA\M
+    $    
+\end{theorem} 
+\begin{proof}
+    Using that $\cov{X_i,X_j} = \ev{X_iX_j}-\ev{X_i}\ev{X_j}$ we obtain the result:
+    \begin{align*}
+        \ev{\X^T\mA\X}
+        &= \sum_{ij}a_{ij}\ev{X_iX_j}
+        = \sum_{ij}a_{ij}(\Sigma_{ij}-\mu_i\mu_j)
+        \\&= \sum_{ij}a_{ij}\Sigma_{ij} -  \sum_{ij}a_{ij}\mu_i\mu_j
+        = \mr{tr}(\mA\SS) - \M^T\mA\M.
+    \end{align*}
+\end{proof}
+
+\subsubsection{Idempotent matrices}
+Recall that the (square) matrix $\mA$ is said to be idempotent of $AA=A$. We have the following:
+\begin{proposition}
+    Let $\mA$ be idempotent.
+    \begin{enumerate}
+        \item $\mI-\mA$ is also idempotent.
+        \item $\mA(\mI-\mA)=(\mI-\mA)\mA=\zero$.
+        \item The only non-singular idenpotent matrix is $\mI$.
+        \item All eigenvalues of idempotent matrices are $0$ or $1$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    We have:
+    \begin{enumerate}
+        \item $(\mI-\mA)^2=\mI^2-\mA\mI-\mI\mA+\mA^2=0$.
+        \item Obvious
+        \item Later
+        \item $\lambda\x=\mA\x=\mA\mA\x=\lambda^2\x$.
+    \end{enumerate}
+\end{proof}
+Before our next important result, we recall from linear algebra that:
+\begin{enumerate}
+    \item Let $\mA\in\R^{p\times p}$ have eigenvalues $\lambda_1,\dots,\lambda_p$. Then:
+        \begin{align*}
+            \mr{tr}(\mA) = \sum \lambda_i, \quad
+            \mr{det}(\mA) = \prod \lambda_i.
+        \end{align*}
+    \item The matrix $\mA\in\R^{p\times p}$ of rank $r$ has \term{spectral decomposition}:
+        $$
+            \mA = \bs{P}\mL\bs{P}^T
+        $$
+        where $P$ is the matrix with eigenvalues as columns and $\mL$ the diagonal matrix of eigenvalues. Note that $\bs{P}\in\R^{p\times r}, \mL\in\R^{r\times r}$.
+        \TODO{something about orthonormal}
+\end{enumerate}
+Note that for $\mA$ symmetric and idempotent, we have $\mL=\mI_r$ in point 2 and $\mr{rank}(\mA)=\mr{tr}(\mA)=r$ due to point 1. 
+
+The following theorem will be used extensivelly in the sequel. 
 \begin{theorem}
-    $\bs{Z}\sim N(0, I)$ and $\bs{R}$ symmetric and idempotent of rank $r$. Then 
-    $$
-        \bs{Z}^T \bs{R} \bs{Z} \sim \chi^2_r.
-    $$
+    $\bs{Z}\sim N(0, \mI_p)$ and let $\bs{R}, \bs{S}$ be symmetric and idempotent of rank $r, s$ respectivelly. Suppose also $\bs{RS}=0$. Then 
+    \begin{enumerate}
+        \item $\bs{Z}^T \bs{R} \bs{Z} \sim \chi^2_r$
+        \item $\bs{Z}^T \bs{R} \bs{Z}$ and $\bs{Z}^T \bs{S} \bs{Z}$ are independent
+        \item $\frac{\bs{Z}^T \bs{R} \bs{Z} / r}{\bs{Z}^T \bs{S} \bs{Z}/s} \sim F_{r,s}$.
+    \end{enumerate}
 \end{theorem}
+\begin{proof} We have: \TODO{
+    \begin{enumerate}
+        \item 
+        \item 
+        \item By definition.
+    \end{enumerate}}
+\end{proof}

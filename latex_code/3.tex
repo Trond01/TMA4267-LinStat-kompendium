@@ -1,0 +1,229 @@
+\section{Multiple Linear Regression}
+We assume that we have $i=1,\dots,n$ observations of a \term{response variable} $Y_i$ depending on $k$ \term{explanatory variables} $x_{ij}$ through a linear model:
+$$
+    Y_i = \b_0 + \b_1 x_{i1} + \dots + \b_k x_{ik} + \e_i.
+$$
+It can be written on matrix form as:
+$$
+    \underset{\Y}{
+    \begin{pmatrix}
+        Y_1 \\
+        Y_2 \\
+        \vdots \\
+        Y_n
+    \end{pmatrix}}
+    =
+    \underset{\X}{
+    \begin{pmatrix}
+        1 & x_{11} & x_{12} & \cdots & x_{1k} \\
+        1 & x_{21} & x_{22} & \cdots & x_{2k} \\
+        \vdots & \vdots & \vdots & \ddots & \vdots \\
+        1 & x_{n1} & x_{n2} & \cdots & x_{nk}
+    \end{pmatrix}}
+    \underset{\B}{
+    \begin{pmatrix}
+        \beta_0 \\
+        \beta_1 \\
+        \vdots \\
+        \beta_k
+    \end{pmatrix}}
+    +
+    \underset{\E}{
+    \begin{pmatrix}
+        \varepsilon_1 \\
+        \varepsilon_2 \\
+        \vdots \\
+        \varepsilon_n
+    \end{pmatrix}}.
+$$
+The matrix $\X$ is reffered to as the \term{design matrix}. The $\e$'s are \term{errors} and the $\b$'s the \term{parameters}.
+
+%%%%%%%%%%%%%%% Lecture 9 %%%%%%%%%%%%%%%
+\subsection*{Lecture 9}
+
+Assumptions
+\begin{enumerate}
+    \item $\X$ is of cull column rank
+    \item $E\E=\boldsymbol{0}$
+    \item Homostochastic: $\var(\e_i) = 0 \quad\forall i$.
+    \item If $\X$ is random, then 2 and 3 are conditioned on $\X$. 
+    \item Normality of errors: $\E\sim N(0, \s^2I_n)$.
+\end{enumerate}
+
+... obtain least squares estimators $\Bh, \Sh^2$ of $\B, \S^2$
+
+Residuals ...
+
+\subsubsection*{Parameter estimation}
+
+Two approaches: LSE and MLE ...
+
+$$
+    \Bh = \argmin_{\B\in\R^{k+1}} \sum_{i=1}^n (Y_i - \x_i^T\B)^2
+$$
+
+... deducing that LSE and MLE give the same result ...
+
+...
+
+Hat matrix
+
+ghjfiodeifgoerjfkdworw9u0gryhj
+
+Du fulgte ikke med nei
+
+%%%%%%%%%%%%%%% Lecture 10 %%%%%%%%%%%%%%%
+\subsection*{Lecture 10}
+
+
+
+%%%%%%%%%%%%%%% Lecture 11 %%%%%%%%%%%%%%%
+\subsection*{Lecture 11}
+
+\begin{figure}[H] \centering
+    \begin{tikzpicture}[scale=1.5]
+        % Define X
+        \draw[-] (0,0) -- (2,1) node[right] {$\rm{Col}(\X)$};
+        % Define Y
+        \draw[-] (0.6,0.3) node[below]{$\Y'$} -- (1,2) node[above] {$\Y$};
+        % Projection
+        \draw[-] (1,2) -- (1.6,0.8) node[below]{$\hat{\Y}$};
+    \end{tikzpicture}        
+\end{figure}
+
+
+
+%%%%%%%%%%%%%%% Lecture 12 %%%%%%%%%%%%%%%
+\subsection*{Lecture 12}
+
+questions about independence. Detour into sigma algebras etc ...
+
+\begin{theorem}
+    Suppose $X, Y$ are independent random variables and that $f, g$ are two measurable functions. Then $f(X), g(Y)$ are also independent. 
+\end{theorem}
+
+ANOVA - Analysis of variance
+
+\begin{theorem} \term{(ANOVA decomposition)}\label{thm:ANOVA}
+    Assuming the necesarry assumptions, 
+    $$
+    \underset{\mr{SST}}{\underbrace{
+        \sum_{i=1}^n (Y_i - \bar{Y})}} = 
+    \underset{\mr{SSR}}{\underbrace{
+        \sum_{i=1}^n (\hat{Y}_i - \bar{Y})}} + 
+    \underset{\mr{SSE}}{\underbrace{
+        \sum_{i=1}^n (Y_i - \hat{Y}_i)^2}}. 
+    $$
+\end{theorem}
+\begin{proof}
+    \TODO{there aint space in the margin}
+\end{proof}
+The 3 sums are called \term{total sum of squares}, \term{regression sum of squares} and \term{error sum of squares} respectivelly. 
+This decomposition motivates the following definition. 
+\begin{definition}
+    The part of the total variation due to the model is called the \term{coefficient of determination} or the \term{R2-score}:
+    $$
+        R^2 = \frac{\mr{SSR}}{\mr{SST}} \overset{\mr{thm}} = 1 - \frac{\mr{SSE}}{\mr{SST}}.
+    $$
+\end{definition}
+One may also prove another representation:
+$$
+    R^2 = \frac{\brac{\sum_{i=1}^n(Y_i-\bar{Y})(\hat{Y}_i-\bar{Y})}^2}{\sum_{i=1}^n(Y_i-\bar{Y})^2\sum_{i=1}^n(\hat{Y}_i-\bar{Y})}.
+$$
+This is the square of the empirical correlation between $\Y, \hat{\Y}$.
+
+%%%%%%%%%%%%%%% Lecture 13 %%%%%%%%%%%%%%%
+\subsection*{Lecture 13}
+
+
+\subsubsection*{Fictional model}
+"Fictional model" using $x_{ij}$ as response for some fixed feature $j$. 
+
+\input{latex_code/tikz_figs/eq.tex}
+
+
+... \TODO
+
+\subsubsection*{General F-test}
+
+\TODO{important to have on yellow paper}
+
+We set up a much more general problem. Let $A\in\R^{r\times p}$, $r<p$, $\mathrm{rank}(A)=r$, $\boldsymbol{d}\in\R^d$. We test the hypothesis:
+$$
+    \mr{H}_0 : A\B = \bs{d}, 
+    \quad\quad\quad
+    \mr{H}_1 : A\B \ne \bs{d}.
+$$
+Some special cases of this general setup are.
+\begin{enumerate}
+    \item $r=1, d=0, A=(0, \dots, 1, \dots, 0)$ with $1$ at index $i$, gives the test 
+    $$
+        \mr{H}_0 : \b_i = 0, 
+        \quad\quad\quad
+        \mr{H}_1 : \b_i \ne 0.
+    $$
+    \item $r=1, d=0, A=(0, \dots, 1, \dots, -1, \dots, 0)$ with $1$ at index $i$ and $-1$ at index $j$, gives the test 
+    $$
+        \mr{H}_0 : \b_i = \b_j,
+        \quad\quad\quad
+        \mr{H}_1 : \b_i \ne \b_j.
+    $$
+    \item $r=k, d=\bs{0}\in\R^k, A=(\bs{0}, \mr{diag}(1))\in\R^{k\times p}$, gives the test 
+    $$
+        \mr{H}_0 : \b_i = 0 \quad\forall i\in\{1,\dots,k\},
+        \quad\quad\quad
+        \mr{H}_1 : \b_i \ne 0 \textrm{ for some } i\in\{1,\dots,k\}.
+    $$
+\end{enumerate}
+
+%%%%%%%%%%%%%%% Lecture 14 %%%%%%%%%%%%%%%
+\subsection*{Lecture 14}
+
+Let $\mathcal{B}$ be the space of $\B$ satisfying $\mr{H}_0$. The restricted problem is:
+$$
+    \Bh^R = \argmin_{\B\in\mathcal{B}}(\Y-\X\B)^T(\Y-\X\B).
+$$
+Using lagrange multipliers and a bag of tricks, we obtain:
+$$
+    \Bh^R = \Bh - (\X^T\X)^{-1}\bs{A}^T(\bs{A}(\X^T\X)^{-1}\mA^T)^{-1}(\bs{A}\Bh-\bs{d}).
+$$
+Denoting $\Delta = \Bh-\Bh^R$, we find:
+$$
+    \mr{SSE}^R = \mr{SSE} + \Delta^T\X^T\X\Delta
+$$
+
+... IMPORTANT: the concrete expressions for the F statistic...
+
+We claim that the under $\mr{H}_0$, we have
+
+$$
+    F = \frac{\mr{SSE}^R-\mr{SSE} / r}{\mr{SSE}/(n-p)} \sim F_{r, n-p}.
+$$
+
+\begin{proof}
+    
+    what the
+
+\end{proof}
+
+
+
+
+%%%%%%%%%%%%%%% Lecture 15 %%%%%%%%%%%%%%%
+\subsection*{Lecture 15}
+
+
+... example ...
+
+
+\subsubsection*{Transformations of data}
+Motivation:
+...
+
+
+box cox transformation
+ 
+
+variance stabilising transformation
+
+Suppose $\mu=\E(Y_i)$ and that $\var(Y_i)$ depends on $\mu$. ...
