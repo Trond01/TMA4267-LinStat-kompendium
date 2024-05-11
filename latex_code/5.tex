@@ -1,35 +1,5 @@
 
 
-dette er en test
-
-$\Bh$, $\B$, $\S$, $\Sh$, $\E$, $\Eh$
-
-$\bh$, $\b$, $\s$, $\sh$, $\e$, $\eh$
-
-
-theorem - trace formula 
-\begin{theorem} \term{(Trace formula)}
-    $$
-        \E(\Y^T\bs{C}\Y) = \mr{tr}(\bs{C\Sigma}) + \M^T\bs{C}\M
-    $$    
-\end{theorem}
-\begin{proof}
-    \TODO{}
-\end{proof}
-
-theorem - ...
-
-
-%%%%%%%%%%%%%%% Lecture 8 %%%%%%%%%%%%%%%
-\subsection*{Lecture 8}
-
-\begin{theorem}
-    $\bs{Z}\sim N(0, I)$ and $\bs{R}$ symmetric and idempotent of rank $r$. Then 
-    $$
-        \bs{Z}^T \bs{R} \bs{Z} \sim \chi^2_r.
-    $$
-\end{theorem}
-
 
 %%%%%%%%%%%%%%% Lecture 9 %%%%%%%%%%%%%%%
 \subsection*{Lecture 9}
@@ -73,7 +43,16 @@ Du fulgte ikke med nei
 %%%%%%%%%%%%%%% Lecture 11 %%%%%%%%%%%%%%%
 \subsection*{Lecture 11}
 
-
+\begin{figure}[H] \centering
+    \begin{tikzpicture}[scale=1.5]
+        % Define X
+        \draw[-] (0,0) -- (2,1) node[right] {$\rm{Col}(\X)$};
+        % Define Y
+        \draw[-] (0.6,0.3) node[below]{$\Y'$} -- (1,2) node[above] {$\Y$};
+        % Projection
+        \draw[-] (1,2) -- (1.6,0.8) node[below]{$\hat{\Y}$};
+    \end{tikzpicture}        
+\end{figure}
 
 
 
@@ -100,12 +79,21 @@ ANOVA - Analysis of variance
     $$
 \end{theorem}
 \begin{proof}
-    TODO: there aint space in the margin
+    \TODO{there aint space in the margin}
 \end{proof}
-
-
-R2 score \dots
-
+The 3 sums are called \term{total sum of squares}, \term{regression sum of squares} and \term{error sum of squares} respectivelly. 
+This decomposition motivates the following definition. 
+\begin{definition}
+    The part of the total variation due to the model is called the \term{coefficient of determination} or the \term{R2-score}:
+    $$
+        R^2 = \frac{\mr{SSR}}{\mr{SST}} \overset{\mr{thm}} = 1 - \frac{\mr{SSE}}{\mr{SST}}.
+    $$
+\end{definition}
+One may also prove another representation:
+$$
+    R^2 = \frac{\brac{\sum_{i=1}^n(Y_i-\bar{Y})(\hat{Y}_i-\bar{Y})}^2}{\sum_{i=1}^n(Y_i-\bar{Y})^2\sum_{i=1}^n(\hat{Y}_i-\bar{Y})}.
+$$
+This is the square of the empirical correlation between $\Y, \hat{\Y}$.
 
 %%%%%%%%%%%%%%% Lecture 13 %%%%%%%%%%%%%%%
 \subsection*{Lecture 13}
@@ -160,7 +148,7 @@ $$
 $$
 Using lagrange multipliers and a bag of tricks, we obtain:
 $$
-    \Bh^R = \Bh - (\X^T\X)^{-1}\bs{A}^T(\bs{A}(\X^T\X)^{-1}A^T)^{-1}(\bs{A}\Bh-\bs{d}).
+    \Bh^R = \Bh - (\X^T\X)^{-1}\bs{A}^T(\bs{A}(\X^T\X)^{-1}\mA^T)^{-1}(\bs{A}\Bh-\bs{d}).
 $$
 Denoting $\Delta = \Bh-\Bh^R$, we find:
 $$

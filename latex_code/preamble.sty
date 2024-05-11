@@ -16,16 +16,16 @@
 % Figures made in LaTeX, in particular: equations with explanatory arrows. 
 \usepackage{tikz} 
 \usetikzlibrary{positioning}
+\usetikzlibrary{calc}
 \usepackage{xcolor}
 \NewDocumentCommand{\EqM}{ m O{black} m}{\tikz[remember picture, baseline, anchor=base] \node[inner sep=0pt, outer sep=3pt, text=#2] (#1) {\ensuremath{#3}};}
 
-\usepackage{marginnote} % Notes in margin
+% Notes in margin
+\usepackage{marginnote} 
 
-\usepackage{enumitem}   % Variere lister
-
+%%% Todo liste greier
 \usepackage{multicol} % flere kolonner i del av dokument
-
-%%% TODO list greier
+\usepackage{enumitem}   % Variere lister
 \newlist{todolist}{itemize}{2}
 \setlist[todolist]{label=$\square$}
 \usepackage{pifont}
@@ -78,34 +78,49 @@
 \newcommand{\mr}[1]{\mathrm{#1}}
 
 % Symbols typical for statistics
+\newcommand{\var}[1]{\mathrm{Var}\left[#1\right]} % variance
+\newcommand{\cov}[1]{\mathrm{Cov}\left[#1\right]} % variance
+\newcommand{\ev}[1]{\mathbb{E}\left[#1\right]}
+\newcommand{\p}[1]{\mathbb{P}\left[#1\right]}
+\renewcommand{\hat}[1]{\widehat{#1}} % estimator hat
+
 \newcommand{\bh}{\widehat{\beta}}
 \renewcommand{\b}{\beta}
 \newcommand{\sh}{\widehat{\sigma}}
 \newcommand{\s}{\sigma}
 \newcommand{\eh}{\widehat{\varepsilon}}
 \newcommand{\e}{\varepsilon}
+\newcommand{\mh}{\widehat{\mu}}
 
 \newcommand{\Bh}{\widehat{\boldsymbol{\beta}}}
 \newcommand{\B}{\boldsymbol{\beta}}
 \newcommand{\Sh}{\widehat{\boldsymbol{\sigma}}}
 \renewcommand{\S}{\boldsymbol{\sigma}}
+\renewcommand{\SS}{\boldsymbol{\Sigma}}
 \newcommand{\Eh}{\widehat{\boldsymbol{\varepsilon}}}
 \newcommand{\E}{\boldsymbol{\varepsilon}}
 \newcommand{\M}{\boldsymbol{\mu}}
+\newcommand{\Mh}{\widehat{\boldsymbol{\mu}}}
 
-\newcommand{\x}{\boldsymbol{x}}
+\newcommand{\x}{\boldsymbol{x}} % vectors
 \newcommand{\y}{\boldsymbol{y}}
+\newcommand{\z}{\boldsymbol{z}}
+\newcommand{\Z}{\boldsymbol{Z}}
 \newcommand{\X}{\boldsymbol{X}}
 \newcommand{\Y}{\boldsymbol{Y}}
-
-\newcommand{\var}{\mathrm{Var}}
-\renewcommand{\hat}[1]{\widehat{#1}}
+\newcommand{\mA}{\boldsymbol{A}} % matrices
+\newcommand{\mB}{\boldsymbol{B}}
+\newcommand{\mC}{\boldsymbol{C}}
+\newcommand{\mG}{\boldsymbol{\Gamma}}
+\newcommand{\mL}{\boldsymbol{\Lambda}}
+\newcommand{\mI}{\boldsymbol{I}}
+\newcommand{\zero}{\boldsymbol{0}}
+\newcommand{\one}{\boldsymbol{1}}
 
 %% Double letters
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\N}{\mathbb{N}}
-\newcommand{\Z}{\mathbb{Z}}
 
 % Argmin and argmax
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -114,6 +129,17 @@
 % Never write an ugly phi again
 \renewcommand{\phi}{\varphi}
 \renewcommand{\epsilon}{\varepsilon}
+
+% Shorthands
+\newcommand{\qall}{\quad\forall}
+
+% Normer og parenteser
+\newcommand{\norm}[1]{\lVert #1 \rVert}
+\newcommand{\abs}[1]{\lvert #1 \rvert}
+\newcommand{\brac}[1]{\left( #1 \right)}
+\newcommand{\bracc}[1]{\left\{ #1 \right\}}
+\newcommand{\brak}[1]{\left[ #1 \right]}
+\newcommand{\bracp}[1]{\left\langle #1 \right\rangle}
 
 %%%%%%%%%%%% EGENDEFINERTE environments %%%%%%%%%%%%
 

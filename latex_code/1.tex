@@ -1,0 +1,270 @@
+
+%%%%%%%%%%%%%%% Lecture 1 %%%%%%%%%%%%%%%
+\subsection*{Lecture 1}
+
+\term{random vector} - vector with RV's as components
+
+\term{random matrix}
+
+\term{cumulative distribution function} (CDF)
+
+$$
+    F(x)=\p{\X\leq \x} = \p{X_1\leq x_1,\dots,X_p\leq x_p}
+$$
+
+\term{absolutelly continuous} if there exists density function $f$ such that:
+
+$$
+    F(\x)=\int_{-\infty}^{x_p}\dots\int_{-\infty}^{x_1} f(u_1,\dots,u_p) du_1\dots du_p
+$$
+
+Then 
+
+$$
+    \p{\X\in D} = \int_D f(\x) d\x \quad\forall D\subseteq \R^p
+$$
+
+$\X$ is said to be discrete if it is consentraded on a countable (finite or infinite) set of points. Then integral becomes a sum. In the absolutelly continuous case, we may write:
+
+$$
+    f(x)=f\left(x_1, \ldots, x_p\right)=\frac{\partial^p F\left(x_1, \ldots, x_p\right)}{\partial x_1 \cdots \partial x_p}
+$$
+
+\textbf{\term{Marginal distribution}} 
+
+Let $\X_A, \X_B$ be two random vectors st $\X=(\X_A,\X_B)^T$ has cdf $F$. Then:
+
+$$
+    F_A(x_1,\dots,x_k) = F(x_1,\dots,x_k,\infty,\dots,\infty)
+$$
+
+In absolutelly continuous case we find
+
+$$
+    f_A(x_1,\dots,x_k) = \int_{-\infty}^{\infty}\dots\int_{-\infty}^{\infty} f(x_1,\dots,x_p) du_p\dots du_{k+1}
+$$
+
+\textbf{\term{Conditional distribution}} 
+
+$$
+    f_{\X_B|\X_A=\x_A} = \frac{f(x_1,\dots,x_p)}{f_A(x_1,\dots,x_k)}
+$$
+
+\textbf{\term{Independence}} 
+
+Say $\X_A, \X_B$ are independent if 
+
+$$
+    F(x_1,\dots,x_p)=F_A(x_1,\dots,x_k)F_B(x_{k+1},\dots,x_p) \qall x_1,\dots x_p.
+$$
+
+In the continuous case we have independence iff $f=f_A\cdot f_B$. In this case $f(\x_B|\x_A) = f_B(\x_B)$.
+
+Similar definition for independence when $\X$ has $N$ components and not just 2.
+
+\textbf{\term{Multivariate expectations and moments}}
+
+\term{expectation} defined as
+
+$$
+    \ev{\X} = (\ev{X_1},\dots,\ev{X_p})^T
+$$
+%%%%%%%%%%%%%%% Lecture 2 %%%%%%%%%%%%%%%
+\subsection*{Lecture 2}
+
+We can show
+$
+    \ev{a \X + b \Y} = a\ev{\X}+ b \ev{\Y}
+$
+
+For (shape compatible) matrices $\mA, \mB$ we have
+$
+    \ev{\mA\X \mB} = \mA\ev{\X}\mB
+$
+
+Let $\X, \Y$ be random matrices whose product is defined. Then $\ev{\X\Y} = \ev{\X}\ev{\Y}$.
+
+\textbf{\term{Covariance matrix}}
+
+Let $\X=(X_1,\dots,X_p)^T$ and $\ev{\X}=:\M=({\mu_1,\dots,\mu_p})$. We then define:
+$$
+    \var{\X} = \cov{\X} = \SS = \begin{pmatrix}
+        \sigma_{X_1X_1} & \dots & \sigma_{X_1X_p} \\
+        \vdots & \ddots & \vdots \\
+        \sigma_{X_pX_1} & \dots & \sigma_{X_pX_p}
+    \end{pmatrix}
+    =\ev{(\X-\M)(\X-\M)^T}
+$$
+This natrix is symmetric. We can also show:
+$$
+    \SS = \ev{\X\X^T} - \M\M^T.
+$$
+The correlation matrix (with ones on the diagonal) is given by
+$$
+    \boldsymbol{\rho}
+    =
+    \begin{pmatrix}
+        \rho_{X_1X_1} & \dots & \rho_{X_1X_p} \\
+        \vdots & \ddots & \vdots \\
+        \rho_{X_pX_1} & \dots & \rho_{X_pX_p}
+    \end{pmatrix}
+    ,\quad
+    \rho_{X_iX_j} = \frac{\sigma_{X_iX_j}}{\sqrt{\sigma_{X_i}}\sqrt{\sigma_{X_j}}}
+$$
+For two random vectors $\X,\Y$ we define their correlation matrix by
+$$
+    \SS_{\X\Y} 
+    = \cov{\X,\Y} 
+    = \ev{(\X-\M_{\X})(\Y-\M_{\Y})^T}
+    =(\cov{X_i,X_j})_{\substack{i=1,\dots,p \\ j= 1,\dots,q}}
+$$
+
+
+\subsubsection{Matrix algebra}
+
+\term{symmetric} if $\mA^T=\mA$
+
+\term{orthogonal} if $\mA\mA^T=\mA^T\mA=\mI$
+
+\term{eigenvalue} and \term{eigenvector} ... solution of $\det(\mA-\lambda \mI)$
+
+also have $\det{A} = \prod_{i=1}^p \lambda_i$.
+
+\term{Jordan decomposition} of symmetric matrtix
+
+$$
+    \mA=\mG\mL\mG^T, \quad \mG = \TODO{}
+$$
+
+\term{Quadtraic form}: let $\mA$ symmetric, $\x$ a $(p\times 1)$ vector:
+$$
+    Q(\x) = \x^T \mA \x = \sum_{i=1}^p\sum_{j=1}^p x_i A_{ij} x_j
+$$
+\begin{theorem}
+    Transforming $\y=\mG^T\x$ we obtain $Q(\x) = \sum_{i=1}^p \lambda_i y_i^2$
+\end{theorem}
+A matrix is said to be \term{positive definite} if $Q(\x)>0$ for all $\x\ne0$ and positive semi definite if $\geq$. We write $A>0$ and $A\geq 0$ respectivelly. 
+\begin{theorem}
+    The symmetric matrix $A$ is positive definite iff $\lambda_i > 0$ for all $i$.
+\end{theorem}
+From this we obtain two more usefull results. 
+* If $A>0$ the inverse exists and the determinant is $>0$
+
+* If $A>0$ there exists a unique positive definite square root with decomposition:
+$$
+    A^{1/2} = \mG\mL^{1/2}\mG^T.
+$$
+
+* $\SS \geq 0$
+
+* $\SS_{\X\Y} = \SS_{\Y\X}^T$
+
+* If $\X\sim(\M_{\X}, \SS_{\X\X}), \Y\sim(\M_{\Y}, \SS_{\Y\Y})$ then $\Z=(\X,\Y)^T$ has
+$$
+    \SS_{\Z\Z} = \begin{pmatrix}
+        \SS_{\X\X} & \SS_{\X\Y} \\ \SS{\Y\X} & \SS_{\Y\Y}
+    \end{pmatrix}
+$$
+
+* Independence of $\X,\Y$ implies $\cov{\X,\Y}=\zero$. (NB: the converse not true)
+
+* $\var{\mA\X+\boldsymbol{b}} = \mA \var{\X}\mA^T$
+
+* $\cov{\X+\Y, \Z} = \cov{\X, \Z} + \cov{\Y, \Z}$
+
+* $\var{\X+\Y} = \var{\X} + \cov{\X, \Y} + \cov{\Y, \Z} + \var{\Y}$
+
+* $\cov{\mA\X, \mB\Y} = \mA\cov{\X, \Y}\mB^T$
+
+
+%%%%%%%%%%%%%%% Lecture  %%%%%%%%%%%%%%%
+\subsection*{Lecture 3}
+
+
+Transformations
+
+Lecture $J$
+
+Mahalanolis transformation
+
+[Recall univariate, $x \sim\left(\mu, \sigma^{2}\right)$
+
+Put $\left.y=\frac{x-\mu}{\sigma} \leadsto y \sim(0,1)\right]$
+
+Now, for the multivariate cause:
+
+$$
+x=\left(x_{1}, \ldots, x_{p}\right)^{\top}, \quad x \sim(\mu, \Sigma), \Sigma \text { now -single }
+$$
+
+Would tine $y=\phi(x)$ sit. $y \sim(0, I)$
+
+This is:
+
+$$
+y=\Sigma^{-1 / 2}(x-\mu)
+$$
+
+Where $\Sigma^{-1 / 2}=\left(\Sigma^{1 / 2}\right)^{-1}$ and $\Sigma^{1 / 2}$ the unique pos-des square toot of $\Sigma$.\\
+Fys-sth arse:
+
+$$
+\Sigma=\operatorname{diaq}\left(\sigma_{1}^{2}, \ldots \sigma^{2}\right)
+$$
+
+sine iid...tres, envier sh to do
+
+$\cdot \frac{1}{\sigma}$
+
+[proof that it works:
+
+$$
+\begin{aligned}
+& E(y)=E\left(\Sigma^{-1 / 2}(x-\mu)\right)=\Sigma^{-1 / 2}(E(x)-\mu)=0 \\
+& \operatorname{Var}(y)=\operatorname{Var}\left(\Sigma^{-1 / 2}(x-\mu)\right)=\operatorname{Var}\left(\Sigma^{-1 / 2} x\right) \\
+&\left.=\Sigma^{-1 / 2} \operatorname{Var}(x)\left(\Sigma^{-1 / 2}\right)\right)^{\top}=\operatorname{sm} \\
+& \Sigma^{-1 / 2}
+\end{aligned}
+$$
+
+$$
+=\underbrace{\Sigma^{-1 / 2} \Sigma^{1 / 2}}_{I} \underbrace{\Sigma^{1 / 2} \Sigma^{-1 / 2}}_{I}=I
+$$
+
+Principal components analysis (HS 11.1-11.J)
+
+Observe realisations of a random vector
+
+$$
+x=\left(x_{1}, \ldots, x_{p}\right)^{\top}, \quad x \sim(\mu, \Sigma)
+$$
+
+Aim: reduction of dimensionality
+
+Remove some components and heep comports with $\underbrace{\text { Lave in formation }}_{\leadsto \text { Large variance }}$
+
+Forest transform $x \rightarrow y=A x+b_{2} y=\left(\begin{array}{c}y_{1} \\ \vdots \\ y_{p}\end{array}\right)$ so that:
+
+(1) $E(y)=0$
+
+(2) $\operatorname{Cov}\left(y_{i}, y_{j}\right)=0, \quad i \neq j$
+
+i.e. $\operatorname{Var}(y)$ is diagonal
+
+(3) $\operatorname{Var}\left(y_{1}\right) \geq \operatorname{Var}\left(y_{2}\right) \geq \cdots \geq \operatorname{Ver}\left(y_{r}\right)$
+
+We have (Jordan decomposition)
+
+
+
+
+
+
+%%%%%%%%%%%%%%% Lecture 1 %%%%%%%%%%%%%%%
+\subsection*{Lecture 4}
+
+
+
+
+%%%%%%%%%%%%%%% Lecture 1 %%%%%%%%%%%%%%%
+\subsection*{Lecture 5}
