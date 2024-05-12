@@ -1,8 +1,16 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Multiple Linear Regression}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Model and assumptions}
+
 We assume that we have $i=1,\dots,n$ observations of a \term{response variable} $Y_i$ depending on $k$ \term{explanatory variables} $x_{ij}$ through a linear model:
 $$
     Y_i = \b_0 + \b_1 x_{i1} + \dots + \b_k x_{ik} + \e_i.
 $$
+
+\input{latex_code/tikz_figs/eq.tex}
+
 It can be written on matrix form as:
 $$
     \underset{\Y}{
@@ -37,73 +45,159 @@ $$
     \end{pmatrix}}.
 $$
 The matrix $\X$ is reffered to as the \term{design matrix}. The $\e$'s are \term{errors} and the $\b$'s the \term{parameters}.
-
-%%%%%%%%%%%%%%% Lecture 9 %%%%%%%%%%%%%%%
-\subsection*{Lecture 9}
-
-Assumptions
+%\subsection*{Lecture 9}
+We further assume:
 \begin{enumerate}
     \item $\X$ is of cull column rank
-    \item $E\E=\boldsymbol{0}$
-    \item Homostochastic: $\var(\e_i) = 0 \quad\forall i$.
+    \item $\ev{\E}=\zero$
+    \item Homostochastic: $\var{\e_i} = \s^2 \quad\forall i$.
     \item If $\X$ is random, then 2 and 3 are conditioned on $\X$. 
     \item Normality of errors: $\E\sim N(0, \s^2I_n)$.
 \end{enumerate}
-
-... obtain least squares estimators $\Bh, \Sh^2$ of $\B, \S^2$
-
-Residuals ...
-
-\subsubsection*{Parameter estimation}
-
-Two approaches: LSE and MLE ...
-
+From the fift assumption it follows that when $\X$ is non-random we have
 $$
-    \Bh = \argmin_{\B\in\R^{k+1}} \sum_{i=1}^n (Y_i - \x_i^T\B)^2
+    \Y \sim N(\X\B, \s^2 \mI_n).
+$$
+We denote the estimators of $\B, \S^2$ by $\Bh, \Sh^2$. From these we obtain \term{fitted values}:
+$$
+    \hat{Y}_i = \bh_0 + \cdots + \bh_k x_{ik} = \x_i^T\Bh.
+$$
+We define \term{residuals} by:
+\begin{align*}
+    \eh_i &= Y_i-\hat{Y}_i \\
+    \Eh &= \Y-\hat{\Y} = \Y-\X\Bh.
+\end{align*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Parameter estimation}
+When estimating the above parameters, there are two approaches. We may use the \term{least squares estimator} (LSE): 
+$$
+    \Bh 
+    = \argmin_{\B\in\R^{k+1}} \sum_{i=1}^n (Y_i-\x_i^T\B)^2
+    = \argmin_{\B\in\R^{k+1}} (\Y-\X\B)^T(\Y-\X\B).
+$$
+or we may use the \term{maximum likelihood estimator} (MLE). It turns out that with our assumptions the result is the same. Differentiating and equating to zero yields:
+$$
+    \Bh = \underbrace{(\X^T\X)^{-1}\X^T}_{\mH}\Y.
+$$
+The matrix $\mH$ is called the \term{prediction matrix} or \term{hat matrix}, and is of special interest:
+\begin{proposition}
+    For the hat matrix we have:
+    \begin{enumerate}
+        \item Symmetric
+        \item Idempotent
+        \item rank $p$
+        \item Residuals can be expressed $\Eh=\Y-\hat{\Y} = (\mI-\mH)\Y$ with $\mI-\mH$ symmetric, idempotent of rank $n-p$.
+    \end{enumerate}
+\end{proposition}
+%\subsection*{Lecture 10}
+Our next goal is to estimate $\s^2$. The MLE is given by $\Sh^2 = \frac{1}{n}\Eh^T\Eh$, but this is skewed as $\ev{\Eh^T\Eh}=\s^2(n-p)$. Hence our unbiased estimator is:
+$$
+    \Sh^2 = \frac{1}{n-p}(\Y-\X\B)^T(\Y-\X\B).
 $$
 
-... deducing that LSE and MLE give the same result ...
-
-...
-
-Hat matrix
-
-ghjfiodeifgoerjfkdworw9u0gryhj
-
-Du fulgte ikke med nei
-
-%%%%%%%%%%%%%%% Lecture 10 %%%%%%%%%%%%%%%
-\subsection*{Lecture 10}
-
-
-
-%%%%%%%%%%%%%%% Lecture 11 %%%%%%%%%%%%%%%
-\subsection*{Lecture 11}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Properties of the the estimators, fitted values and residuals}
+We begin by remarking that $\X\B$ is a linear combination of colums of $\X$ and hence lies in $\col{X}$. The same is true for $\hat{\Y}$. 
+\begin{proposition}
+    We have:
+    \begin{enumerate}
+        \item $\E\perp\hat{\Y}$ and $\Eh\perp\col{\X}$
+        \item $\sum_{i=1}^n \eh_i = 0$ and $\sum_{i=1}^n Y_i = \sum_{i=1}^n \hat{Y}_i$
+        \item $\Bh \sim N(\B, \s^2(\X^T\X)^{-1})$
+        \item $\Eh \sim N(\zero, \s^2(\mI-\mH))$
+        \item $\frac{(n-p)\sh^2}{\s^2} \sim \chi^2_{n-p}$
+        \item $\Bh, \sh^2$ are independent
+    \end{enumerate}
+\end{proposition}
 
 \begin{figure}[H] \centering
     \begin{tikzpicture}[scale=1.5]
         % Define X
-        \draw[-] (0,0) -- (2,1) node[right] {$\rm{Col}(\X)$};
+        \draw[-] (0,0) -- (2,1) node[right] {$\col{\X}$}; 
         % Define Y
         \draw[-] (0.6,0.3) node[below]{$\Y'$} -- (1,2) node[above] {$\Y$};
         % Projection
         \draw[-] (1,2) -- (1.6,0.8) node[below]{$\hat{\Y}$};
-    \end{tikzpicture}        
+    \end{tikzpicture}     
+    \caption{$\hat{\Y}$ is the projection onto the column space of $\X$.}   
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection*{Lecture 11}
+\subsubsection{Inference about $\beta_j$}
+Our next goal is to make confidence intervals and to perform t-tests. Recall first that the random variable $T$ has (by definition) the \term{Student's t-distribution} with $m$ degrees of freedom if it can be written as:
+$$
+    T = \frac{Z}{\sqrt{V/m}}
+$$
+where $Z\sim N(0,1), V\sim\chi^2_m$ are independent. We may then find values for $t_{\alpha, m}$ s.t. $\p{T\geq t_{\alpha, m}}=\alpha$ in tables. 
 
+\begin{figure}[H]\centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            domain=-5:5,
+            samples=200,
+            axis lines=middle,
+            xlabel={$t$},
+            ylabel={$f(t)$},
+            xtick=\empty,
+            ytick=\empty,
+            enlargelimits=false,
+            clip=false
+        ]
+        % Student's t-distribution
+        \addplot [black, thick] {1/(sqrt(2*pi))*exp(-x^2/2)};
+        \addplot [red, domain=-4:-2.01, fill=red!30] {1/(sqrt(2*pi))*exp(-x^2/2)} \closedcycle;
+        \addplot [red, domain=2.01:4, fill=red!30] {1/(sqrt(2*pi))*exp(-x^2/2)} \closedcycle;
+        \draw[red, dashed] (-2.01,0) -- (-2.01,0.39);
+        \draw[red, dashed] (2.01,0) -- (2.01,0.39);
+        \draw[<->] (-2.5,0.1) -- node[above] {\(\alpha/2\)} (-0.5,0.1);
+        \draw[<->] (0.5,0.1) -- node[above] {\(\alpha/2\)} (2.5,0.1);
+        \draw[<->] (-2.5,0.45) -- node[above] {\(1-\alpha\)} (2.5,0.45);
+        \draw[<->] (-2.5,0) -- node[below] {\(-t_{\alpha/2, n-1}\)} (-0.5,0);
+        \draw[<->] (0.5,0) -- node[below] {\(t_{\alpha/2, n-1}\)} (2.5,0);
+        \end{axis}
+    \end{tikzpicture}    
+    \caption{\TODO{fix figure}}
+\end{figure}
 
-%%%%%%%%%%%%%%% Lecture 12 %%%%%%%%%%%%%%%
-\subsection*{Lecture 12}
+We have seen that $\Bh\sim N(\B, \s^2(\X^T\X)^{-1})$. Denote $(\X^T\X)^{-1}=(e_{ij})_{i,j=1,\dots,p}$. We then have $\bh_j\sim N(\b_j, \s^2 e_{jj})$, so $\frac{\bh_j-\b_j}{\sqrt{e_{jj}}\s}\sim N(0,1)$. Since the variance is unknown, consider the statistic:
+$$
+    \frac{\bh_j-\b_j}{\sqrt{e_{jj}}\sh}
+    =
+    \frac{(\bh_j-\b_j)/\s\sqrt{e_{jj}}}{\sqrt{\frac{(n-p)\sh^2}{\s^2} / (n-p)}}.
+$$
+Recalling the properties of the estimators, we know that $\Bh, \sh^2$ are independent, that the numerator is $N(0,1)$-distributed and that $V=\frac{(n-p)\sh^2}{\s^2}\sim \chi^2_{n-p}$. Hence, we may conclude:
+\begin{equation}
+    \boxed{\frac{\bh_j-\b_j}{\sqrt{e_{jj}}\sh} \sim t_{n-p}}
+\end{equation}
+With this, we may constrict \term{confidence interval} by rewriting the inequalities in the expression:
+$$
+    \p{-t_{\frac{\alpha}{2},n-p} \leq \frac{\bh_j-\b_j}{\sqrt{e_{jj}}\sh} \leq t_{\frac{\alpha}{2}, n-p}} = 1-\alpha.
+$$
+We may also perform \term{hypothesis testing}. Consider the following test at significance level $\alpha$:
+$$
+    \mr{H}_0 : \b_j = 0, 
+    \quad\quad\quad
+    \mr{H}_1 : \b_j \ne 0.
+$$
+Under $H_0$ we have $T=\frac{\bh_j-\b_j}{\sqrt{e_{jj}}\sh} \sim t_{n-p}$. The \term{critical region} under two-sided alternative is:
+$$
+    \abs{T} \geq t_{\frac{\alpha}{2}, n-p} \Rightarrow \mr{H}_0 \textrm{ is rejected}.
+$$
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection*{Lecture 12}
+\subsection{Some notes on independence}
 
-questions about independence. Detour into sigma algebras etc ...
+\TODO{questions about independence. Detour into sigma algebras etc ...}
 
 \begin{theorem}
     Suppose $X, Y$ are independent random variables and that $f, g$ are two measurable functions. Then $f(X), g(Y)$ are also independent. 
 \end{theorem}
 
-ANOVA - Analysis of variance
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Analysis of variance (ANOVA)}
+The following theorem forms the basis on our discussion of ANOVA. 
 \begin{theorem} \term{(ANOVA decomposition)}\label{thm:ANOVA}
     Assuming the necesarry assumptions, 
     $$
@@ -116,7 +210,20 @@ ANOVA - Analysis of variance
     $$
 \end{theorem}
 \begin{proof}
-    \TODO{there aint space in the margin}
+    We first split the sum as:
+    \begin{align*}
+        \sum_{i=1}^{n}\left(Y_{i}-\bar{Y}\right)^{2}
+        &=\sum_{i=1}^{n}\left(Y_{i}-\hat{Y}_{i}+\hat{Y}_{i}-\bar{Y}\right)^{2}
+        \\&= \sum_{i=1}^{n}\left(Y_{i}-\hat{Y}_{i}\right)^{2}+\sum_{i=1}^{n}\left(\hat{Y}_{i}-\bar{Y}\right) 
+        +2{\sum_{i=1}^{n}\left(Y_{i}-\hat{Y}\right)\left(\hat{Y}_{i}-\bar{Y}\right)}.
+    \end{align*}
+    Using again the properties of the estimators, we find that the last sum is $0$:
+    $$
+        \sum_{i=1}^{n}\left(Y_{i}-\hat{Y}\right)\left(\hat{Y}_{i}-\bar{Y}\right)
+        =
+        \underbrace{\sum_{i=1}^{n} \overbrace{(Y_i-\hat{Y}_i)}^{\e_i}\hat{Y}_{i}}_{=\Eh^T\hat{\Y}=0}
+        -\bar{Y}\underbrace{\sum_{i=1}^{n}\left(Y_{i}-\hat{Y}\right)}_{=0}.
+    $$
 \end{proof}
 The 3 sums are called \term{total sum of squares}, \term{regression sum of squares} and \term{error sum of squares} respectivelly. 
 This decomposition motivates the following definition. 
@@ -126,25 +233,60 @@ This decomposition motivates the following definition.
         R^2 = \frac{\mr{SSR}}{\mr{SST}} \overset{\mr{thm}} = 1 - \frac{\mr{SSE}}{\mr{SST}}.
     $$
 \end{definition}
-One may also prove another representation:
+The R2-score is a measure of goodness-of-fit as it tells us how much of the variation in the data can be explained by the model. One may also prove another representation:
 $$
     R^2 = \frac{\brac{\sum_{i=1}^n(Y_i-\bar{Y})(\hat{Y}_i-\bar{Y})}^2}{\sum_{i=1}^n(Y_i-\bar{Y})^2\sum_{i=1}^n(\hat{Y}_i-\bar{Y})}.
 $$
 This is the square of the empirical correlation between $\Y, \hat{\Y}$.
 
-%%%%%%%%%%%%%%% Lecture 13 %%%%%%%%%%%%%%%
-\subsection*{Lecture 13}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection*{Lecture 13}
+\subsubsection{Fictional model}
+The following discussion will examine what happens when an explanatory variable is explained by the other explanatory variables. We introduce a \term{fictional model} using $x_{ij}$ as response for some fixed feature $j$. Wlog use feature $k$. The model is:
+$$
+    x_{i,k} = \alpha_0 + \alpha_1 x_{i,1} + \dots + \alpha_{k-1} x_{i, k-1} + \delta_i.
+$$
+As usual, we assume $\bs{\delta}=(\delta_1,\dots,\delta_n)^T\sim N(0, \s^2\mI)$. We may then estimate $\bs{\alpha}=(\alpha_0,\dots,\alpha_{k-1})^T$ and $\s^2$ by the usual $\hat{\bs{\alpha}}, \sh^2$ to obtain fitted $\hat{x}_{ik}$. We find the squared empirical correlation between $x_{i,k}$ and $\hat{x_{i,k}}$ as:
+$$
+    R_k^2 
+    = \frac{\sum_{i=1}^n (\hat{x}_{ik}-\bar{x_k})^2}{\sum_{i=1}^n ({x}_{ik}-\bar{x_k})^2} 
+    = \frac{\brac{\sum_{i=1}^n ({x}_{ik}-\bar{x_k})(\hat{x}_{ik}-\bar{x_k})}^2}
+    {\sum_{i=1}^n ({x}_{ik}-\bar{x_k})^2\sum_{i=1}^n (\hat{x}_{ik}-\bar{x_k})^2}.
+$$
+We call it the coefficient of determination for $x_{ik}$ as response. Repeating the procedure for the remaining $x_{ij}, j=1,\dots,k-1$ we obtain $R_1^2,\dots,R_k^2$. It turns out that:
+$$
+    \var{\bh_j} = \frac{\s^2}{(1-R_j^2)\sum_{i=1}^n(x_{ij}-\bar{x}_j)}.
+$$
+So the more a variable is explained by the other, the higher the variance of the estimator.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Further expressions for the sums of squares}
+Recall that $\mC, \mH$ are both symmetric an idempotent. For the total sum of squares, using that the centering matrix $\mC$ is idempotent, we obain:
+\begin{align*}
+    \mr{SST} = \sum_{i=1}^n(Y_i-\bar{Y})^2 = (\mC\Y)^T(\mC\Y) = \Y^T \mC \Y = \Y^T\brac{\mI-\frac{1}{n}\one\one^T}\Y.
+\end{align*}
+For the residual sum of squares we also need the fact that $\mH\x_i=\x_i$ for all columns of $\X$. This follows readily as $\mH\X=\X(\X^T\X)^{-1}\X^T\X=\X$. From this we have $\mH\one = \one$ as this is the first column of $\X$. 
+\begin{align*}
+    \mr{SSR} 
+    &= \sum_{i=1}^n(\hat{Y}_i-\bar{Y})^2 
+    = (\mC\mH\Y)^T(\mC\mH\Y) 
+    = \Y^T\mH\mC\mH\Y 
+    \\&= \Y^T(\mH-\frac{1}{n}\mH\one\one^T\mH^T)\Y 
+    = \Y^T(\mH-\frac{1}{n}\one\one^T)\Y    
+\end{align*}
+About the matrix $\mH-\frac{1}{n}\one\one^T$, we note that it is symmetric, idempotent and of rank $p-1$:
+$$
+    \rank{\mH-\frac{1}{n}\one\one^T} = \tr{\mH-\frac{1}{n}\one\one^T} = \tr{\mH}-\frac{1}{n}\tr{\one\one^T}=p-1.
+$$
+Finally, for the error sum of squares we obtain using that $\mI-\mH$ is symmetric and idempotent:
+$$
+    \mr{SSE} = \sum_{i=1}^n(\hat{Y}_i-Y_i)^2 = \Eh^T\Eh = ((\mI-\mH)\Y)^T(\mI-\mH)\Y = \dots = \Y^T(\mI-\mH)\Y.
+$$
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{F-test}
 
 
-\subsubsection*{Fictional model}
-"Fictional model" using $x_{ij}$ as response for some fixed feature $j$. 
-
-\input{latex_code/tikz_figs/eq.tex}
-
-
-... \TODO
-
-\subsubsection*{General F-test}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{General F-test}
 
 \TODO{important to have on yellow paper}
 
@@ -196,9 +338,10 @@ $$
 
 We claim that the under $\mr{H}_0$, we have
 
-$$
-    F = \frac{\mr{SSE}^R-\mr{SSE} / r}{\mr{SSE}/(n-p)} \sim F_{r, n-p}.
-$$
+\begin{equation}
+    \boxed{F = \frac{\mr{SSE}^R-\mr{SSE} / r}{\mr{SSE}/(n-p)} \sim F_{r, n-p}}    
+\end{equation}
+
 
 \begin{proof}
     
@@ -215,8 +358,8 @@ $$
 
 ... example ...
 
-
-\subsubsection*{Transformations of data}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Transformations of data}
 Motivation:
 ...
 

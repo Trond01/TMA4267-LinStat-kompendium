@@ -14,6 +14,10 @@
 %\numberwithin{equation}{section} % Likning 3.1 etc
 
 % Figures made in LaTeX, in particular: equations with explanatory arrows. 
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+
 \usepackage{tikz} 
 \usetikzlibrary{positioning}
 \usetikzlibrary{calc}
@@ -84,6 +88,10 @@
 \newcommand{\p}[1]{\mathbb{P}\left[#1\right]}
 \renewcommand{\hat}[1]{\widehat{#1}} % estimator hat
 
+\newcommand{\col}[1]{\mathrm{col}\left(#1\right)} % column space
+\newcommand{\rank}[1]{\mathrm{rank}\left(#1\right)} % rank
+\newcommand{\tr}[1]{\mathrm{tr}\left(#1\right)} % trace
+
 \newcommand{\bh}{\widehat{\beta}}
 \renewcommand{\b}{\beta}
 \newcommand{\sh}{\widehat{\sigma}}
@@ -111,6 +119,7 @@
 \newcommand{\mA}{\boldsymbol{A}} % matrices
 \newcommand{\mB}{\boldsymbol{B}}
 \newcommand{\mC}{\boldsymbol{C}}
+\newcommand{\mH}{\boldsymbol{H}}
 \newcommand{\mG}{\boldsymbol{\Gamma}}
 \newcommand{\mL}{\boldsymbol{\Lambda}}
 \newcommand{\mI}{\boldsymbol{I}}

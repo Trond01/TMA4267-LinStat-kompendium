@@ -1,6 +1,6 @@
 \vspace*{2.5em}
 \[
-    y = \EqM{c1}[red]{c_1}p\EqM{p1}[green!50!black]{^{1}} + \EqM{c2}{c_2}p^2 + \ldots{} + \EqM{cn}{c_n}p^{n} + \EqM{cn1}{c_{n+1}}x^{n+1}
+    Y_i = \EqM{b0}[black]{\b_0} + \EqM{b1}{\b_1}\EqM{x1}{x_{i1}} + \EqM{b2}{\b_2}\EqM{x2}{x_{i2}} + \dots + \EqM{bk}{\b_k}\EqM{xk}{x_{ik}} + \e_i
 \]
 \vspace*{2.5em}
 \begin{tikzpicture}[
@@ -10,40 +10,47 @@
     every node/.style={draw},
 ]
     \draw[red,<-] 
-        ++(c1.north) 
+        ++(b0.north) 
         -- ++(0,2em) 
         -- ++(-1em,0) 
-        node[anchor=east] {First scalar}; 
+        node[anchor=east] {Intercept}; 
         
-    \draw[green!50!black,<-] 
-        ++(p1.north) 
-        -- ++(0,2em) 
-        -- ++(1em,0) 
-        node[anchor=west] {Lowest exponent}; 
-    
     \draw[blue] 
-        ++(c1.south) 
+        ++(b0.south) 
         ++(0, -2em) 
-        node[anchor=north west, outer sep=3pt] (ScalarLabel) {A bunch of different scalars};
-    
+        node[anchor=north west, outer sep=0pt] (ScalarLabel) {A bunch of different scalars};
     \draw[blue,->] 
         ++(ScalarLabel.170)  
         edge[in=215,out=45] 
-        (c1.south);            
-        
+        (b0.south);            
     \draw[blue,->] 
         ++(ScalarLabel.163)  
         edge[in=215,out=45] 
-        (c2.south);            
-
+        (b1.south);            
     \draw[blue,->] 
         ++(ScalarLabel.19)  
         edge[in=-45,out=-215] 
-        (cn.south);            
-
+        (b2.south);            
     \draw[blue,->] 
         ++(ScalarLabel.10)  
         edge[in=-45,out=-215] 
-        (cn1.south);
-\end{tikzpicture}
+        (bk.south);
 
+    \draw[green] 
+        ++(x1.north) 
+        ++(0, 2em) 
+        node[anchor=west, outer sep=0pt] (ScalarLabel) {Explanatory variables};
+    \draw[green,<-] 
+        ++(ScalarLabel.163)  
+        edge[] 
+        (x1.north);            
+    \draw[green,<-] 
+        ++(ScalarLabel.19)  
+        edge[in=-45,out=-215] 
+        (x2.north);            
+    \draw[green,<-] 
+        ++(ScalarLabel.10)  
+        edge[in=-45,out=-215] 
+        (xk.north);
+
+\end{tikzpicture}
