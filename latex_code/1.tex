@@ -27,12 +27,12 @@ $$
 $\X$ is said to be discrete if it is consentraded on a countable (finite or infinite) set of points. Then integral becomes a sum. In the absolutelly continuous case, we may write:
 
 $$
-    f(x)=f\left(x_1, \ldots, x_p\right)=\frac{\partial^p F\left(x_1, \ldots, x_p\right)}{\partial x_1 \cdots \partial x_p}
+    f(\x)=f\left(x_1, \ldots, x_p\right)=\frac{\partial^p F\left(x_1, \ldots, x_p\right)}{\partial x_1 \cdots \partial x_p}
 $$
 
 \textbf{\term{Marginal distribution}} 
 
-Let $\X_A, \X_B$ be two random vectors st $\X=(\X_A,\X_B)^T$ has cdf $F$. Then:
+Let $\X_A, \X_B$ be two random vectors st $\X=(\X_A,\X_B)^\top$ has cdf $F$. Then:
 
 $$
     F_A(x_1,\dots,x_k) = F(x_1,\dots,x_k,\infty,\dots,\infty)
@@ -67,7 +67,7 @@ Similar definition for independence when $\X$ has $N$ components and not just 2.
 \term{expectation} defined as
 
 $$
-    \ev{\X} = (\ev{X_1},\dots,\ev{X_p})^T
+    \ev{\X} = (\ev{X_1},\dots,\ev{X_p})^\top
 $$
 %%%%%%%%%%%%%%% Lecture 2 %%%%%%%%%%%%%%%
 \subsection*{Lecture 2}
@@ -84,20 +84,21 @@ $
 
 Let $\X, \Y$ be random matrices whose product is defined. Then $\ev{\X\Y} = \ev{\X}\ev{\Y}$.
 
+%%%%%%%%%%%%%%%
 \textbf{\term{Covariance matrix}}
 
-Let $\X=(X_1,\dots,X_p)^T$ and $\ev{\X}=:\M=({\mu_1,\dots,\mu_p})$. We then define:
+Let $\X=(X_1,\dots,X_p)^\top$ and $\ev{\X}=:\M=({\mu_1,\dots,\mu_p})$. We then define:
 $$
     \var{\X} = \cov{\X} = \SS = \begin{pmatrix}
         \sigma_{X_1X_1} & \dots & \sigma_{X_1X_p} \\
         \vdots & \ddots & \vdots \\
         \sigma_{X_pX_1} & \dots & \sigma_{X_pX_p}
     \end{pmatrix}
-    =\ev{(\X-\M)(\X-\M)^T}
+    =\ev{(\X-\M)(\X-\M)^\top}
 $$
-This natrix is symmetric. We can also show:
+This natrix is \term{symmetric}. We can also show:
 $$
-    \SS = \ev{\X\X^T} - \M\M^T.
+    \SS = \ev{\X\X^\top} - \M\M^\top.
 $$
 The correlation matrix (with ones on the diagonal) is given by
 $$
@@ -115,16 +116,52 @@ For two random vectors $\X,\Y$ we define their correlation matrix by
 $$
     \SS_{\X\Y} 
     = \cov{\X,\Y} 
-    = \ev{(\X-\M_{\X})(\Y-\M_{\Y})^T}
+    = \ev{(\X-\M_{\X})(\Y-\M_{\Y})^\top}
     =(\cov{X_i,X_j})_{\substack{i=1,\dots,p \\ j= 1,\dots,q}}
 $$
 
+\begin{proposition}
+    The covariance matrix $\SS$ is positive semi-definite.
+\end{proposition}
+\begin{proof}
+    Using the formula for the variance of a linear combination we obtain:
+    \begin{align*}
+        \y^\top \SS \y 
+        &= 
+        \begin{pmatrix}
+        y_1 & \cdots & y_n
+        \end{pmatrix}
+        \begin{pmatrix}
+        \Sigma_{11} & \Sigma_{12} & \cdots & \Sigma_{1n} \\
+        \Sigma_{21} & \Sigma_{22} & \cdots & \Sigma_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        \Sigma_{n1} & \Sigma_{n2} & \cdots & \Sigma_{nn}
+        \end{pmatrix}
+        \begin{pmatrix}
+        y_1 \\
+        y_2 \\
+        \vdots \\
+        y_n
+        \end{pmatrix}
+        = \sum_{i=1}^{n} \sum_{j=1}^{n} y_i \Sigma_{ij} y_j
+        \\&= \sum_{i=1}^{n} y_i^2 \text{Var}(X_i) + 2 \sum_{i < j} y_i y_j \text{Cov}(X_i, X_j)
+        = \text{Var}\left( \sum_{i=1}^{n} y_i X_i \right)
+        \geq 0. 
+    \end{align*}
+    Which completes the proof.
+\end{proof}
+We usually require that the covariance matrix is \term{positive definite}, since if it is only positive semi-definite there are nontrivial linear combinations with 0 variance. Indeed, if 
+$\SS=\begin{pmatrix}
+    1 & -1 \\ 1 & -1
+\end{pmatrix}$
+we can check that $\var{X_1+X_2}=0$.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Matrix algebra}
 
-\term{symmetric} if $\mA^T=\mA$
+\term{symmetric} if $\mA^\top=\mA$
 
-\term{orthogonal} if $\mA\mA^T=\mA^T\mA=\mI$
+\term{orthogonal} if $\mA\mA^\top=\mA^\top\mA=\mI$
 
 \term{eigenvalue} and \term{eigenvector} ... solution of $\det(\mA-\lambda \mI)$
 
@@ -133,15 +170,15 @@ also have $\det{A} = \prod_{i=1}^p \lambda_i$.
 \term{Jordan decomposition} of symmetric matrtix
 
 $$
-    \mA=\mG\mL\mG^T, \quad \mG = \TODO{}
+    \mA=\mG\mL\mG^\top, \quad \mG = \TODO{}
 $$
 
 \term{Quadtraic form}: let $\mA$ symmetric, $\x$ a $(p\times 1)$ vector:
 $$
-    Q(\x) = \x^T \mA \x = \sum_{i=1}^p\sum_{j=1}^p x_i A_{ij} x_j
+    Q(\x) = \x^\top \mA \x = \sum_{i=1}^p\sum_{j=1}^p x_i A_{ij} x_j
 $$
 \begin{theorem}
-    Transforming $\y=\mG^T\x$ we obtain $Q(\x) = \sum_{i=1}^p \lambda_i y_i^2$
+    Transforming $\y=\mG^\top\x$ we obtain $Q(\x) = \sum_{i=1}^p \lambda_i y_i^2$
 \end{theorem}
 A matrix is said to be \term{positive definite} if $Q(\x)>0$ for all $\x\ne0$ and positive semi definite if $\geq$. We write $A>0$ and $A\geq 0$ respectivelly. 
 \begin{theorem}
@@ -152,14 +189,14 @@ From this we obtain two more usefull results.
 
 * If $A>0$ there exists a unique positive definite square root with decomposition:
 $$
-    A^{1/2} = \mG\mL^{1/2}\mG^T.
+    A^{1/2} = \mG\mL^{1/2}\mG^\top.
 $$
 
 * $\SS \geq 0$
 
-* $\SS_{\X\Y} = \SS_{\Y\X}^T$
+* $\SS_{\X\Y} = \SS_{\Y\X}^\top$
 
-* If $\X\sim(\M_{\X}, \SS_{\X\X}), \Y\sim(\M_{\Y}, \SS_{\Y\Y})$ then $\Z=(\X,\Y)^T$ has
+* If $\X\sim(\M_{\X}, \SS_{\X\X}), \Y\sim(\M_{\Y}, \SS_{\Y\Y})$ then $\Z=(\X,\Y)^\top$ has
 $$
     \SS_{\Z\Z} = \begin{pmatrix}
         \SS_{\X\X} & \SS_{\X\Y} \\ \SS{\Y\X} & \SS_{\Y\Y}
@@ -168,103 +205,115 @@ $$
 
 * Independence of $\X,\Y$ implies $\cov{\X,\Y}=\zero$. (NB: the converse not true)
 
-* $\var{\mA\X+\boldsymbol{b}} = \mA \var{\X}\mA^T$
+* $\var{\mA\X+\boldsymbol{b}} = \mA \var{\X}\mA^\top$
 
 * $\cov{\X+\Y, \Z} = \cov{\X, \Z} + \cov{\Y, \Z}$
 
 * $\var{\X+\Y} = \var{\X} + \cov{\X, \Y} + \cov{\Y, \Z} + \var{\Y}$
 
-* $\cov{\mA\X, \mB\Y} = \mA\cov{\X, \Y}\mB^T$
+* $\cov{\mA\X, \mB\Y} = \mA\cov{\X, \Y}\mB^\top$
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection*{Lecture 3}
+\subsection{Transformations}
+\subsubsection{Mahalanobis transformation}
+
+Our first transformation is the \term{Mahalanobis transformation}. We recall that we can get 0 mean and unit variance in the univariate case by the transformation $Y=\frac{X-\mu}{\s}$. In the multivariate case, suppose $X=(X_1,\dots, X_p)^\top\sim (\M, \SS)$ with $\SS$ non-singular. Then using the unique positive definite square root $\SS^{1/2}$ og $\SS$, we have the transformation:
+\begin{equation}
+    \boxed{\Y=\SS^{-1/2}(\X-\M) \sim (0, \mI)}
+\end{equation}
+\begin{proof}
+    ...
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Principal component analysis (PCA)}
+In the following we suppose that we observe realisations of some random vector $\X=(X_1,\dots,X_p)^\top \sim (\M, \SS)$. The goal of \term{principal component analysis} is to reduce dimensionality by removing some components and keeping components with large variance and hence more information. 
 
 
-%%%%%%%%%%%%%%% Lecture  %%%%%%%%%%%%%%%
-\subsection*{Lecture 3}
+80\% of variability is explained by the components. \dots
+
+\TODO{}
 
 
-Transformations
+We can also do \term{empirical PCA}. Suppose that we have observations \dots
 
-Lecture $J$
+\TODO{}
 
-Mahalanolis transformation
 
-[Recall univariate, $x \sim\left(\mu, \sigma^{2}\right)$
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{General transformations}
 
-Put $\left.y=\frac{x-\mu}{\sigma} \leadsto y \sim(0,1)\right]$
-
-Now, for the multivariate cause:
-
+Suppose we transform the random vector $\X=(X_1,\dots,X_p)^\top$ into $\Y=g(\X)$. If the function $g$ is one-to-one and has differentiable inverse $u$, then 
+\begin{equation*}
+    f_{\Y}(\y) = |\det{\boldsymbol{J}}| f_{\X} (u(\y))
+\end{equation*}
+where 
 $$
-x=\left(x_{1}, \ldots, x_{p}\right)^{\top}, \quad x \sim(\mu, \Sigma), \Sigma \text { now -single }
+    \boldsymbol{J} = \brac{\frac{\partial u_i (y)}{\partial y_j}}_{i,j=1,\dots,p}
 $$
+is the \term{Jacobian matrix}. An important special case is that of linear transformations $\Y = \mA\X + \mb$. If $\mA$ is non-singular the inverse transform is $\X = \mA^{-1}(\Y-\mb)$ and $\boldsymbol{J} = \mA^{-1}$, so we obtain:
+\begin{equation*}
+    f_{\Y}(\y) = |\det{A^{-1}}| f_{\X} (\mA^{-1}(\y-\mb)).
+\end{equation*}
 
-Would tine $y=\phi(x)$ sit. $y \sim(0, I)$
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection*{Lecture 4}
+\subsection{Characteristic function}
 
-This is:
-
+In the univariate case we often studied the \term{moment generating function}:
 $$
-y=\Sigma^{-1 / 2}(x-\mu)
+    M_X(t) = \ev{e^{tX}}.
 $$
-
-Where $\Sigma^{-1 / 2}=\left(\Sigma^{1 / 2}\right)^{-1}$ and $\Sigma^{1 / 2}$ the unique pos-des square toot of $\Sigma$.\\
-Fys-sth arse:
-
+Important properties include:
+\begin{enumerate}
+    \item $M_X = M_Y \Rightarrow X \overset{d}{=} Y$,
+    \item $\ev{X^k} = M^{(k)}_X(0)$,
+    \item Independence of $X, Y$ implies $M_{X+Y} = M_X M_Y$.
+\end{enumerate}
+However, it does noe exist for for instance the student-t distribution. It only exists when all moments exist. We shall now define the \term{characteristic function}, which \textbf{always} exists:
 $$
-\Sigma=\operatorname{diaq}\left(\sigma_{1}^{2}, \ldots \sigma^{2}\right)
+    \phi_X(t) = \ev{e^{itX}}.
 $$
-
-sine iid...tres, envier sh to do
-
-$\cdot \frac{1}{\sigma}$
-
-[proof that it works:
-
-$$
-\begin{aligned}
-& E(y)=E\left(\Sigma^{-1 / 2}(x-\mu)\right)=\Sigma^{-1 / 2}(E(x)-\mu)=0 \\
-& \operatorname{Var}(y)=\operatorname{Var}\left(\Sigma^{-1 / 2}(x-\mu)\right)=\operatorname{Var}\left(\Sigma^{-1 / 2} x\right) \\
-&\left.=\Sigma^{-1 / 2} \operatorname{Var}(x)\left(\Sigma^{-1 / 2}\right)\right)^{\top}=\operatorname{sm} \\
-& \Sigma^{-1 / 2}
-\end{aligned}
-$$
-
-$$
-=\underbrace{\Sigma^{-1 / 2} \Sigma^{1 / 2}}_{I} \underbrace{\Sigma^{1 / 2} \Sigma^{-1 / 2}}_{I}=I
-$$
-
-Principal components analysis (HS 11.1-11.J)
-
-Observe realisations of a random vector
-
-$$
-x=\left(x_{1}, \ldots, x_{p}\right)^{\top}, \quad x \sim(\mu, \Sigma)
-$$
-
-Aim: reduction of dimensionality
-
-Remove some components and heep comports with $\underbrace{\text { Lave in formation }}_{\leadsto \text { Large variance }}$
-
-Forest transform $x \rightarrow y=A x+b_{2} y=\left(\begin{array}{c}y_{1} \\ \vdots \\ y_{p}\end{array}\right)$ so that:
-
-(1) $E(y)=0$
-
-(2) $\operatorname{Cov}\left(y_{i}, y_{j}\right)=0, \quad i \neq j$
-
-i.e. $\operatorname{Var}(y)$ is diagonal
-
-(3) $\operatorname{Var}\left(y_{1}\right) \geq \operatorname{Var}\left(y_{2}\right) \geq \cdots \geq \operatorname{Ver}\left(y_{r}\right)$
-
-We have (Jordan decomposition)
-
-
-
-
-
-
-%%%%%%%%%%%%%%% Lecture 1 %%%%%%%%%%%%%%%
-\subsection*{Lecture 4}
-
-
-
-
-%%%%%%%%%%%%%%% Lecture 1 %%%%%%%%%%%%%%%
-\subsection*{Lecture 5}
+It has similar properties:
+\begin{enumerate}
+    \item $\phi_X = \phi_Y \Rightarrow X \overset{d}{=} Y$,
+    \item $\ev{X^k} = i^{-k} \phi^{(k)}(0)$,
+    \item Independence of $X, Y$ implies $\phi_{X+Y} = \phi_X \phi_Y$.
+\end{enumerate}
+In the p-variate case, the functions are functions of $\mt=(t_1,\dots,t_p)^\top$. Let as usual $\X=(X_1,\dots,X_p)^\top$ be our random vector. We define:
+\begin{align*}
+    M_{\X}(\mt) = \ev{e^{\mt^\top \X}}, \\
+    \phi_{\X}(\mt) = \ev{e^{i\mt^\top \X}}.
+\end{align*}
+We list some important properties.
+\begin{enumerate}
+    \item If $\phi_{\X}(t)$ is absolutelly integrable, the (Fourier) inversion formula holds:
+    $$
+        f_{\X} = \frac{1}{(2\pi)^p} \int_{\R} e^{-i\mt^\top\x} \phi_{\X}(t) dt.
+    $$
+    \item Denote $t_{(1)} = (t_1,\dots,0)^\top, \dots, t_{(p)}=(0,\dots,t_p)^\top$. Then 
+    $$
+        \phi_{\X_k}(t_k) = \ev{e^{it_1 X_1}} = \ev{e^{i\mt_{(1)}^\top \X}} =  \phi_{\X}(t_{(k)}).
+    $$
+    \item Let $\X=\begin{pmatrix} \X_1 \\ \X_2 \end{pmatrix}$ and $\mt=\begin{pmatrix} \mt_1 \\ \mt_2 \end{pmatrix}$ be vectors with appropriate dimensions. Then:
+    \begin{equation}
+        \boxed{\X_1, \X_2 \textrm{ are independent } \Leftrightarrow \phi_{\X}(\mt) = \phi_{\X_1}(\mt_1)\phi_{\X_2}(\mt_2)}
+    \end{equation} 
+    \item Let $\X, \Y$ be independent p-variate random vectors. Then:
+    $$
+        \phi_{\X+\Y}(\mt) = \phi_{\X}(\mt)\phi_{\Y}(\mt).
+    $$
+\end{enumerate}
+We end the section with a theorem linking the distributions of 1D random variables to the distribution of the p-variate random vector $\X$:
+\begin{theorem}
+    \term{(Cramer-Wold)}   
+    The distribution of $\X\in\R^p$ is completelly determined by the set of all 1D distributions of $\mt^\top\X, \mt\in\R^p$.
+\end{theorem}
+\begin{proof}
+    Suppose that for all $\mt\in\R^p$ we have $\mt^\top \X \overset{d}{=} \mt^\top \Y$. Then:
+    $$
+        \mt^\top \X \overset{d}{=} \mt^\top \Y \Rightarrow \phi_{\mt^\top\X}(u) = \phi_{\mt^\top\Y}(u).
+    $$
+    Taking $u=1$ gives $\ev{e^{i\mt^\top\X}} = \ev{e^{i\mt^\top\Y}}$ for all $\mt$, so $\phi_{\X}=\phi_{\Y}$ and hence $\X \overset{d}{=}  \Y$.
+\end{proof}

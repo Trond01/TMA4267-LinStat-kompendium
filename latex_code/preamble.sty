@@ -3,6 +3,7 @@
 \def\jobname{TMA4267}
 
 \usepackage{amsmath, amssymb, amsthm, amsfonts}
+\usepackage{centernot} % To negate iff arrow etc...
 \usepackage{graphicx}
 \usepackage{parskip}
 \usepackage[english]{babel}   % Språk
@@ -13,8 +14,10 @@
 \captionsetup{font=small}
 %\numberwithin{equation}{section} % Likning 3.1 etc
 
-% Figures made in LaTeX, in particular: equations with explanatory arrows. 
+% Table stuff
+\usepackage{booktabs}
 
+% Figures made in LaTeX, in particular: equations with explanatory arrows. 
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.17}
 
@@ -50,7 +53,7 @@
     style=numeric]{biblatex} 
 \DeclareNameAlias{sortname}{family-given} 
 \DeclareNameAlias{default}{family-given} 
-\addbibresource{Compendium/sources.bib}
+\addbibresource{latex_code/sources.bib}
 
 % Complete ref (no need to write figure...)
 % NB clever after hyper
@@ -65,17 +68,21 @@
 %%%%%%%%%%%% EGENDEFINERTE KOMMANDOER %%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% Italics (not in use)
-% \newcommand{\bt}[1]{\textbf{#1}\mbox{}}
-% \newcommand{\tit}[1]{\textit{#1}\mbox{}}
-% \newcommand{\btit}[1]{\textbf{\textit{#1}}\mbox{}}
+% Colored text for TODO etc
+\newcommand{\red}[1]{\color{red}{#1}\normalcolor}
+\newcommand{\blue}[1]{\color{blue}{#1}\normalcolor}
+\newcommand{\TODO}[1]{\color{red}{TODO: #1}\normalcolor} 
+
+\newcommand{\hermetegn}[1]{``#1''}
 
 % Definitions that go in index
-\newcommand{\term}[1]{\emph{#1}\index{#1}}
-
-% Colored text for TODO etc
-\newcommand{\red}[1]{\color{red}{#1}\normalcolor} 
-\newcommand{\TODO}[1]{\color{red}{TODO: #1}\normalcolor} 
+\usepackage{xstring}
+\newcommand{\removeparens}[1]{%
+  \StrSubstitute{#1}{(}{}[\tempa]%
+  \StrSubstitute{\tempa}{)}{}%
+}
+\newcommand{\term}[1]{\blue{\emph{#1}}
+                      \index{#1}}
 
 % Shorthand for common commands
 \newcommand{\bs}[1]{\boldsymbol{#1}}
@@ -116,6 +123,9 @@
 \newcommand{\Z}{\boldsymbol{Z}}
 \newcommand{\X}{\boldsymbol{X}}
 \newcommand{\Y}{\boldsymbol{Y}}
+\newcommand{\mt}{\boldsymbol{t}}
+\newcommand{\mb}{\boldsymbol{b}}
+
 \newcommand{\mA}{\boldsymbol{A}} % matrices
 \newcommand{\mB}{\boldsymbol{B}}
 \newcommand{\mC}{\boldsymbol{C}}

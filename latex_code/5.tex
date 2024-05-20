@@ -21,58 +21,149 @@ p treatments, samples ...
 
 %%%%%%%%%%%%%%% Lecture 20 %%%%%%%%%%%%%%%
 \subsection*{Lecture  21}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Two level factorial design}
 
-We suppose we have $k$ main factors $x_1,\dots,x_k$ making up a model of the form:
+In this section we present ideas from the note \cite{Tyssedal}. We suppose we have $k$ main factors $x_1,\dots,x_k$ making up a model of the form:
 $$
     \Y=\beta_0 + \beta_1\x_1+\dots+\beta_k\x_k + \epsilon, \quad \epsilon\sim N(0, \sigma^2).
 $$ 
-Further we suppose a feature matrix $\X$ satisfying:
+We only allow for our covariates $x_i$ to be at \term{low level} and \term{high level}. This is moddeled as $-1, +1$, and is the first of the following assumptions. The second assumption will ensure simple computation and the most precise inference about coefficients:
 \begin{enumerate}
     \item Each column has entries $\pm 1$.
-    \item The colomns are orthogonal, i.e. $\bf{1}^T\x_i=\sum_{i=1}^n x_{ij}=0$ and $\x_iT\x_j=n\delta_{ij}$. 
+    \item The colomns are orthogonal, i.e. $\one^T\x_i=\sum_{i=1}^n \x_{ij}=0$ and $\x_i^T \x_j=n\delta_{ij}$. 
 \end{enumerate}
-
-This in particular implies that we have $\X^T \X = n I_n$. Using results from regression analysis, this significantly simplifies our estimators:
-
-\TODO{expressions}
-
+This in particular implies that we have $\X^T \X = n I_n$. Using results from regression analysis, this significantly simplifies our estimators. We get $\Bh=\frac{1}{n} \X^T\Y$:
+\begin{equation*}
+    \b_j = \frac{1}{n} \sum_{i=1}^n x_{ij} Y_j.
+\end{equation*}
+The estimate of the $j$'th coefficient only depents on the $j$'th covariate! Hence removal of covariates leaves the rest unchanged. We call the covariates $x_1,\dots, x_k$ the main factors. A central question in experimentation is what happens when a factor goes from high to low level. This motivates the definition:
 \begin{definition}
     The \term{main effect} of main factor $j$ is defined as:
-    $$
-        \textrm{effect}_j = \textrm{response at high level} - \textrm{response at low level} = 2\beta_j.
-    $$
+    \begin{align*}
+        \textrm{effect}_j 
+        &= \textrm{expected response at high level} - \textrm{expected response at low level} 
+        \\&= \ev{Y | x_{j} = 1} - \ev{Y | x_{j} = -1}
+        = 2\beta_j.        
+    \end{align*}
 \end{definition}
-The estimated effect is naturally
-$$
-    \widehat{\textrm{effect}_j} = \textrm{estimated response at high level} - \textrm{estimated response at low level} = 2\bh_j.
-$$
-To go from this to a $2^k$-design, we take into account interactions of the factors modelled as products of main factors:
+The estimated effect is naturally by:
+\begin{align*}
+    2\bh_j 
+    &= \frac{1}{n/2} \sum_{x_{ij} = 1} Y_i - \frac{1}{n/2} \sum_{x_{ij} = - 1} Y_i  
+    \\&= \textrm{estimated response at high level} - \textrm{estimated response at low level} 
+    =: \widehat{\textrm{effect}_j}
+\end{align*}
+Another consequence of the second assumption is that $\Bh \sim N\brac{\B, \frac{\s^2}{n}I}$. Hence the components are independent with the same variance $\s^2/n$. 
+
+We also remark that we may express the regression sum of squares as:
+\begin{align*}
+    \textrm{SSR} 
+    &= \sum_{i=1}^{n} (\hat{y_i} - \bar{y})^2 
+    = \sum_{i=1}^{n} \left( \sum_{j=0}^{n} x_{ij} \hat{\beta}_j - \hat{\beta}_0 \right)^2 
+    \\&= \sum_{i=1}^{n} \left( \sum_{j=1}^{n} x_{ij} \hat{\beta}_j + \overbrace{x_{i0}}^{=1} \hat{\beta}_0 - \bh_0 \right)^2
+    = (\X^* \Bh^*)^T (\X^* \Bh^*)
+    \\&= \Bh^{*T} \X^{*T} \X^* \Bh^* 
+    = \Bh^{*T} n I_k \Bh^* 
+    = n \sum_{j=1}^{n} \bh_j^2.
+\end{align*}
+Here $\X^*$ is the feature matrix without the first column $\one$. The expression shows that $n\bh_j$ may be interpreted as the amount of variability explained by factor $j$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Modelling interactions}
+
+To go from this to a \term{$2^k$-design}, we take into account all interactions of the factors. These are modelled as products of main factors:
 $$
     Y = \b_0 + \b_1x_1+\dots+\b_kx_k + \b_{1,2}x_1x_2 + \dots+\b_{k-1,k}x_{k-1}k_{k}+\dots+\b_{1,2,\dots,k}x_1\cdots x_k.
 $$
-We extend the design matrix accordingly, and note that we still satisfy the assumptions. 
+We extend the design matrix accordingly, and note that we still satisfy the assumptions. Hence we still have $\Bh = \frac{1}{n}\X^\top\Y$. For the interaction coefficients we call $2\bh_{1,2}$ etc. for \term{estimated interaction effect}. 
 
-\TODO{example ?}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Inference about effect}
 
-Need inference about $\s^2$... cannot use estimator from multiple linear regression since for MLR we have $\sh^2=\frac{\textrm{SSE}}{n-p}$ and here $n=p$. We have to resort to one of two methods.
+We have seen that $\hat{\textrm{Effect}_j} \sim N(\textrm{Effect}_j, \frac{4\s^2}{n})$. To make inference about the effect/coefficients we need to make inference about $\s^2$. We cannot use estimator from multiple linear regression since for MLR we have $\sh^2=\frac{\textrm{SSE}}{n-p}$ and here $n=p$. If we don't have replicates in our experiment, to increase $n$, we have to resort to one of two methods.
+\begin{enumerate}
+    \item We can neclect $m$ higher order factors where it is reasonable that $\textrm{Effect}_j = 0$. Then we have $\hat{\textrm{Effect}_j} \sim N(0, \frac{4\s^2}{n})$. Letting $\s^2_{\textrm{effect}} = \frac{4\s^2}{n}$ we then estimate:
+    $$
+        \sh^2_{\textrm{effect}} = \frac{1}{m} \sum_{\textrm{negligable}} \hat{\textrm{Effect}}_j^2
+    $$
 
-1. neglect some effects ... then these are normally dist ... use these as estimator \dots
+    \item \term{Lenth's method} / \term{pseudo standard error} \TODO{}
+    
+    \[
+        C_0, \ldots, C_m \text{ - estimated effects } \hat{A}, \hat{B}, \hat{AB}, \ldots
+        \]
+        
+        \begin{enumerate}
+            \item Order $|C_j|$ in increasing order.
+            \item Find $M$ - the median of $|C_1|, \ldots, |C_{k-1}|$ and compute \[ \delta_0 = 1.5M \]
+            \item Remove the effects $C_j$ with $|C_j| \geq 2.5 \delta_0$ and find the median of the rest of $|C_j|$.
+        \end{enumerate}
+        
+        \[ PSE = 1.5 \cdot \text{median} \left\{ |C_j| : |C_j| < 2.5 \delta_0 \right\} \]
+        
+        \[ \hat{\sigma}_{PSE} = PSE \]
+        
+\end{enumerate}
 
-2. Lenth's method ...
 
+
+
+In the case of replications ($n§2^k$) we recall the results from multiple linear regression:
 
 
 %%%%%%%%%%%%%%% Lecture 20 %%%%%%%%%%%%%%%
 \subsection*{Lecture  22}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Fractional factorial design}
+
+\term{generator}
 
 
-\subsubsection*{Resolution}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Resolution}
+
 
 \term{resolution}
 
 
-\subsubsection*{Blocking}
+\term{confounded} ... estimated effects are the same. this is the joint effect of ...
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Blocking}
+
+The motivation for \term{blocking} is that the conditions of the experiments may change. Hence we want a clever way of deciding which experiments to to \hermetegn{today} etc. Suppose that there is a fixed change $h$ to the response, i.e. that \hermetegn{tomorrow} we have
+$$
+    Y_i \mapsto Y_i + h.
+$$
+If we choose experiments such that for a given factor, the number of high and low level ($+$ and $-$) are equal, the effect is of this factor is unchanged by the added $h$. We usually consider the main factors of greatest importance. Consider for example a $2^3$ experiment done over 2 days. We say it is divided in 2 \term{blocks}. Let block I be done with ABC at $-$ and block II at $+$. We obtain the following:
+
+\begin{figure}[H]\centering
+    \begin{tabular}{ccccccc}
+        Block I
+        \toprule
+        A & B & C & AB & AC & BC \\
+        \midrule
+        - & - & - & + & + & + \\
+        + & - & - & + & - & - \\
+        + & - & + & - & - & + \\
+        - & + & + & - & + & - \\
+        \bottomrule
+    \end{tabular}        
+        \quad
+    \begin{tabular}{ccccccc}
+        Block 2
+        \toprule
+        A & B & C & AB & AC & BC \\
+        \midrule
+        - & - & - & + & + & + \\
+        + & - & - & + & - & - \\
+        + & - & + & - & - & + \\
+        - & + & + & - & + & - \\
+        \bottomrule
+    \end{tabular}        
+\end{figure}
+
+bad if main factor is confounded with the block effect!!

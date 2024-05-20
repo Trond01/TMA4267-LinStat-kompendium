@@ -60,7 +60,7 @@ $$
 $$
 We denote the estimators of $\B, \S^2$ by $\Bh, \Sh^2$. From these we obtain \term{fitted values}:
 $$
-    \hat{Y}_i = \bh_0 + \cdots + \bh_k x_{ik} = \x_i^T\Bh.
+    \hat{Y}_i = \bh_0 + \cdots + \bh_k x_{ik} = \x_i^\top\Bh.
 $$
 We define \term{residuals} by:
 \begin{align*}
@@ -73,12 +73,12 @@ We define \term{residuals} by:
 When estimating the above parameters, there are two approaches. We may use the \term{least squares estimator} (LSE): 
 $$
     \Bh 
-    = \argmin_{\B\in\R^{k+1}} \sum_{i=1}^n (Y_i-\x_i^T\B)^2
-    = \argmin_{\B\in\R^{k+1}} (\Y-\X\B)^T(\Y-\X\B).
+    = \argmin_{\B\in\R^{k+1}} \sum_{i=1}^n (Y_i-\x_i^\top\B)^2
+    = \argmin_{\B\in\R^{k+1}} (\Y-\X\B)^\top(\Y-\X\B).
 $$
 or we may use the \term{maximum likelihood estimator} (MLE). It turns out that with our assumptions the result is the same. Differentiating and equating to zero yields:
 $$
-    \Bh = \underbrace{(\X^T\X)^{-1}\X^T}_{\mH}\Y.
+    \Bh = \underbrace{(\X^\top\X)^{-1}\X^\top}_{\mH}\Y.
 $$
 The matrix $\mH$ is called the \term{prediction matrix} or \term{hat matrix}, and is of special interest:
 \begin{proposition}
@@ -91,9 +91,9 @@ The matrix $\mH$ is called the \term{prediction matrix} or \term{hat matrix}, an
     \end{enumerate}
 \end{proposition}
 %\subsection*{Lecture 10}
-Our next goal is to estimate $\s^2$. The MLE is given by $\Sh^2 = \frac{1}{n}\Eh^T\Eh$, but this is skewed as $\ev{\Eh^T\Eh}=\s^2(n-p)$. Hence our unbiased estimator is:
+Our next goal is to estimate $\s^2$. The MLE is given by $\Sh^2 = \frac{1}{n}\Eh^\top\Eh$, but this is skewed as $\ev{\Eh^\top\Eh}=\s^2(n-p)$. Hence our unbiased estimator is:
 $$
-    \Sh^2 = \frac{1}{n-p}(\Y-\X\B)^T(\Y-\X\B).
+    \Sh^2 = \frac{1}{n-p}(\Y-\X\B)^\top(\Y-\X\B).
 $$
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -104,7 +104,7 @@ We begin by remarking that $\X\B$ is a linear combination of colums of $\X$ and 
     \begin{enumerate}
         \item $\E\perp\hat{\Y}$ and $\Eh\perp\col{\X}$
         \item $\sum_{i=1}^n \eh_i = 0$ and $\sum_{i=1}^n Y_i = \sum_{i=1}^n \hat{Y}_i$
-        \item $\Bh \sim N(\B, \s^2(\X^T\X)^{-1})$
+        \item $\Bh \sim N(\B, \s^2(\X^\top\X)^{-1})$
         \item $\Eh \sim N(\zero, \s^2(\mI-\mH))$
         \item $\frac{(n-p)\sh^2}{\s^2} \sim \chi^2_{n-p}$
         \item $\Bh, \sh^2$ are independent
@@ -132,36 +132,34 @@ $$
 $$
 where $Z\sim N(0,1), V\sim\chi^2_m$ are independent. We may then find values for $t_{\alpha, m}$ s.t. $\p{T\geq t_{\alpha, m}}=\alpha$ in tables. 
 
-\begin{figure}[H]\centering
+\begin{figure}[H]
+    \centering
     \begin{tikzpicture}
         \begin{axis}[
-            domain=-5:5,
-            samples=200,
             axis lines=middle,
+            enlargelimits=true,
             xlabel={$t$},
             ylabel={$f(t)$},
-            xtick=\empty,
+            xtick={-2, 2},
+            xticklabels={$-t_{\alpha/2,n-1}$, $t_{\alpha/2,n-1}$},
             ytick=\empty,
-            enlargelimits=false,
-            clip=false
+            clip=false,
+            domain=-3:3,
+            samples=100
         ]
-        % Student's t-distribution
-        \addplot [black, thick] {1/(sqrt(2*pi))*exp(-x^2/2)};
-        \addplot [red, domain=-4:-2.01, fill=red!30] {1/(sqrt(2*pi))*exp(-x^2/2)} \closedcycle;
-        \addplot [red, domain=2.01:4, fill=red!30] {1/(sqrt(2*pi))*exp(-x^2/2)} \closedcycle;
-        \draw[red, dashed] (-2.01,0) -- (-2.01,0.39);
-        \draw[red, dashed] (2.01,0) -- (2.01,0.39);
-        \draw[<->] (-2.5,0.1) -- node[above] {\(\alpha/2\)} (-0.5,0.1);
-        \draw[<->] (0.5,0.1) -- node[above] {\(\alpha/2\)} (2.5,0.1);
-        \draw[<->] (-2.5,0.45) -- node[above] {\(1-\alpha\)} (2.5,0.45);
-        \draw[<->] (-2.5,0) -- node[below] {\(-t_{\alpha/2, n-1}\)} (-0.5,0);
-        \draw[<->] (0.5,0) -- node[below] {\(t_{\alpha/2, n-1}\)} (2.5,0);
+        \addplot [smooth, thick, red] {exp(-x^2)};
+        \draw [dashed, red] (axis cs:-2,0) -- (axis cs:-2,0.4);
+        \draw [dashed, red] (axis cs:2,0) -- (axis cs:2,0.4);
+        \node at (axis cs:0,0.5) [above] {$1 - \alpha$};
+        \node at (axis cs:-2.5,0.1) [left] {$\alpha/2$};
+        \node at (axis cs:2.5,0.1) [right] {$\alpha/2$};
+        \draw [<->, thick, blue] (axis cs:-2,0.45) -- (axis cs:2,0.45);
         \end{axis}
-    \end{tikzpicture}    
-    \caption{\TODO{fix figure}}
+    \end{tikzpicture}
+    \caption{Two sided inference with the student-t distribution.}
 \end{figure}
 
-We have seen that $\Bh\sim N(\B, \s^2(\X^T\X)^{-1})$. Denote $(\X^T\X)^{-1}=(e_{ij})_{i,j=1,\dots,p}$. We then have $\bh_j\sim N(\b_j, \s^2 e_{jj})$, so $\frac{\bh_j-\b_j}{\sqrt{e_{jj}}\s}\sim N(0,1)$. Since the variance is unknown, consider the statistic:
+We have seen that $\Bh\sim N(\B, \s^2(\X^\top\X)^{-1})$. Denote $(\X^\top\X)^{-1}=(e_{ij})_{i,j=1,\dots,p}$. We then have $\bh_j\sim N(\b_j, \s^2 e_{jj})$, so $\frac{\bh_j-\b_j}{\sqrt{e_{jj}}\s}\sim N(0,1)$. Since the variance is unknown, consider the statistic:
 $$
     \frac{\bh_j-\b_j}{\sqrt{e_{jj}}\sh}
     =
@@ -221,7 +219,7 @@ The following theorem forms the basis on our discussion of ANOVA.
     $$
         \sum_{i=1}^{n}\left(Y_{i}-\hat{Y}\right)\left(\hat{Y}_{i}-\bar{Y}\right)
         =
-        \underbrace{\sum_{i=1}^{n} \overbrace{(Y_i-\hat{Y}_i)}^{\e_i}\hat{Y}_{i}}_{=\Eh^T\hat{\Y}=0}
+        \underbrace{\sum_{i=1}^{n} \overbrace{(Y_i-\hat{Y}_i)}^{\e_i}\hat{Y}_{i}}_{=\Eh^\top\hat{\Y}=0}
         -\bar{Y}\underbrace{\sum_{i=1}^{n}\left(Y_{i}-\hat{Y}\right)}_{=0}.
     $$
 \end{proof}
@@ -246,7 +244,7 @@ The following discussion will examine what happens when an explanatory variable 
 $$
     x_{i,k} = \alpha_0 + \alpha_1 x_{i,1} + \dots + \alpha_{k-1} x_{i, k-1} + \delta_i.
 $$
-As usual, we assume $\bs{\delta}=(\delta_1,\dots,\delta_n)^T\sim N(0, \s^2\mI)$. We may then estimate $\bs{\alpha}=(\alpha_0,\dots,\alpha_{k-1})^T$ and $\s^2$ by the usual $\hat{\bs{\alpha}}, \sh^2$ to obtain fitted $\hat{x}_{ik}$. We find the squared empirical correlation between $x_{i,k}$ and $\hat{x_{i,k}}$ as:
+As usual, we assume $\bs{\delta}=(\delta_1,\dots,\delta_n)^\top\sim N(0, \s^2\mI)$. We may then estimate $\bs{\alpha}=(\alpha_0,\dots,\alpha_{k-1})^\top$ and $\s^2$ by the usual $\hat{\bs{\alpha}}, \sh^2$ to obtain fitted $\hat{x}_{ik}$. We find the squared empirical correlation between $x_{i,k}$ and $\hat{x_{i,k}}$ as:
 $$
     R_k^2 
     = \frac{\sum_{i=1}^n (\hat{x}_{ik}-\bar{x_k})^2}{\sum_{i=1}^n ({x}_{ik}-\bar{x_k})^2} 
@@ -262,34 +260,44 @@ So the more a variable is explained by the other, the higher the variance of the
 \subsubsection{Further expressions for the sums of squares}
 Recall that $\mC, \mH$ are both symmetric an idempotent. For the total sum of squares, using that the centering matrix $\mC$ is idempotent, we obain:
 \begin{align*}
-    \mr{SST} = \sum_{i=1}^n(Y_i-\bar{Y})^2 = (\mC\Y)^T(\mC\Y) = \Y^T \mC \Y = \Y^T\brac{\mI-\frac{1}{n}\one\one^T}\Y.
+    \mr{SST} = \sum_{i=1}^n(Y_i-\bar{Y})^2 = (\mC\Y)^\top(\mC\Y) = \Y^\top \mC \Y = \Y^\top\brac{\mI-\frac{1}{n}\one\one^\top}\Y.
 \end{align*}
-For the residual sum of squares we also need the fact that $\mH\x_i=\x_i$ for all columns of $\X$. This follows readily as $\mH\X=\X(\X^T\X)^{-1}\X^T\X=\X$. From this we have $\mH\one = \one$ as this is the first column of $\X$. 
+For the residual sum of squares we also need the fact that $\mH\x_i=\x_i$ for all columns of $\X$. This follows readily as $\mH\X=\X(\X^\top\X)^{-1}\X^\top\X=\X$. From this we have $\mH\one = \one$ as this is the first column of $\X$. 
 \begin{align*}
     \mr{SSR} 
     &= \sum_{i=1}^n(\hat{Y}_i-\bar{Y})^2 
-    = (\mC\mH\Y)^T(\mC\mH\Y) 
-    = \Y^T\mH\mC\mH\Y 
-    \\&= \Y^T(\mH-\frac{1}{n}\mH\one\one^T\mH^T)\Y 
-    = \Y^T(\mH-\frac{1}{n}\one\one^T)\Y    
+    = (\mC\mH\Y)^\top(\mC\mH\Y) 
+    = \Y^\top\mH\mC\mH\Y 
+    \\&= \Y^\top(\mH-\frac{1}{n}\mH\one\one^\top\mH^\top)\Y 
+    = \Y^\top(\mH-\frac{1}{n}\one\one^\top)\Y    
 \end{align*}
-About the matrix $\mH-\frac{1}{n}\one\one^T$, we note that it is symmetric, idempotent and of rank $p-1$:
+About the matrix $\mH-\frac{1}{n}\one\one^\top$, we note that it is symmetric, idempotent and of rank $p-1$:
 $$
-    \rank{\mH-\frac{1}{n}\one\one^T} = \tr{\mH-\frac{1}{n}\one\one^T} = \tr{\mH}-\frac{1}{n}\tr{\one\one^T}=p-1.
+    \rank{\mH-\frac{1}{n}\one\one^\top} = \tr{\mH-\frac{1}{n}\one\one^\top} = \tr{\mH}-\frac{1}{n}\tr{\one\one^\top}=p-1.
 $$
 Finally, for the error sum of squares we obtain using that $\mI-\mH$ is symmetric and idempotent:
 $$
-    \mr{SSE} = \sum_{i=1}^n(\hat{Y}_i-Y_i)^2 = \Eh^T\Eh = ((\mI-\mH)\Y)^T(\mI-\mH)\Y = \dots = \Y^T(\mI-\mH)\Y.
+    \mr{SSE} = \sum_{i=1}^n(\hat{Y}_i-Y_i)^2 = \Eh^\top\Eh = ((\mI-\mH)\Y)^\top(\mI-\mH)\Y = \dots = \Y^\top(\mI-\mH)\Y.
 $$
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{F-test}
-
+We first consider the hypothesis test:
+$$
+    \mr{H}_0 : \b_i = 0 \quad\forall i\in\{1,\dots,k\},
+    \quad\quad\quad
+    \mr{H}_1 : \b_i \ne 0 \textrm{ for at least one } i\in\{1,\dots,k\}.
+$$
+As usual we denote the significance level by $\alpha$. Our test statistic $F$ is:
+\begin{align}
+    \boxed{F = \frac{\mr{SSR}/(p-1)}{\mr{SSE}/(n-p)} \sim F_{p-1,n-p}}
+\end{align}
+And as usual the test is $F \geq f_{\alpha, p-1,n-p} \Rightarrow \mr{H}_0$ is rejected.
+\begin{proof}
+    \TODO{Uke 8}
+\end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{General F-test}
-
-\TODO{important to have on yellow paper}
-
 We set up a much more general problem. Let $A\in\R^{r\times p}$, $r<p$, $\mathrm{rank}(A)=r$, $\boldsymbol{d}\in\R^d$. We test the hypothesis:
 $$
     \mr{H}_0 : A\B = \bs{d}, 
@@ -297,7 +305,7 @@ $$
     \mr{H}_1 : A\B \ne \bs{d}.
 $$
 Some special cases of this general setup are.
-\begin{enumerate}
+\begin{enumerate}[label=\textbullet]
     \item $r=1, d=0, A=(0, \dots, 1, \dots, 0)$ with $1$ at index $i$, gives the test 
     $$
         \mr{H}_0 : \b_i = 0, 
@@ -316,22 +324,20 @@ Some special cases of this general setup are.
         \quad\quad\quad
         \mr{H}_1 : \b_i \ne 0 \textrm{ for some } i\in\{1,\dots,k\}.
     $$
+    This is the F-test of the previous section.
 \end{enumerate}
-
-%%%%%%%%%%%%%%% Lecture 14 %%%%%%%%%%%%%%%
-\subsection*{Lecture 14}
-
+%\subsection*{Lecture 14}
 Let $\mathcal{B}$ be the space of $\B$ satisfying $\mr{H}_0$. The restricted problem is:
 $$
-    \Bh^R = \argmin_{\B\in\mathcal{B}}(\Y-\X\B)^T(\Y-\X\B).
+    \Bh^R = \argmin_{\B\in\mathcal{B}}(\Y-\X\B)^\top(\Y-\X\B).
 $$
 Using lagrange multipliers and a bag of tricks, we obtain:
 $$
-    \Bh^R = \Bh - (\X^T\X)^{-1}\bs{A}^T(\bs{A}(\X^T\X)^{-1}\mA^T)^{-1}(\bs{A}\Bh-\bs{d}).
+    \Bh^R = \Bh - (\X^\top\X)^{-1}\bs{A}^\top(\bs{A}(\X^\top\X)^{-1}\mA^\top)^{-1}(\bs{A}\Bh-\bs{d}).
 $$
 Denoting $\Delta = \Bh-\Bh^R$, we find:
 $$
-    \mr{SSE}^R = \mr{SSE} + \Delta^T\X^T\X\Delta
+    \mr{SSE}^R = \mr{SSE} + \Delta^\top\X^\top\X\Delta
 $$
 
 ... IMPORTANT: the concrete expressions for the F statistic...
@@ -342,31 +348,61 @@ We claim that the under $\mr{H}_0$, we have
     \boxed{F = \frac{\mr{SSE}^R-\mr{SSE} / r}{\mr{SSE}/(n-p)} \sim F_{r, n-p}}    
 \end{equation}
 
-
 \begin{proof}
-    
-    what the
-
+    \TODO{Uke 8}
 \end{proof}
 
-
-
-
-%%%%%%%%%%%%%%% Lecture 15 %%%%%%%%%%%%%%%
-\subsection*{Lecture 15}
-
-
-... example ...
+%\subsection*{Lecture 15}
+%... example ...
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Transformations of data}
-Motivation:
-...
+Some models common in applications are:
+\begin{enumerate}
+    \item $Y=\b_0+\b_1\frac{1}{x}+\varepsilon$
+    \item $Y=\frac{1}{\b_0 x + \b_1 + \e}$
+    \item $Y=\frac{x}{\b_0 x + \b_1 + x\e}$
+\end{enumerate}
+These can also be analysed using linear regression after undergoing some \term{transformations}, namelly:
+\begin{enumerate}
+    \item $\tilde{x}=\frac{1}{x} \leadsto Y=\b_0+\b_1\tilde{x}+\varepsilon$
+    \item $\tilde{Y}=\frac{1}{Y} \leadsto \tilde{Y}=\b_0+\b_1{x}+\varepsilon$
+    \item $\tilde{x}=\frac{1}{x},\tilde{Y}=\frac{1}{Y} \leadsto \tilde{Y}=\b_0+\b_1\tilde{x}+\varepsilon$
+\end{enumerate}
+We do not always know what form the model should have, which motivates the following section.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Box-Cox transformation}
+The \term{Box-Cox transformation} is a power transform of the form:
+\[
+u_{\lambda}(y) =
+\begin{cases}
+    \begin{aligned}
+        &\frac{y^\lambda-1}{\lambda}, && \text{if } \lambda \ne 0, \\
+        &\ln{y}, && \text{if } \lambda = 0.
+    \end{aligned}
+\end{cases}
+\]
+We immediatelly see that this requires $\Y>0$ the response $\Y$. To remedy negative $\Y$, simply shift them. 
 
-box cox transformation
- 
+\TODO{deduction of log likelyhood ...}
 
-variance stabilising transformation
+To find the optimal $\lambda$, we perform a \term{grid search}. In practice, we use the R function \texttt{boxcox}. 
 
-Suppose $\mu=\E(Y_i)$ and that $\var(Y_i)$ depends on $\mu$. ...
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Variance stabilising transformation}
+
+\TODO{det unner ble rart ...}
+
+Suppose $\mu_i=\E(Y_i)$ and that $\var{Y_i}$ depends on $\mu_i$ by say $\var{Y_i}=h{\mu_i}$. Our goal is to transform by $\tilde{Y} = g(Y)$. First order taylor expansion of $g(Y)$ around $\mu$ gives:
+$$
+    g(y) \approx g(\mu) + g'(\mu)(y-\mu).
+$$ 
+We find:
+\begin{align*}
+    \ev{g(Y)} &\approx g(\mu) + g'(\mu)\overbrace{(\ev{Y}-\mu )}^{=0} = g(\mu) 
+    \\
+    \var{g(Y)} &\approx \var{g(\mu) + g'(\mu)(Y-\mu)} = g'(\mu)^2\var{Y} 
+\end{align*}
+
+\TODO{no integral osv... UKE 9}

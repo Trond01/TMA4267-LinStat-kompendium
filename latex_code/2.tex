@@ -1,4 +1,120 @@
 \section{The Multivariate Normal Distribution}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{From univariate to multivariate}
+\subsubsection{Univariate case}
+
+We begin by recalling important properties and results of the univariate normal distribution. Let $-\infty<\mu<\infty, \s\geq 0$. We say $X\sim N(\mu,\s^2)$ if it has density:
+$$
+    f_X(x) = \frac{1}{\sqrt{2\pi \s^2}} e^{-\frac{1}{2}\brac{\frac{x-\mu}{\sigma}}^2}.
+$$
+The case $\s=0$ is considered normal degenerate and we have $X\overset{\mathrm{a.s.}}{=}\mu$. One can show $\ev{X}=\mu, \var{X}=\s^2$ and that the moment generating and characteristic functions are:
+\begin{align*}
+    M_X(t) &= e^{\mu t + \frac{\s^2 t^2}{2}}, \\
+    \phi_X(t) &= e^{i\mu t - \frac{\s^2 t^2}{2}}.
+\end{align*}
+We say that $Z\sim N(0, 1)$ is standard normal. We can transform as follows:
+\begin{align*}
+    X \sim N(\mu, \s^2) &\Rightarrow \frac{X-\mu}{\s} \sim N(0,1), \\
+    Z \sim N(0,1) &\Rightarrow \s Z + \mu \sim N(\mu, \s^2).
+\end{align*}
+A final fundamental property is that linear combinations of independent normal random variables are also normal. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Multivariate case}
+
+We choose to present one of several equivalent definitions. Here we first define a special case and then generalise it. 
+\begin{definition}
+    A p-variate random vector $\Z=(Z_1, \dots, Z_p)^\top$ is a \term{standard normal vector} if its components are independent and each $Z_i\sim N(0,1)$. We imediatelly obtain $f_{\Z}(\z) = \prod f_{Z_i} (z_i)$. We use the notation $Z\sim N(0, \mI)$.
+\end{definition}
+\begin{definition}
+    We say that $\X = (X_1,\dots, X_p)^\top$ is \term{multivariate normal} if there exists a ($p\times q$) matrix $\mA$ and $\M\in\R^p$ such that 
+    $$
+        \X = \mA \Z + \M, \quad \Z \sim (0, \mI_q)
+    $$
+    A p-variate random vector $\Z=(Z_1, \dots, Z_p)^\top$ is a \term{standard normal vector} if its components are independent and each $Z_i\sim N(0,1)$. We imediatelly obtain $f_{\Z}(\z) = \prod f_{Z_i} (z_i)$. We use the notation $Z\sim N(0, I)$.
+\end{definition}
+\begin{theorem}
+    For any vector $\mb\in\R^p$ we have that $\mb^\top \X$ is a univariate normal random variable.
+\end{theorem}
+\begin{proof}
+    It is a linear combination of independent normal random variables:
+    $$
+        \mb^\top \X = \mb^\top(\mA\Z + \M) = \mb^\top \mA \Z + \mb^\top\M \sim N. 
+    $$
+\end{proof}
+From the definition we find $\ev{X} = \M, \var{X} = \mA\mA^\top =: \SS$. We write $\X \sim N(\M, \SS)$. It turns out that the statement from the theorem would give an equivalent definition!
+%\subsection*{Lecture 5}
+\begin{theorem}
+    ... pdf of X\TODO{}    
+\end{theorem}
+\begin{proof}
+    \TODO{}
+\end{proof}
+ 
+\begin{theorem}
+    linear combinations\TODO{}
+\end{theorem}
+
+\begin{corollary}
+    \TODO{standardize ... }
+\end{corollary}
+
+\begin{corollary}
+    A subvector is also normal \TODO{}
+\end{corollary}
+
+\begin{theorem}
+    The characteristic function of $\X\sim N(\M, \SS)$ is:
+    \begin{equation}
+        \boxed{\phi_{\X}(\mt) = e^{ i \mt^\top\M - \frac{1}{2}\mt^\top\SS\mt}}
+    \end{equation}
+\end{theorem}
+\begin{proof}
+    First prove for standard normal, then for transformed general $\X$. 
+\end{proof}
+
+The following is among the most important results in the course:
+\begin{theorem}
+    \term{(Independence of normal vectors)} Suppose $\X\sim N(\M, \SS)$. Then 
+    \begin{equation}
+        \boxed{\mA \X, \mB \X \textrm{ are independent } \Leftrightarrow \cov{\mA \X, \mB \X} = \mA\SS\mB^\top = \zero}
+    \end{equation} 
+\end{theorem}
+\begin{proof}
+    ... setup ... characteristic functions ....
+\end{proof}
+\begin{corollary}
+    X1, X2 iff cov(X1,X2)=0
+\end{corollary}
+
+
+
+%\subsection*{Lecture 6}
+\begin{theorem}
+    Let $\X\sim N(\M, \SS)$ be $p$-variate and $\X=(\X_1,\X_2)^\top$ with $\X_i\sim N(\M_i, \SS_i)$. Define $\X_2' = \X_2 - \SS_{21}\SS_{11}^{-1} \X_1$ Then:
+    \begin{enumerate}
+        \item $X_2'$ is normal with \TODO{}
+        \item $\X_1, \X_2'$ are independent.
+    \end{enumerate}
+\end{theorem}
+
+\begin{theorem}
+    Conditional distribution\TODO{}
+\end{theorem}
+
+\begin{theorem}
+    If $\X\sim N(\M, \SS)$ and $\SS$ is non-singular. Then 
+    $$
+        \boxed{U = (\X-\M)\SS^{-1}(\X-\M) \sim \chi^2_p}
+    $$
+\end{theorem}
+\begin{proof}
+    By definition of the $\chi^2$-distribution we have $U=\Z^\top\Z=Z_1^2+\dots+Z_p^2 \sim \chi_p^2$ for $\Z\sim N(0, \mI_p)$. By Mahalanoys\TODO{} we have $\Z=\SS^{\frac{1}{2}(\X-\M)}$ from which the result follows. 
+\end{proof}
+
+
 %%%%%%%%%%%%%%% Lecture 7 %%%%%%%%%%%%%%%
 \subsection*{Lecture 7}
 
@@ -22,7 +138,7 @@ We further proved that
 \end{enumerate}
 Our next goal is to obtain the result for the multivariate case. 
 \subsubsection{Multivatiate case}
-In this case, we have $p$-variate independent randum vectors $\X_1,...,\X_n \sim N(\M, \SS)$ where we denote $\X_i=(X_{i1},\dots,X_{ip})^T$. These make up the columns of the ($n\times p$) \term{data matrix} or \term{feature matrix} $\X$ given as:
+In this case, we have $p$-variate independent randum vectors $\X_1,...,\X_n \sim N(\M, \SS)$ where we denote $\X_i=(X_{i1},\dots,X_{ip})^\top$. These make up the columns of the ($n\times p$) \term{data matrix} or \term{feature matrix} $\X$ given as:
 $$
     \X = 
     \underset{\mr{features} \rightarrow}{
@@ -33,17 +149,17 @@ $$
     \end{pmatrix}}
     \substack{\text{samples} \\ \downarrow}
     = \begin{pmatrix}
-        \X_1^T \\ \vdots \\ \X_n^T
-    \end{pmatrix}= (\X_1 \cdots \X_n)^T.
+        \X_1^\top \\ \vdots \\ \X_n^\top
+    \end{pmatrix}= (\X_1 \cdots \X_n)^\top.
 $$
 We want to estimate $\M, \SS$. Again we denote:
 \begin{align*}
-    \Mh &= \bar{\X} = \frac{1}{n} \sum_{i=1}^n \X_i = \frac{1}{n}\X^T \one \\
+    \Mh &= \bar{\X} = \frac{1}{n} \sum_{i=1}^n \X_i = \frac{1}{n}\X^\top \one \\
     \bs{S}^2 
-    &= \frac{1}{n} \sum_{i=1}^n (\X_i-\bar{\X})^T(\X_i-\bar{\X}) 
-    = \frac{1}{n} \X^T\brac{\mI-\frac{1}{n} \one\one^T}\X.
+    &= \frac{1}{n} \sum_{i=1}^n (\X_i-\bar{\X})^\top(\X_i-\bar{\X}) 
+    = \frac{1}{n} \X^\top\brac{\mI-\frac{1}{n} \one\one^\top}\X.
 \end{align*}
-The matrix $\mC=\mI-\frac{1}{n} \one\one^T$ is called the \term{centering matrix} because its action is to remove the mean of a vector:
+The matrix $\mC=\mI-\frac{1}{n} \one\one^\top$ is called the \term{centering matrix} because its action is to remove the mean of a vector:
 $$
     \mC \y = \begin{pmatrix}
         1-\frac{1}{n} & \cdots & \frac{1}{n} \\
@@ -78,30 +194,30 @@ For the estimators, we may prove:
 \end{proof}
 Hence we obtain an unbiased estimator as
 $$
-    \bs{S} = \frac{1}{n-1} \sum_{i=1}^n (\X_i-\bar{\X})(\X_i-\bar{\X})^T.
+    \bs{S} = \frac{1}{n-1} \sum_{i=1}^n (\X_i-\bar{\X})(\X_i-\bar{\X})^\top.
 $$
 
 %%%%%%%%%%%%%%% Lecture 8 %%%%%%%%%%%%%%%
 \subsection*{Lecture 8}
 
 \subsubsection{Quadratic forms}
-Let $\X=(X_1,\dots,X_p)^T$ be a ($p\times 1$) random vector and $\mA=(a_ij)\in\R^{p\times p}$ a matrix. This gives a \term{quadratic form}:
+Let $\X=(X_1,\dots,X_p)^\top$ be a ($p\times 1$) random vector and $\mA=(a_ij)\in\R^{p\times p}$ a matrix. This gives a \term{quadratic form}:
 $$
-    \X^T\mA\X = \sum_{i,j} X_ia_{ij}X_j.
+    \X^\top\mA\X = \sum_{i,j} X_ia_{ij}X_j.
 $$ 
 \begin{theorem} \term{(Trace formula)}
     $
-        \ev{\X^T\mA\X} = \mr{tr}(\bs{A\Sigma}) + \M^T\mA\M
+        \ev{\X^\top\mA\X} = \mr{tr}(\bs{A\Sigma}) + \M^\top\mA\M
     $    
 \end{theorem} 
 \begin{proof}
     Using that $\cov{X_i,X_j} = \ev{X_iX_j}-\ev{X_i}\ev{X_j}$ we obtain the result:
     \begin{align*}
-        \ev{\X^T\mA\X}
+        \ev{\X^\top\mA\X}
         &= \sum_{ij}a_{ij}\ev{X_iX_j}
         = \sum_{ij}a_{ij}(\Sigma_{ij}-\mu_i\mu_j)
         \\&= \sum_{ij}a_{ij}\Sigma_{ij} -  \sum_{ij}a_{ij}\mu_i\mu_j
-        = \mr{tr}(\mA\SS) - \M^T\mA\M.
+        = \mr{tr}(\mA\SS) - \M^\top\mA\M.
     \end{align*}
 \end{proof}
 
@@ -121,7 +237,7 @@ Recall that the (square) matrix $\mA$ is said to be idempotent of $AA=A$. We hav
     \begin{enumerate}
         \item $(\mI-\mA)^2=\mI^2-\mA\mI-\mI\mA+\mA^2=0$.
         \item Obvious
-        \item Later
+        \item Suppose $\mA$ is non-singular. Then $\mI=\mA^{-1}\mA=\mA^{-1}\mA\mA=\mA$.
         \item $\lambda\x=\mA\x=\mA\mA\x=\lambda^2\x$.
     \end{enumerate}
 \end{proof}
@@ -134,7 +250,7 @@ Before our next important result, we recall from linear algebra that:
         \end{align*}
     \item The matrix $\mA\in\R^{p\times p}$ of rank $r$ has \term{spectral decomposition}:
         $$
-            \mA = \bs{P}\mL\bs{P}^T
+            \mA = \bs{P}\mL\bs{P}^\top
         $$
         where $P$ is the matrix with eigenvalues as columns and $\mL$ the diagonal matrix of eigenvalues. Note that $\bs{P}\in\R^{p\times r}, \mL\in\R^{r\times r}$.
         \TODO{something about orthonormal}
@@ -145,9 +261,9 @@ The following theorem will be used extensivelly in the sequel.
 \begin{theorem}
     $\bs{Z}\sim N(0, \mI_p)$ and let $\bs{R}, \bs{S}$ be symmetric and idempotent of rank $r, s$ respectivelly. Suppose also $\bs{RS}=0$. Then 
     \begin{enumerate}
-        \item $\bs{Z}^T \bs{R} \bs{Z} \sim \chi^2_r$
-        \item $\bs{Z}^T \bs{R} \bs{Z}$ and $\bs{Z}^T \bs{S} \bs{Z}$ are independent
-        \item $\frac{\bs{Z}^T \bs{R} \bs{Z} / r}{\bs{Z}^T \bs{S} \bs{Z}/s} \sim F_{r,s}$.
+        \item $\bs{Z}^\top \bs{R} \bs{Z} \sim \chi^2_r$
+        \item $\bs{Z}^\top \bs{R} \bs{Z}$ and $\bs{Z}^\top \bs{S} \bs{Z}$ are independent
+        \item $\frac{\bs{Z}^\top \bs{R} \bs{Z} / r}{\bs{Z}^\top \bs{S} \bs{Z}/s} \sim F_{r,s}$.
     \end{enumerate}
 \end{theorem}
 \begin{proof} We have: \TODO{
