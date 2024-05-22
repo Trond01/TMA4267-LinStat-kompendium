@@ -9,8 +9,6 @@ $$
     Y_i = \b_0 + \b_1 x_{i1} + \dots + \b_k x_{ik} + \e_i.
 $$
 
-\input{latex_code/tikz_figs/eq.tex}
-
 It can be written on matrix form as:
 $$
     \underset{\Y}{
@@ -48,8 +46,8 @@ The matrix $\X$ is reffered to as the \term{design matrix}. The $\e$'s are \term
 %\subsection*{Lecture 9}
 We further assume:
 \begin{enumerate}
-    \item $\X$ is of cull column rank
-    \item $\ev{\E}=\zero$
+    \item $\X$ is of cull column rank.
+    \item $\ev{\E}=\zero$.
     \item Homostochastic: $\var{\e_i} = \s^2 \quad\forall i$.
     \item If $\X$ is random, then 2 and 3 are conditioned on $\X$. 
     \item Normality of errors: $\E\sim N(0, \s^2I_n)$.
@@ -64,7 +62,7 @@ $$
 $$
 We define \term{residuals} by:
 \begin{align*}
-    \eh_i &= Y_i-\hat{Y}_i \\
+    \eh_i &= Y_i-\hat{Y}_i, \\
     \Eh &= \Y-\hat{\Y} = \Y-\X\Bh.
 \end{align*}
 
@@ -76,25 +74,44 @@ $$
     = \argmin_{\B\in\R^{k+1}} \sum_{i=1}^n (Y_i-\x_i^\top\B)^2
     = \argmin_{\B\in\R^{k+1}} (\Y-\X\B)^\top(\Y-\X\B).
 $$
-or we may use the \term{maximum likelihood estimator} (MLE). It turns out that with our assumptions the result is the same. Differentiating and equating to zero yields:
+or we may use the \term{maximum likelihood estimator} (MLE):
 $$
-    \Bh = \underbrace{(\X^\top\X)^{-1}\X^\top}_{\mH}\Y.
+    \Bh 
+    = \argmax_{\B\in\R^{k+1}} L(\beta), \quad L(\beta) = \prod_{i=1}^n f(Y_i).
+$$
+It turns out that with our assumptions the result is the same. For the LSE, differentiating the sum of squares and equating to zero yields:
+\begin{equation}
+    \boxed{\Bh = (\X^\top\X)^{-1}\X^\top\Y }
+\end{equation}
+Having found this, we denote the \term{fitted values} by 
+$$
+    \hat{\Y} = \X\Bh = \underbrace{\X(\X^\top \X)^{-1}\X^\top}_{\mH}\Y = \mH\Y.
 $$
 The matrix $\mH$ is called the \term{prediction matrix} or \term{hat matrix}, and is of special interest:
 \begin{proposition}
     For the hat matrix we have:
     \begin{enumerate}
-        \item Symmetric
-        \item Idempotent
-        \item rank $p$
+        \item $\mH$ is symmetric.
+        \item $\mH$ is idempotent.
+        \item $\rank{\mH} = p$.
         \item Residuals can be expressed $\Eh=\Y-\hat{\Y} = (\mI-\mH)\Y$ with $\mI-\mH$ symmetric, idempotent of rank $n-p$.
     \end{enumerate}
 \end{proposition}
 %\subsection*{Lecture 10}
-Our next goal is to estimate $\s^2$. The MLE is given by $\Sh^2 = \frac{1}{n}\Eh^\top\Eh$, but this is skewed as $\ev{\Eh^\top\Eh}=\s^2(n-p)$. Hence our unbiased estimator is:
+Our next goal is to estimate $\s^2$. More computation shows that the MLE is given by 
 $$
-    \Sh^2 = \frac{1}{n-p}(\Y-\X\B)^\top(\Y-\X\B).
+    \Sh^2 = \frac{1}{n}\Eh^\top\Eh,
+$$ 
+but this is skewed as 
 $$
+    \ev{\Eh^\top\Eh}=\s^2(n-p).
+$$
+Hence our unbiased estimator is:
+\begin{equation}
+    \boxed{
+        \Sh^2 = \frac{1}{n-p}(\Y-\X\B)^\top(\Y-\X\B).
+    }    
+\end{equation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Properties of the the estimators, fitted values and residuals}
@@ -102,12 +119,12 @@ We begin by remarking that $\X\B$ is a linear combination of colums of $\X$ and 
 \begin{proposition}
     We have:
     \begin{enumerate}
-        \item $\E\perp\hat{\Y}$ and $\Eh\perp\col{\X}$
-        \item $\sum_{i=1}^n \eh_i = 0$ and $\sum_{i=1}^n Y_i = \sum_{i=1}^n \hat{Y}_i$
-        \item $\Bh \sim N(\B, \s^2(\X^\top\X)^{-1})$
-        \item $\Eh \sim N(\zero, \s^2(\mI-\mH))$
-        \item $\frac{(n-p)\sh^2}{\s^2} \sim \chi^2_{n-p}$
-        \item $\Bh, \sh^2$ are independent
+        \item $\E\perp\hat{\Y}$ and $\Eh\perp\col{\X}$.
+        \item $\sum_{i=1}^n \eh_i = 0$ and $\sum_{i=1}^n Y_i = \sum_{i=1}^n \hat{Y}_i$.
+        \item $\Bh \sim N(\B, \s^2(\X^\top\X)^{-1})$.
+        \item $\Eh \sim N(\zero, \s^2(\mI-\mH))$.
+        \item $\frac{(n-p)\sh^2}{\s^2} \sim \chi^2_{n-p}$.
+        \item $\Bh, \sh^2$ are independent.
     \end{enumerate}
 \end{proposition}
 
@@ -122,6 +139,10 @@ We begin by remarking that $\X\B$ is a linear combination of colums of $\X$ and 
     \end{tikzpicture}     
     \caption{$\hat{\Y}$ is the projection onto the column space of $\X$.}   
 \end{figure}
+
+\begin{proof}
+    \TODO{lecture 10}
+\end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\subsection*{Lecture 11}
@@ -183,11 +204,16 @@ Under $H_0$ we have $T=\frac{\bh_j-\b_j}{\sqrt{e_{jj}}\sh} \sim t_{n-p}$. The \t
 $$
     \abs{T} \geq t_{\frac{\alpha}{2}, n-p} \Rightarrow \mr{H}_0 \textrm{ is rejected}.
 $$
+
+\TODO{R printout with explanation of culumns}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\subsection*{Lecture 12}
 \subsection{Some notes on independence}
 
-\TODO{questions about independence. Detour into sigma algebras etc ...}
+We sometimes use that plugging independente random variables through some functions result in new independent random variables. The theorem below tells us when this is okay. 
+
+%A \term{measurable function} is a function s.t. the preimages of Borel sets are measurable in the given probability space. In particular, continous 
 
 \begin{theorem}
     Suppose $X, Y$ are independent random variables and that $f, g$ are two measurable functions. Then $f(X), g(Y)$ are also independent. 
@@ -227,9 +253,10 @@ The 3 sums are called \term{total sum of squares}, \term{regression sum of squar
 This decomposition motivates the following definition. 
 \begin{definition}
     The part of the total variation due to the model is called the \term{coefficient of determination} or the \term{R2-score}:
-    $$
-        R^2 = \frac{\mr{SSR}}{\mr{SST}} \overset{\mr{thm}} = 1 - \frac{\mr{SSE}}{\mr{SST}}.
-    $$
+    \begin{equation}
+        \boxed{
+            R^2 = \frac{\mr{SSR}}{\mr{SST}} \overset{\mr{thm}} = 1 - \frac{\mr{SSE}}{\mr{SST}}}        
+    \end{equation}
 \end{definition}
 The R2-score is a measure of goodness-of-fit as it tells us how much of the variation in the data can be explained by the model. One may also prove another representation:
 $$

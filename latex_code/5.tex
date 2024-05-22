@@ -24,7 +24,8 @@ p treatments, samples ...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Two level factorial design}
 
-In this section we present ideas from the note \cite{Tyssedal}. We suppose we have $k$ main factors $x_1,\dots,x_k$ making up a model of the form:
+%In this section we present ideas from the note \cite{Tyssedal}. 
+We suppose we have $k$ main factors $x_1,\dots,x_k$ making up a model of the form:
 $$
     \Y=\beta_0 + \beta_1\x_1+\dots+\beta_k\x_k + \epsilon, \quad \epsilon\sim N(0, \sigma^2).
 $$ 
@@ -82,34 +83,34 @@ We extend the design matrix accordingly, and note that we still satisfy the assu
 \subsubsection{Inference about effect}
 
 We have seen that $\hat{\textrm{Effect}_j} \sim N(\textrm{Effect}_j, \frac{4\s^2}{n})$. To make inference about the effect/coefficients we need to make inference about $\s^2$. We cannot use estimator from multiple linear regression since for MLR we have $\sh^2=\frac{\textrm{SSE}}{n-p}$ and here $n=p$. If we don't have replicates in our experiment, to increase $n$, we have to resort to one of two methods.
-\begin{enumerate}
-    \item We can neclect $m$ higher order factors where it is reasonable that $\textrm{Effect}_j = 0$. Then we have $\hat{\textrm{Effect}_j} \sim N(0, \frac{4\s^2}{n})$. Letting $\s^2_{\textrm{effect}} = \frac{4\s^2}{n}$ we then estimate:
-    $$
-        \sh^2_{\textrm{effect}} = \frac{1}{m} \sum_{\textrm{negligable}} \hat{\textrm{Effect}}_j^2
-    $$
+% \begin{enumerate}
+%     \item We can neclect $m$ higher order factors where it is reasonable that $\textrm{Effect}_j = 0$. Then we have $\hat{\textrm{Effect}_j} \sim N(0, \frac{4\s^2}{n})$. Letting $\s^2_{\textrm{effect}} = \frac{4\s^2}{n}$ we then estimate:
+%     $$
+%         \sh^2_{\textrm{effect}} = \frac{1}{m} \sum_{\textrm{negligable}} \hat{\textrm{Effect}}_j^2
+%     $$
 
-    \item \term{Lenth's method} / \term{pseudo standard error} \TODO{}
+%     \item \term{Lenth's method} / \term{pseudo standard error} \TODO{}
     
-    \[
-        C_0, \ldots, C_m \text{ - estimated effects } \hat{A}, \hat{B}, \hat{AB}, \ldots
-        \]
+%     \[
+%         C_0, \ldots, C_m \text{ - estimated effects } \hat{A}, \hat{B}, \hat{AB}, \ldots
+%         \]
         
-        \begin{enumerate}
-            \item Order $|C_j|$ in increasing order.
-            \item Find $M$ - the median of $|C_1|, \ldots, |C_{k-1}|$ and compute \[ \delta_0 = 1.5M \]
-            \item Remove the effects $C_j$ with $|C_j| \geq 2.5 \delta_0$ and find the median of the rest of $|C_j|$.
-        \end{enumerate}
+%         \begin{enumerate}
+%             \item Order $|C_j|$ in increasing order.
+%             \item Find $M$ - the median of $|C_1|, \ldots, |C_{k-1}|$ and compute \[ \delta_0 = 1.5M \]
+%             \item Remove the effects $C_j$ with $|C_j| \geq 2.5 \delta_0$ and find the median of the rest of $|C_j|$.
+%         \end{enumerate}
         
-        \[ PSE = 1.5 \cdot \text{median} \left\{ |C_j| : |C_j| < 2.5 \delta_0 \right\} \]
+%         \[ PSE = 1.5 \cdot \text{median} \left\{ |C_j| : |C_j| < 2.5 \delta_0 \right\} \]
         
-        \[ \hat{\sigma}_{PSE} = PSE \]
+%         \[ \hat{\sigma}_{PSE} = PSE \]
         
-\end{enumerate}
+% \end{enumerate}
 
 
 
 
-In the case of replications ($n§2^k$) we recall the results from multiple linear regression:
+In the case of replications ($n2^k$) we recall the results from multiple linear regression:
 
 
 %%%%%%%%%%%%%%% Lecture 20 %%%%%%%%%%%%%%%
@@ -141,27 +142,26 @@ $$
 If we choose experiments such that for a given factor, the number of high and low level ($+$ and $-$) are equal, the effect is of this factor is unchanged by the added $h$. We usually consider the main factors of greatest importance. Consider for example a $2^3$ experiment done over 2 days. We say it is divided in 2 \term{blocks}. Let block I be done with ABC at $-$ and block II at $+$. We obtain the following:
 
 \begin{figure}[H]\centering
-    \begin{tabular}{ccccccc}
-        Block I
+    \begin{tabular}{*7c}
+        \multicolumn{7}{c}{\textbf{Block I}}\\
         \toprule
-        A & B & C & AB & AC & BC \\
+        A & B & C & AB & AC & BC & ABC\\
         \midrule
-        - & - & - & + & + & + \\
-        + & - & - & + & - & - \\
-        + & - & + & - & - & + \\
-        - & + & + & - & + & - \\
+        + & + & - & + & - & - & - \\
+        + & - & + & - & + & - & - \\
+        - & + & + & - & - & + & - \\
+        - & - & - & + & + & + & - \\
         \bottomrule
     \end{tabular}        
         \quad
-    \begin{tabular}{ccccccc}
-        Block 2
-        \toprule
-        A & B & C & AB & AC & BC \\
+    \begin{tabular}{*7c}
+        \multicolumn{7}{c}{\textbf{Block II}}\\        \toprule
+        A & B & C & AB & AC & BC & ABC \\
         \midrule
-        - & - & - & + & + & + \\
-        + & - & - & + & - & - \\
-        + & - & + & - & - & + \\
-        - & + & + & - & + & - \\
+        + & + & + & + & + & + & + \\
+        + & - & - & - & - & + & + \\
+        - & + & - & - & + & - & + \\
+        - & - & + & + & - & - & + \\
         \bottomrule
     \end{tabular}        
 \end{figure}

@@ -47,23 +47,50 @@ We choose to present one of several equivalent definitions. Here we first define
 From the definition we find $\ev{X} = \M, \var{X} = \mA\mA^\top =: \SS$. We write $\X \sim N(\M, \SS)$. It turns out that the statement from the theorem would give an equivalent definition!
 %\subsection*{Lecture 5}
 \begin{theorem}
-    ... pdf of X\TODO{}    
+    Let $\X \sim N(\M, \SS)$. If $\SS > 0$, then the probability density function (PDF) of $\X$ is:
+    \begin{equation}
+        \boxed{
+            f_{\X} (\x) = \frac{1}{(2\pi)^{k/2}\det{\SS}^{1/2}} e^{-\frac{1}{2}(\x-\M)^\top\SS^{-1}(\x-\M)}
+        }        
+    \end{equation}
 \end{theorem}
 \begin{proof}
-    \TODO{}
+    Recall that $\X = \SS^{1/2}\Z + \M$. Using this, the result follows from the transformation formula and using the pdf of the standard normal $\Z$.  
 \end{proof}
  
 \begin{theorem}
-    linear combinations\TODO{}
+    \label{thm:lin_comb}
+    \begin{equation}
+        \boxed{
+            \X 
+            \sim N(\M, \SS) \Rightarrow 
+            \Y = 
+            \mA\X+\boldsymbol{b} 
+            \sim N(\mA\M+ \boldsymbol{b}, \mA \SS \mA^\top)
+        }        
+    \end{equation}
 \end{theorem}
-
+\begin{proof}
+    Compute expected value and covariance. Normality follows from definition as we may write $\Y = \mA(\mB \Z + \boldsymbol{c}) + \boldsymbol{b} = \tilde{\mB} \Z + \tilde{\boldsymbol{b}}$. 
+\end{proof}
+The following corollary tells us that we may \term{standardize} in the multivariate case as well:
 \begin{corollary}
-    \TODO{standardize ... }
+    \begin{equation}
+        \boxed{
+            \X 
+            \sim N(\M, \SS) \Rightarrow 
+            \Z = 
+            \SS^{-1/2}(\X-\M) 
+            \sim N(0, \mI)
+        }        
+    \end{equation}
 \end{corollary}
-
 \begin{corollary}
-    A subvector is also normal \TODO{}
+    Any subvector $\X^*$ of $\X\sim N(\M, \SS)$ is also normal.
 \end{corollary}
+\begin{proof}
+    Take $\mA$ to be a \hermetegn{component removing} matrix and use \Cref{thm:lin_comb}. 
+\end{proof}
 
 \begin{theorem}
     The characteristic function of $\X\sim N(\M, \SS)$ is:
@@ -72,9 +99,20 @@ From the definition we find $\ev{X} = \M, \var{X} = \mA\mA^\top =: \SS$. We writ
     \end{equation}
 \end{theorem}
 \begin{proof}
-    First prove for standard normal, then for transformed general $\X$. 
+    For $Z\sim N(\zero, \mI_p)$, we may use independence to obtain:
+    $$
+        \phi_{\Z}(\mt) = \prod_{i=1}^p \phi_{Z_i}(t_i) = e^{-\frac{1}{2} \mt^\top\mt}.
+    $$
+    Then write $\X=\SS^{1/2} \Z + \M$ and rewrite:
+    \begin{align*}
+        \phi_{\X}(\mt) 
+        &= \ev{e^{i\mt^\top\X}}
+        = e^{i\mt^\top}\ev{e^{i\mt^\top\SS^{1/2}\Z}}
+        = e^{i\mt^\top}\phi_{\Z}(\SS^{1/2}\mt)
+        = e^{i\mt^\top}e^{-\frac{1}{2} \mt^\top\SS\mt}.
+    \end{align*}
+    Where we have used symmetry of $\SS^{1/2}$ a few times.
 \end{proof}
-
 The following is among the most important results in the course:
 \begin{theorem}
     \term{(Independence of normal vectors)} Suppose $\X\sim N(\M, \SS)$. Then 
@@ -83,25 +121,32 @@ The following is among the most important results in the course:
     \end{equation} 
 \end{theorem}
 \begin{proof}
-    ... setup ... characteristic functions ....
+    The rightward implication is true for any random vectors. To prove the leftward for normal $\X$ we show that we may factor the characteristic function 
+    $$
+    \phi_{\begin{pmatrix}
+        \mA \X \\ \mB \X
+    \end{pmatrix}} (\mt) 
+    = \phi_{\mA\X} (\mt_1) \phi_{\mB\X} (\mt_2).
+    $$
+    %\TODO{details if time, lecture 6}
 \end{proof}
 \begin{corollary}
-    X1, X2 iff cov(X1,X2)=0
+    Let $X = (X_1,\dots,X_p)^\top\sim N{\M, \SS}$. Then $X_i, X_j$ independent iff $\cov{X_i,X_j}=0$.
 \end{corollary}
-
-
-
-%\subsection*{Lecture 6}
+The next theorem tells us that we may \hermetegn{remove the dependent part} of a component from another:
 \begin{theorem}
     Let $\X\sim N(\M, \SS)$ be $p$-variate and $\X=(\X_1,\X_2)^\top$ with $\X_i\sim N(\M_i, \SS_i)$. Define $\X_2' = \X_2 - \SS_{21}\SS_{11}^{-1} \X_1$ Then:
     \begin{enumerate}
-        \item $X_2'$ is normal with \TODO{}
+        \item $X_2'\sim N(\M_2 - \SS_{21}\SS_{11}^{-1}\M_1, \SS_{22} - \SS_{21}\SS_{11}^{-1}\SS_{12})$.
         \item $\X_1, \X_2'$ are independent.
     \end{enumerate}
 \end{theorem}
 
 \begin{theorem}
-    Conditional distribution\TODO{}
+    With notation as in the previous theorem, the conditional distribution of $\X_2$ given $\X_1=\x_1$ is:
+    $$
+        \X_2 |_{\X_1 = \x_1} \sim N(\M_2 + \SS_{21}\SS_{11}^{-1}(\x_1-\M_1), \SS_{22}-\SS_{21}\SS_{11}^{-1}\SS_{12}).
+    $$
 \end{theorem}
 
 \begin{theorem}
@@ -111,19 +156,19 @@ The following is among the most important results in the course:
     $$
 \end{theorem}
 \begin{proof}
-    By definition of the $\chi^2$-distribution we have $U=\Z^\top\Z=Z_1^2+\dots+Z_p^2 \sim \chi_p^2$ for $\Z\sim N(0, \mI_p)$. By Mahalanoys\TODO{} we have $\Z=\SS^{\frac{1}{2}(\X-\M)}$ from which the result follows. 
+    By definition of the $\chi^2$-distribution we have $U=\Z^\top\Z=Z_1^2+\dots+Z_p^2 \sim \chi_p^2$ for $\Z\sim N(0, \mI_p)$. By \term{Mahalanobis transform} we have $\Z=\SS^{\frac{1}{2}}(\X-\M)$ from which the result follows. 
 \end{proof}
 
 
-%%%%%%%%%%%%%%% Lecture 7 %%%%%%%%%%%%%%%
-\subsection*{Lecture 7}
-
+%\subsection*{Lecture 7}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Estimation of the multivariate normal distribution}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Univariate case}
 From the univatiate case we recall that if $X_1,\dots,X_n \sim N(\mu, {\s^2})$ are independent, then the MLE estimators are:
 \begin{align*}
-    \mh &= \bar{X} = \frac{1}{n} \sum_{i=1}^n X_i \\
-    \sh^2 &= \frac{1}{n} \sum_{i=1}^n (X_i-\bar{X})^2
+    \mh &= \bar{X} = \frac{1}{n} \sum_{i=1}^n X_i, \\
+    \sh^2 &= \frac{1}{n} \sum_{i=1}^n (X_i-\bar{X})^2.
 \end{align*}
 But since we found that $\ev{\s^2}=\frac{n-1}{n} \s^2$ is biased, we use instead the estimator
 $$
@@ -131,12 +176,14 @@ $$
 $$
 We further proved that
 \begin{enumerate}
-    \item $\bar{X} \sim N(\mu, \s^2/n)$
-    \item $\frac{(n-1)S^2}{\s^2} \sim \chi^2_{n-1}$
-    \item $\bar{X}, S^2$ are independent (for the normal distribution)
-    \item $\sqrt{n} \frac{\bar{X}-\mu}{S} \sim t_{n-1}$ (student t distribution)
+    \item $\bar{X} \sim N(\mu, \s^2/n)$,
+    \item $\frac{(n-1)S^2}{\s^2} \sim \chi^2_{n-1}$,
+    \item $\bar{X}, S^2$ are independent (for the normal distribution),
+    \item $\sqrt{n} \frac{\bar{X}-\mu}{S} \sim t_{n-1}$ (student t distribution).
 \end{enumerate}
 Our next goal is to obtain the result for the multivariate case. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Multivatiate case}
 In this case, we have $p$-variate independent randum vectors $\X_1,...,\X_n \sim N(\M, \SS)$ where we denote $\X_i=(X_{i1},\dots,X_{ip})^\top$. These make up the columns of the ($n\times p$) \term{data matrix} or \term{feature matrix} $\X$ given as:
 $$
@@ -154,7 +201,7 @@ $$
 $$
 We want to estimate $\M, \SS$. Again we denote:
 \begin{align*}
-    \Mh &= \bar{\X} = \frac{1}{n} \sum_{i=1}^n \X_i = \frac{1}{n}\X^\top \one \\
+    \Mh &= \bar{\X} = \frac{1}{n} \sum_{i=1}^n \X_i = \frac{1}{n}\X^\top \one, \\
     \bs{S}^2 
     &= \frac{1}{n} \sum_{i=1}^n (\X_i-\bar{\X})^\top(\X_i-\bar{\X}) 
     = \frac{1}{n} \X^\top\brac{\mI-\frac{1}{n} \one\one^\top}\X.
@@ -184,45 +231,57 @@ For the estimators, we may prove:
     $\bar{\X} \sim N(\M, \frac{1}{n}\SS)$
 \end{proposition}
 \begin{proof}
-    By characteristic function.
+    The proof is by factoring the characteristic function. We can do this since the $\X_i$'s are independent.
+    \begin{align*}
+        \varphi_{\bar{\X}}(\mt) 
+        &= \ev{e^{i \mt^\top \bar{\X}}}
+        = \ev{ e^{i \left(\frac{\mt}{n}\right)^\top (\X_1, \ldots, \X_n)} }
+        = \phi_{\X_1+\dots+\X_n} \left(\frac{\mt}{n}\right)
+        = \varphi_{\X_1} \left( \frac{\mt}{n} \right) \cdots \varphi_{x_n} \left( \frac{\mt}{n} \right)
+        \\&= \prod_{i=1}^{n} e^{ i \left(\frac{\mt}{n}\right)^\top\M - \frac{1}{2} \left(\frac{\mt}{n}\right)^\top \SS \left(\frac{\mt}{n}\right)^\top }
+        = e^{\sum_{j=1}^{n} i \left(\frac{\mt}{n}\right)^\top\M - \frac{1}{2} \left(\frac{\mt}{n}\right)^\top \SS \left(\frac{\mt}{n}\right)^\top}
+        = e^{ i \mt^\top \mu - \frac{1}{2} \mt^\top \frac{\SS}{n} \mt }.
+    \end{align*}
+
 \end{proof}
 \begin{proposition}
     $\ev{\bs{S}} = \frac{n-1}{n} \SS.$
 \end{proposition}
 \begin{proof}
-    
+    This is a more straigh forward computation.
 \end{proof}
 Hence we obtain an unbiased estimator as
 $$
     \bs{S} = \frac{1}{n-1} \sum_{i=1}^n (\X_i-\bar{\X})(\X_i-\bar{\X})^\top.
 $$
 
-%%%%%%%%%%%%%%% Lecture 8 %%%%%%%%%%%%%%%
-\subsection*{Lecture 8}
-
+%\subsection*{Lecture 8}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Quadratic forms}
 Let $\X=(X_1,\dots,X_p)^\top$ be a ($p\times 1$) random vector and $\mA=(a_ij)\in\R^{p\times p}$ a matrix. This gives a \term{quadratic form}:
 $$
     \X^\top\mA\X = \sum_{i,j} X_ia_{ij}X_j.
 $$ 
-\begin{theorem} \term{(Trace formula)}
-    $
-        \ev{\X^\top\mA\X} = \mr{tr}(\bs{A\Sigma}) + \M^\top\mA\M
-    $    
+\begin{theorem} Suppose $\X\sim (\M, \SS)$ then the \term{trace formula} holds:
+    \begin{equation}
+        \boxed{\ev{\X^\top\mA\X} = \mr{tr}(\bs{A\Sigma}) + \M^\top\mA\M
+       } 
+    \end{equation}
 \end{theorem} 
 \begin{proof}
     Using that $\cov{X_i,X_j} = \ev{X_iX_j}-\ev{X_i}\ev{X_j}$ we obtain the result:
     \begin{align*}
         \ev{\X^\top\mA\X}
-        &= \sum_{ij}a_{ij}\ev{X_iX_j}
-        = \sum_{ij}a_{ij}(\Sigma_{ij}-\mu_i\mu_j)
-        \\&= \sum_{ij}a_{ij}\Sigma_{ij} -  \sum_{ij}a_{ij}\mu_i\mu_j
+        &= \sum_{i,j}a_{ij}\ev{X_iX_j}
+        = \sum_{i,j}a_{ij}(\Sigma_{ij}-\mu_i\mu_j)
+        \\&= \sum_{i,j}a_{ij}\Sigma_{ij} -  \sum_{ij}a_{ij}\mu_i\mu_j
         = \mr{tr}(\mA\SS) - \M^\top\mA\M.
     \end{align*}
 \end{proof}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Idempotent matrices}
-Recall that the (square) matrix $\mA$ is said to be idempotent of $AA=A$. We have the following:
+Recall that the (square) matrix $\mA$ is said to be idempotent of $\mA\mA=\mA$. We have the following:
 \begin{proposition}
     Let $\mA$ be idempotent.
     \begin{enumerate}
@@ -241,21 +300,25 @@ Recall that the (square) matrix $\mA$ is said to be idempotent of $AA=A$. We hav
         \item $\lambda\x=\mA\x=\mA\mA\x=\lambda^2\x$.
     \end{enumerate}
 \end{proof}
-Before our next important result, we recall from linear algebra that:
-\begin{enumerate}
-    \item Let $\mA\in\R^{p\times p}$ have eigenvalues $\lambda_1,\dots,\lambda_p$. Then:
-        \begin{align*}
-            \mr{tr}(\mA) = \sum \lambda_i, \quad
-            \mr{det}(\mA) = \prod \lambda_i.
-        \end{align*}
-    \item The matrix $\mA\in\R^{p\times p}$ of rank $r$ has \term{spectral decomposition}:
-        $$
-            \mA = \bs{P}\mL\bs{P}^\top
-        $$
-        where $P$ is the matrix with eigenvalues as columns and $\mL$ the diagonal matrix of eigenvalues. Note that $\bs{P}\in\R^{p\times r}, \mL\in\R^{r\times r}$.
-        \TODO{something about orthonormal}
-\end{enumerate}
-Note that for $\mA$ symmetric and idempotent, we have $\mL=\mI_r$ in point 2 and $\mr{rank}(\mA)=\mr{tr}(\mA)=r$ due to point 1. 
+% Before our next important result, we recall from linear algebra that:
+% \begin{enumerate}
+%     \item Let $\mA\in\R^{p\times p}$ have eigenvalues $\lambda_1,\dots,\lambda_p$. Then:
+%         \begin{align*}
+%             \mr{tr}(\mA) = \sum \lambda_i, \quad
+%             \mr{det}(\mA) = \prod \lambda_i.
+%         \end{align*}
+%     \item The matrix $\mA\in\R^{p\times p}$ of rank $r$ has \term{spectral decomposition}:
+%         $$
+%             \mA = \bs{P}\mL\bs{P}^\top
+%         $$
+%         where $P$ is the matrix with eigenvalues as columns and $\mL$ the diagonal matrix of eigenvalues. Note that $\bs{P}\in\R^{p\times r}, \mL\in\R^{r\times r}$.
+%         \TODO{something about orthonormal}
+% \end{enumerate}
+Let $\mA=\boldsymbol{P}\boldsymbol{\Lambda}\boldsymbol{P}^\top\in\R^{p\times p}$ be symmetric and idempotent. Since only non-zero eigenvalues are $1$, we have $\mL=\mI_r$.
+% in point 2 
+Also $\rank{\mA} = \rank{\boldsymbol{\Lambda}} = r$.
+% $\mr{rank}(\mA)=\mr{tr}(\mA)=\tr{\boldsymbol{P}\boldsymbol{\Lambda}\boldsymbol{P}^\top}=\tr{\boldsymbol{\Lambda}\boldsymbol{P}^\top\boldsymbol{P}}=\tr{\boldsymbol{\Lambda}}=r$.
+% due to point 1. 
 
 The following theorem will be used extensivelly in the sequel. 
 \begin{theorem}
@@ -266,10 +329,18 @@ The following theorem will be used extensivelly in the sequel.
         \item $\frac{\bs{Z}^\top \bs{R} \bs{Z} / r}{\bs{Z}^\top \bs{S} \bs{Z}/s} \sim F_{r,s}$.
     \end{enumerate}
 \end{theorem}
-\begin{proof} We have: \TODO{
+\begin{proof} We have:
     \begin{enumerate}
-        \item 
-        \item 
-        \item By definition.
-    \end{enumerate}}
+        \item Use spectral decomposition $\bs{R} = \bs{P}\mI_r \bs{P}^\top$ to find:
+        $$
+            \Z^\top\bs{R}\Z 
+            = (\bs{P}^\top\Z)^\top \mI_r \bs{P}^\top\Z
+            = \Y^\top \Y.
+        $$
+        Note that $\Y=\bs{P}^\top\Z$ is $r$-variate normal and compute its expectation and variance to be $0$ and $\mI_r$. Then finally conclude that $\Y^\top \Y^\top\Y=Y_1^2+\dots+Y_r^2\sim\chi^2_r$.
+        \item Compute $\cov{\bs{R}\Z, \bs{S}\Z} = \bs{R}\bs{S} = \zero$. Hence $\bs{R}\Z, \bs{S}\Z$. Then the measurable function $f(\x)=\x^\top \x$ gives independence of $\bs{Z}^\top \bs{R} \bs{Z}$ and $\bs{Z}^\top \bs{S} \bs{Z}$.
+        \item By definition of Fisher distribution.
+    \end{enumerate}
 \end{proof}
+
+

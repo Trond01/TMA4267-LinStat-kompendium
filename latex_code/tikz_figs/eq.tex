@@ -1,6 +1,6 @@
 \vspace*{2.5em}
 \[
-    Y_i = \EqM{b0}[black]{\b_0} + \EqM{b1}{\b_1}\EqM{x1}{x_{i1}} + \EqM{b2}{\b_2}\EqM{x2}{x_{i2}} + \dots + \EqM{bk}{\b_k}\EqM{xk}{x_{ik}} + \e_i
+    Y_i = \EqM{b0}[black]{\beta_0} + \EqM{b1}{\beta_1}\EqM{x1}{x_{i1}} + \EqM{b2}{\beta_2}\EqM{x2}{x_{i2}} + \dots + \EqM{bk}{\beta_k}\EqM{xk}{x_{ik}} + \epsilon_i
 \]
 \vspace*{2.5em}
 \begin{tikzpicture}[
@@ -38,19 +38,27 @@
 
     \draw[green] 
         ++(x1.north) 
-        ++(0, 2em) 
-        node[anchor=west, outer sep=0pt] (ScalarLabel) {Explanatory variables};
+        ++(0, 4em) 
+        node[anchor=south, outer sep=0pt] (VarLabel) {Explanatory variables};
+
     \draw[green,<-] 
-        ++(ScalarLabel.163)  
-        edge[] 
+        (VarLabel.south west) ++(0.2em,-0.5em) coordinate(VarEnd1);
+    \draw[green,<-] 
+        (VarLabel.south) ++(0em,-0.5em) coordinate(VarEnd2);
+    \draw[green,<-] 
+        (VarLabel.south east) ++(-0.2em,-0.5em) coordinate(VarEnd3);
+
+    \draw[green,<-] 
+        (VarEnd1)  
+        edge[in=90,out=-90] 
         (x1.north);            
     \draw[green,<-] 
-        ++(ScalarLabel.19)  
-        edge[in=-45,out=-215] 
+        (VarEnd2)  
+        edge[in=90,out=-90] 
         (x2.north);            
     \draw[green,<-] 
-        ++(ScalarLabel.10)  
-        edge[in=-45,out=-215] 
+        (VarEnd3)  
+        edge[in=90,out=-90] 
         (xk.north);
 
 \end{tikzpicture}
