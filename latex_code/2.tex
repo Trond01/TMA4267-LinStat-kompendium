@@ -33,7 +33,6 @@ We choose to present one of several equivalent definitions. Here we first define
     $$
         \X = \mA \Z + \M, \quad \Z \sim (0, \mI_q)
     $$
-    A p-variate random vector $\Z=(Z_1, \dots, Z_p)^\top$ is a \term{standard normal vector} if its components are independent and each $Z_i\sim N(0,1)$. We imediatelly obtain $f_{\Z}(\z) = \prod f_{Z_i} (z_i)$. We use the notation $Z\sim N(0, I)$.
 \end{definition}
 \begin{theorem}
     For any vector $\mb\in\R^p$ we have that $\mb^\top \X$ is a univariate normal random variable.
@@ -115,7 +114,7 @@ The following corollary tells us that we may \term{standardize} in the multivari
 \end{proof}
 The following is among the most important results in the course:
 \begin{theorem}
-    \term{(Independence of normal vectors)} Suppose $\X\sim N(\M, \SS)$. Then 
+    Suppose $\X\sim N(\M, \SS)$. Then 
     \begin{equation}
         \boxed{\mA \X, \mB \X \textrm{ are independent } \Leftrightarrow \cov{\mA \X, \mB \X} = \mA\SS\mB^\top = \zero}
     \end{equation} 
@@ -156,7 +155,7 @@ The next theorem tells us that we may \hermetegn{remove the dependent part} of a
     $$
 \end{theorem}
 \begin{proof}
-    By definition of the $\chi^2$-distribution we have $U=\Z^\top\Z=Z_1^2+\dots+Z_p^2 \sim \chi_p^2$ for $\Z\sim N(0, \mI_p)$. By \term{Mahalanobis transform} we have $\Z=\SS^{\frac{1}{2}}(\X-\M)$ from which the result follows. 
+    By definition of the $\chi^2$-distribution we have $U=\Z^\top\Z=Z_1^2+\dots+Z_p^2 \sim \chi_p^2$ for $\Z\sim N(0, \mI_p)$. By the \term{Mahalanobis transformation} we have $\Z=\SS^{\frac{1}{2}}(\X-\M)$ from which the result follows. 
 \end{proof}
 
 
@@ -287,7 +286,7 @@ Recall that the (square) matrix $\mA$ is said to be idempotent of $\mA\mA=\mA$. 
     \begin{enumerate}
         \item $\mI-\mA$ is also idempotent.
         \item $\mA(\mI-\mA)=(\mI-\mA)\mA=\zero$.
-        \item The only non-singular idenpotent matrix is $\mI$.
+        \item The only non-singular idempotent matrix is $\mI$.
         \item All eigenvalues of idempotent matrices are $0$ or $1$.
     \end{enumerate}
 \end{proposition}

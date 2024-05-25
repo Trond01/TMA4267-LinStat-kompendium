@@ -3,6 +3,8 @@
 
 \TODO{Discussion of examination on basis of visual analysis of residuals}
 
+\TODO{Example QQ plots ?}
+
 \TODO{not homostochastic, not independent}
 ... transformed residuals free of trouble\dots
 \TODO{long discussion of standardized / studentizes residuals ...}
@@ -36,9 +38,9 @@ We want to arrive at a compromise between simplisity and goodness of fit. It is 
 \begin{enumerate}
     \item \term{Adjusted coefficient of determination}:
     $$
-        R^2_{\mr{adj}} = 1 - \frac{\mr{SSE} / (n-p-1)}{\mr{SST} / (n-1)}.
+        \boxed{R^2_{\mr{adj}} = 1 - \frac{\mr{SSE} / (n-p-1)}{\mr{SST} / (n-1)} = 1 - (1-R^2)\frac{n-1}{n-p-1}}
     $$
-    \item \term{Mallow's Cp parameter} (``Complexity parameter"):
+    \item \term{Mallow's Cp parameter} (\hermetegn{Complexity parameter}):
     $$
         C_p = \frac{\mr{SSE}}{\sh^2} - n + 2p.
     $$
@@ -54,7 +56,7 @@ We want to arrive at a compromise between simplisity and goodness of fit. It is 
 Note that for the 3 last options we want to minimise the statistic. In practice selection is done either with software or in to steps:
 \begin{enumerate}
     \item For each $j=1,\dots,k$ choose the model with $j$ covariates of maximal R2-score. This gives $k$ models, so far not penalised.
-    \item Consider these $k$ best models and choose ``best of the best" using one of the criteria. 
+    \item Consider these $k$ best models and choose `\hermetegn{best of the best} using one of the criteria. 
 \end{enumerate}
 
 %example...
@@ -66,7 +68,7 @@ As before we consider the test:
 $$
     \mr{H}_0 : \b_1=\dots=\b_k = 0.
 $$
-If this is now rejected, what about the individual tests $\b_j$. We can test individually using t-tests the hypothesis:
+If this is now rejected, what about the individual tests $\b_j$? We can test individually using t-tests the hypothesis:
 $$
     \mr{H}_0 : \b_j = 0.
 $$
@@ -76,10 +78,42 @@ But if we have many parameters, $\p{\textrm{at least one type I error}}$ is larg
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{$p$-value is a random variable}
 
-\TODO{explain that p value is uniformly distributed under H0. Litt i uke 10}
+We recall that given an observation $t$ for the test statistiv $T$ we can compute the $p$-value, the probability of an equal of more extreme observation:
+$$
+    p(t) = \mathbb{P}_{\mathrm{H}_0} (T \geq t).
+$$
+Since $t$ is the observet value of a random variable, it is clear that the $p$-value is also random. The rejection criteria for $\mathrm{H}_0$ is: 
+$$
+    \mathrm{H}_0 \textrm{ is rejected} \Leftrightarrow p(t) \leq \alpha.
+$$
+An equivalent expression for the rejection criteria is:
+$$
+\mathrm{H}_0 \textrm{ is rejected} \Leftrightarrow t \geq t' \textrm{ with } \mathbb{P}_{\mathrm{H}_0} (T \geq t') = \alpha.    
+$$
+Hence we have
+$$
+    \mathbb{P}_{\mathrm{H}_0} (p(t) \leq \alpha) = \alpha,
+$$
+from which we conclude that under true $\mathrm{H}_0$, the $p$-value is uniformly distributed on $[0,1]$.
 
-https://statproofbook.github.io/P/pval-h0.html
-
+\begin{figure}[H]\centering
+    \begin{tikzpicture}[scale=2, thick]
+        % Axes
+        \draw[->, black] (-0.2, 0) -- (1.5, 0) node[right] {};
+        \draw[->, black] (0, -0.2) -- (0, 1.2) node[above] {};
+    
+        % CDF
+        \draw[thick] (0, 0) -- (1, 1) -- (1.5, 1);
+    
+        % Labels and ticks
+        \draw (0, 0) node[below left] {0};
+        \draw (1, 0) node[below] {1};
+        \draw (1, 1) node[above right] {};
+        \draw (0, 1) node[left] {1};
+    
+    \end{tikzpicture}
+    \caption{Distribuon of the $p$-value.}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Testing $m$ hypothesis}
@@ -97,7 +131,7 @@ We begin by finding the $m$ $p$-values ($p_1,\dots,p_m$) corresponding to each h
         \hline
     \end{tabular}
 \end{table}
-Note that we know $m$, the number of hypothesis, and the number $R$ of rejected hypothesis. Our goal is to control the \term{familywise error rate} (FWER\index{FWER}). This is the probability of at least one false positive finding:
+Note that we know $m$, the number of hypothesis, and the number $R$ of rejected hypothesis. Our goal is to control the \term{familywise error rate (FWER)}. This is the probability of at least one false positive finding:
 $$
     \mr{FWER} = \p{V\geq 1} = 1- \p{V=0}.
 $$

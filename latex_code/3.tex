@@ -131,11 +131,11 @@ We begin by remarking that $\X\B$ is a linear combination of colums of $\X$ and 
 \begin{figure}[H] \centering
     \begin{tikzpicture}[scale=1.5]
         % Define X
-        \draw[-] (0,0) -- (2,1) node[right] {$\col{\X}$}; 
+        \draw[-, black] (0,0) -- (2,1) node[right] {$\col{\X}$}; 
         % Define Y
-        \draw[-] (0.6,0.3) node[below]{$\Y'$} -- (1,2) node[above] {$\Y$};
+        \draw[-, black] (0.6,0.3) node[below]{$\Y'$} -- (1,2) node[above] {$\Y$};
         % Projection
-        \draw[-] (1,2) -- (1.6,0.8) node[below]{$\hat{\Y}$};
+        \draw[-, black] (1,2) -- (1.6,0.8) node[below]{$\hat{\Y}$};
     \end{tikzpicture}     
     \caption{$\hat{\Y}$ is the projection onto the column space of $\X$.}   
 \end{figure}
@@ -166,7 +166,8 @@ where $Z\sim N(0,1), V\sim\chi^2_m$ are independent. We may then find values for
             ytick=\empty,
             clip=false,
             domain=-3:3,
-            samples=100
+            samples=100,
+            color=black
         ]
         \addplot [smooth, thick, red] {exp(-x^2)};
         \draw [dashed, red] (axis cs:-2,0) -- (axis cs:-2,0.4);
@@ -188,7 +189,7 @@ $$
 $$
 Recalling the properties of the estimators, we know that $\Bh, \sh^2$ are independent, that the numerator is $N(0,1)$-distributed and that $V=\frac{(n-p)\sh^2}{\s^2}\sim \chi^2_{n-p}$. Hence, we may conclude:
 \begin{equation}
-    \boxed{\frac{\bh_j-\b_j}{\sqrt{e_{jj}}\sh} \sim t_{n-p}}
+    \boxed{T = \frac{\bh_j-\b_j}{\sqrt{e_{jj}}\sh} \sim t_{n-p}}
 \end{equation}
 With this, we may constrict \term{confidence interval} by rewriting the inequalities in the expression:
 $$
@@ -207,30 +208,35 @@ $$
 
 \TODO{R printout with explanation of culumns}
 
+\TODO{Does R do one or two sided hypothesis test ???}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\subsection*{Lecture 12}
 \subsection{Some notes on independence}
 
 We sometimes use that plugging independente random variables through some functions result in new independent random variables. The theorem below tells us when this is okay. 
 
-%A \term{measurable function} is a function s.t. the preimages of Borel sets are measurable in the given probability space. In particular, continous 
-
 \begin{theorem}
     Suppose $X, Y$ are independent random variables and that $f, g$ are two measurable functions. Then $f(X), g(Y)$ are also independent. 
 \end{theorem}
 
+A \term{measurable function} is a function s.t. the preimages of Borel sets are measurable in the given probability space. In particular, continous functions are measurable.
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Analysis of variance (ANOVA)}
 The following theorem forms the basis on our discussion of ANOVA. 
-\begin{theorem} \term{(ANOVA decomposition)}\label{thm:ANOVA}
-    Assuming the necesarry assumptions, 
+\begin{theorem} \label{thm:ANOVA}
+    Assuming the necesarry assumptions, we have the \term{ANOVA decomposition}:
     $$
+    \boxed{
     \underset{\mr{SST}}{\underbrace{
         \sum_{i=1}^n (Y_i - \bar{Y})}} = 
     \underset{\mr{SSR}}{\underbrace{
         \sum_{i=1}^n (\hat{Y}_i - \bar{Y})}} + 
     \underset{\mr{SSE}}{\underbrace{
-        \sum_{i=1}^n (Y_i - \hat{Y}_i)^2}}. 
+        \sum_{i=1}^n (Y_i - \hat{Y}_i)^2}}
+    }
     $$
 \end{theorem}
 \begin{proof}
@@ -238,7 +244,7 @@ The following theorem forms the basis on our discussion of ANOVA.
     \begin{align*}
         \sum_{i=1}^{n}\left(Y_{i}-\bar{Y}\right)^{2}
         &=\sum_{i=1}^{n}\left(Y_{i}-\hat{Y}_{i}+\hat{Y}_{i}-\bar{Y}\right)^{2}
-        \\&= \sum_{i=1}^{n}\left(Y_{i}-\hat{Y}_{i}\right)^{2}+\sum_{i=1}^{n}\left(\hat{Y}_{i}-\bar{Y}\right) 
+        \\&= \sum_{i=1}^{n}\left(Y_{i}-\hat{Y}_{i}\right)^{2}+\sum_{i=1}^{n}\left(\hat{Y}_{i}-\bar{Y}\right)^2 
         +2{\sum_{i=1}^{n}\left(Y_{i}-\hat{Y}\right)\left(\hat{Y}_{i}-\bar{Y}\right)}.
     \end{align*}
     Using again the properties of the estimators, we find that the last sum is $0$:
@@ -246,7 +252,7 @@ The following theorem forms the basis on our discussion of ANOVA.
         \sum_{i=1}^{n}\left(Y_{i}-\hat{Y}\right)\left(\hat{Y}_{i}-\bar{Y}\right)
         =
         \underbrace{\sum_{i=1}^{n} \overbrace{(Y_i-\hat{Y}_i)}^{\e_i}\hat{Y}_{i}}_{=\Eh^\top\hat{\Y}=0}
-        -\bar{Y}\underbrace{\sum_{i=1}^{n}\left(Y_{i}-\hat{Y}\right)}_{=0}.
+        -\bar{Y}\underbrace{\sum_{i=1}^{n}\left(Y_{i}-\hat{Y}\right)}_{=0 \textrm{ by property 2}}.
     $$
 \end{proof}
 The 3 sums are called \term{total sum of squares}, \term{regression sum of squares} and \term{error sum of squares} respectivelly. 
@@ -295,8 +301,8 @@ For the residual sum of squares we also need the fact that $\mH\x_i=\x_i$ for al
     &= \sum_{i=1}^n(\hat{Y}_i-\bar{Y})^2 
     = (\mC\mH\Y)^\top(\mC\mH\Y) 
     = \Y^\top\mH\mC\mH\Y 
-    \\&= \Y^\top(\mH-\frac{1}{n}\mH\one\one^\top\mH^\top)\Y 
-    = \Y^\top(\mH-\frac{1}{n}\one\one^\top)\Y    
+    \\&= \Y^\top\brac{\mH-\frac{1}{n}\mH\one\one^\top\mH^\top}\Y 
+    = \Y^\top\brac{\mH-\frac{1}{n}\one\one^\top}\Y.
 \end{align*}
 About the matrix $\mH-\frac{1}{n}\one\one^\top$, we note that it is symmetric, idempotent and of rank $p-1$:
 $$
@@ -366,21 +372,58 @@ Denoting $\Delta = \Bh-\Bh^R$, we find:
 $$
     \mr{SSE}^R = \mr{SSE} + \Delta^\top\X^\top\X\Delta
 $$
-
-... IMPORTANT: the concrete expressions for the F statistic...
-
 We claim that the under $\mr{H}_0$, we have
-
 \begin{equation}
-    \boxed{F = \frac{\mr{SSE}^R-\mr{SSE} / r}{\mr{SSE}/(n-p)} \sim F_{r, n-p}}    
+    \boxed{F = \frac{\brac{\mr{SSE}^R-\mr{SSE}} / r}{\mr{SSE}/(n-p)} \sim F_{r, n-p}}    
 \end{equation}
-
 \begin{proof}
     \TODO{Uke 8}
 \end{proof}
 
 %\subsection*{Lecture 15}
 %... example ...
+
+% \begin{figure}[H]\centering
+%     \begin{tikzpicture}
+
+%         % Axis
+%         \begin{axis}[
+%             no markers, 
+%             domain=0:5, 
+%             samples=100, 
+%             axis lines*=left, 
+%             xlabel=$F$, 
+%             ylabel={}, 
+%             height=6cm, 
+%             width=10cm, 
+%             xtick=\empty, 
+%             ytick=\empty, 
+%             enlargelimits=false, 
+%             clip=false, 
+%             axis on top,
+%             grid = major,
+%             color=black
+%             ]
+        
+%             % F-distribution curve
+%             \addplot+[smooth, thick] {x^2*exp(-x)};
+            
+%             % Critical value line and shaded region
+%             \draw[thick] (axis cs:3,0) -- (axis cs:3,0.3);
+%             \fill[pattern=north east lines, pattern color=black] (axis cs:3,0) -- (axis cs:5,0) -- (axis cs:5,0.05) -- (axis cs:3,0.05) -- cycle;
+        
+%             % Labels
+%             \node at (axis cs:4,0.15) {$\alpha$};
+%             \node[above] at (axis cs:3,0.3) {$f_{x,r_1,n-p}$};
+%             \node[right] at (axis cs:4,0.4) {$H_0$ rejected};
+%         \end{axis}
+        
+%         % Additional labels and annotations
+%         \node[above right] at (8,3) {$F \geq f_{x,r_1,n-p}$};
+        
+%         \end{tikzpicture}
+% \end{figure}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Transformations of data}
@@ -401,27 +444,24 @@ We do not always know what form the model should have, which motivates the follo
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Box-Cox transformation}
 The \term{Box-Cox transformation} is a power transform of the form:
-\[
-u_{\lambda}(y) =
-\begin{cases}
-    \begin{aligned}
-        &\frac{y^\lambda-1}{\lambda}, && \text{if } \lambda \ne 0, \\
-        &\ln{y}, && \text{if } \lambda = 0.
-    \end{aligned}
-\end{cases}
-\]
-We immediatelly see that this requires $\Y>0$ the response $\Y$. To remedy negative $\Y$, simply shift them. 
-
-\TODO{deduction of log likelyhood ...}
-
-To find the optimal $\lambda$, we perform a \term{grid search}. In practice, we use the R function \texttt{boxcox}. 
+\begin{equation}
+    \boxed{
+        u_{\lambda}(y) =
+        \begin{cases}
+            \begin{aligned}
+                &\frac{y^\lambda-1}{\lambda}, && \text{if } \lambda \ne 0, \\
+                &\ln{y}, && \text{if } \lambda = 0.
+            \end{aligned}
+        \end{cases}        
+    }
+\end{equation}
+We immediatelly see that this requires $\Y>0$ the response $\Y$. To remedy negative $\Y$, simply shift them. To apply the transform, suppose that $\tilde{Y} = u_{\lambda}(Y)$ is normal and choose $\lambda$ which maximises the log-likelihood function. This turns out to not have analytic solution. 
+To find the optimal $\lambda$, we therefore perform a \term{grid search}. In practice, we use the R function \texttt{boxcox}. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Variance stabilising transformation}
 
-\TODO{det unner ble rart ...}
-
-Suppose $\mu_i=\E(Y_i)$ and that $\var{Y_i}$ depends on $\mu_i$ by say $\var{Y_i}=h{\mu_i}$. Our goal is to transform by $\tilde{Y} = g(Y)$. First order taylor expansion of $g(Y)$ around $\mu$ gives:
+Suppose $\mu_i=\ev{Y_i}$ and that $\var{Y_i}$ depends on $\mu_i$ by say $\var{Y_i}=h(\mu_i)$. Our goal is to transform by $\tilde{Y} = g(Y)$ so that the variance depends less on $\mu$. First order taylor expansion of $g(Y)$ around $\mu$ gives:
 $$
     g(y) \approx g(\mu) + g'(\mu)(y-\mu).
 $$ 
@@ -431,5 +471,4 @@ We find:
     \\
     \var{g(Y)} &\approx \var{g(\mu) + g'(\mu)(Y-\mu)} = g'(\mu)^2\var{Y} 
 \end{align*}
-
-\TODO{no integral osv... UKE 9}
+Choose $g(y)=\int_c^y \frac{1}{\sqrt{h(\mu)}}d\mu$. Then $g'(y) = \frac{1}{\sqrt{h(y)}}$ so $\var{g(Y)} = 1$.

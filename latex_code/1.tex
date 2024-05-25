@@ -14,7 +14,7 @@ $$
 $$
 For a symmetrix matrix $\mA$ and a vector $\x$ we define the \term{quadratic form}:
 $$
-    Q(\x) = \x^\top \mA \x = \sum_{i=1}^p\sum_{j=1}^p x_i A_{ij} x_j
+    Q(\x) = \x^\top \mA \x = \sum_{i=1}^p\sum_{j=1}^p x_i A_{ij} x_j.
 $$
 \begin{theorem}
     Transforming $\y=\mG^\top\x$ we obtain 
@@ -73,7 +73,7 @@ $$
     f_A(x_1,\dots,x_k) = \int_{-\infty}^{\infty}\dots\int_{-\infty}^{\infty} f(x_1,\dots,x_p) du_p\dots du_{k+1}
 $$
 
-The \term{Conditional distribution} of $\X_B$ given $\X_A = \x_A$ is:
+The \term{conditional distribution} of $\X_B$ given $\X_A = \x_A$ is:
 $$
     f_{\X_B|\X_A=\x_A}(\x_B) = \frac{f(x_1,\dots,x_p)}{f_A(x_1,\dots,x_k)}
 $$
@@ -100,7 +100,7 @@ Here, each $\ev{X_i}=\int_{\R^p} x_i f(\x)d\x$. It is easy to show:
     $
         \ev{\mA\X \mB} = \mA\ev{\X}\mB
     $.
-    \item Let $\X, \Y$ be random matrices whose product is defined. Then $\ev{\X\Y} = \ev{\X}\ev{\Y}$.   
+    \item Let $\X, \Y$ be \emph{independent} random matrices whose product is defined. Then $\ev{\X\Y} = \ev{\X}\ev{\Y}$.   
 \end{enumerate}        
 
 Let $\X=(X_1,\dots,X_p)^\top$ and $\ev{\X}=:\M=({\mu_1,\dots,\mu_p})$. We then define the \term{covariance matrix} of $\X$ as:
@@ -184,19 +184,19 @@ $$
 
 We have many more properties of covariance matrices:
 \begin{enumerate}
-    \item $\SS_{\X\Y} = \SS_{\Y\X}^\top$
+    \item $\SS_{\X\Y} = \SS_{\Y\X}^\top$.
     \item If $\X\sim(\M_{\X}, \SS_{\X\X}), \Y\sim(\M_{\Y}, \SS_{\Y\Y})$ then $\Z=(\X,\Y)^\top$ has
     $$
         \SS_{\Z\Z} = \begin{pmatrix}
             \SS_{\X\X} & \SS_{\X\Y} \\ \SS_{\Y\X} & \SS_{\Y\Y}
-        \end{pmatrix}
+        \end{pmatrix}.
     $$
-    \item Independence of $\X,\Y$ implies $\cov{\X,\Y}=\zero$. (NB: the converse not true)
-    \item $\var{\mA\X+\boldsymbol{b}} = \mA \var{\X}\mA^\top$
+    \item Independence of $\X,\Y$ implies $\cov{\X,\Y}=\zero$ (NB: the converse not true).
+    \item $\var{\mA\X+\boldsymbol{b}} = \mA \var{\X}\mA^\top$.
     %\subsection*{Lecture 3}
-    \item $\cov{\X+\Y, \Z} = \cov{\X, \Z} + \cov{\Y, \Z}$
-    \item $\var{\X+\Y} = \var{\X} + \cov{\X, \Y} + \cov{\Y, \Z} + \var{\Y}$
-    \item $\cov{\mA\X, \mB\Y} = \mA\cov{\X, \Y}\mB^\top$
+    \item $\cov{\X+\Y, \Z} = \cov{\X, \Z} + \cov{\Y, \Z}$.
+    \item $\var{\X+\Y} = \var{\X} + \cov{\X, \Y} + \cov{\Y, \Z} + \var{\Y}$.
+    \item $\cov{\mA\X, \mB\Y} = \mA\cov{\X, \Y}\mB^\top$.
 \end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -356,8 +356,7 @@ We list some important properties.
 \end{enumerate}
 We end the section with a theorem linking the distributions of 1D random variables to the distribution of the p-variate random vector $\X$:
 \begin{theorem}
-    \term{(Cramer-Wold)}   
-    The distribution of $\X\in\R^p$ is completelly determined by the set of all 1D distributions of $\mt^\top\X, \mt\in\R^p$.
+    \term{Cramer-Wold} theorem states that the distribution of $\X\in\R^p$ is completelly determined by the set of all 1D distributions of $\mt^\top\X, \mt\in\R^p$.
 \end{theorem}
 \begin{proof}
     Suppose that for all $\mt\in\R^p$ we have $\mt^\top \X \overset{d}{=} \mt^\top \Y$. Then:

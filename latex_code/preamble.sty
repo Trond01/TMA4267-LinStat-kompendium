@@ -22,8 +22,7 @@
 \pgfplotsset{compat=1.17}
 
 \usepackage{tikz} 
-\usetikzlibrary{positioning}
-\usetikzlibrary{calc}
+\usetikzlibrary{positioning, calc, patterns}
 \usepackage{xcolor}
 \NewDocumentCommand{\EqM}{ m O{black} m}{\tikz[remember picture, baseline, anchor=base] \node[inner sep=0pt, outer sep=3pt, text=#2] (#1) {\ensuremath{#3}};}
 

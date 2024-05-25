@@ -5,7 +5,9 @@
 Example with three groups and their means ... rewrite to regression problem ...
 
 
+From wikipedia: In its simplest form, ANOVA provides a statistical test of whether two or more population means are equal, and therefore generalizes the t-test beyond two means. In other words, the ANOVA is used to test the difference between two or more means.
  
+
 
 \subsubsection*{Analysis of varance (ANOVA)}
 p treatments, samples ...
@@ -83,54 +85,64 @@ We extend the design matrix accordingly, and note that we still satisfy the assu
 \subsubsection{Inference about effect}
 
 We have seen that $\hat{\textrm{Effect}_j} \sim N(\textrm{Effect}_j, \frac{4\s^2}{n})$. To make inference about the effect/coefficients we need to make inference about $\s^2$. We cannot use estimator from multiple linear regression since for MLR we have $\sh^2=\frac{\textrm{SSE}}{n-p}$ and here $n=p$. If we don't have replicates in our experiment, to increase $n$, we have to resort to one of two methods.
-% \begin{enumerate}
-%     \item We can neclect $m$ higher order factors where it is reasonable that $\textrm{Effect}_j = 0$. Then we have $\hat{\textrm{Effect}_j} \sim N(0, \frac{4\s^2}{n})$. Letting $\s^2_{\textrm{effect}} = \frac{4\s^2}{n}$ we then estimate:
-%     $$
-%         \sh^2_{\textrm{effect}} = \frac{1}{m} \sum_{\textrm{negligable}} \hat{\textrm{Effect}}_j^2
-%     $$
+\begin{enumerate}
+    \item We can neclect $m$ higher order factors where it is reasonable that $\textrm{Effect}_j = 0$. Then we have $\hat{\textrm{Effect}_j} \sim N(0, \frac{4\s^2}{n})$. Letting $\s^2_{\textrm{effect}} = \frac{4\s^2}{n}$ we then estimate:
+    $$
+        \sh^2_{\textrm{effect}} = \frac{1}{m} \sum_{\textrm{negligable}} \hat{\textrm{Effect}}_j^2
+    $$
 
-%     \item \term{Lenth's method} / \term{pseudo standard error} \TODO{}
-    
-%     \[
-%         C_0, \ldots, C_m \text{ - estimated effects } \hat{A}, \hat{B}, \hat{AB}, \ldots
-%         \]
+    \item The idea of \term{Lenth's method} / \term{pseudo standard error} (PSE) is to compute:
+    $$
+        C_1, \ldots, C_m \text{ - the estimated effects } \hat{A}, \hat{B}, \hat{AB}, \ldots
+    $$  
+    We then do the following:
+        \begin{enumerate}
+            \item Order $|C_j|$ in increasing order.
+            \item Find the median $M$ of $|C_1|, \ldots, |C_{m}|$ and compute $\delta_0 = 1.5M$.
+            \item Remove the effects $C_j$ with $|C_j| \geq 2.5 \delta_0$ and find the median of the rest of $|C_j|$.
+        \end{enumerate}
+    Having done this we compute the PSE as 
+    $$
+        PSE = 1.5 \cdot \text{median} \left\{ |C_j| : |C_j| < 2.5 \delta_0 \right\}.
+    $$
+    This is then used as our estimator; $\hat{\sigma}_{PSE} = PSE$.
         
-%         \begin{enumerate}
-%             \item Order $|C_j|$ in increasing order.
-%             \item Find $M$ - the median of $|C_1|, \ldots, |C_{k-1}|$ and compute \[ \delta_0 = 1.5M \]
-%             \item Remove the effects $C_j$ with $|C_j| \geq 2.5 \delta_0$ and find the median of the rest of $|C_j|$.
-%         \end{enumerate}
-        
-%         \[ PSE = 1.5 \cdot \text{median} \left\{ |C_j| : |C_j| < 2.5 \delta_0 \right\} \]
-        
-%         \[ \hat{\sigma}_{PSE} = PSE \]
-        
-% \end{enumerate}
+\end{enumerate}
+
+In the case of replications ($n\cdot 2^k$ experiment) we use results from multiple linear regression:
+$$
+    \sh^2 = \frac{SSE}{n-2^k}, \quad \frac{\bh_j}{\sh / \sqrt{n}} \sim t_{n-2^k}.
+$$
 
 
-
-
-In the case of replications ($n2^k$) we recall the results from multiple linear regression:
-
-
-%%%%%%%%%%%%%%% Lecture 20 %%%%%%%%%%%%%%%
-\subsection*{Lecture  22}
-
+%\subsection*{Lecture  22}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Fractional factorial design}
+\subsection{Fractional factorial design ($2^{k-r}$-design)}
 
+One common fractional design is the \term{half fraction}, where we fullfill only half of the $2^k$ experiments of the full design. To choose experiments perform:
+\begin{enumerate}
+    \item Choose $k-1$ main factors and consider their full $2^{k-1}$ design.
+    \item For the $k$-th main factor, assign the same values as one of the interactions in the above design. 
+\end{enumerate}
+Suppose for instance we are performing a $2^{4-1}$ design with main factors A, B, C and D. Then to the full design for A, B, C and let:
+$$
+    D = ABC.
+$$
+We call the above the \term{generator of the design}. Multiplication of this equation by D gives:
+$$
+    1 = ABCD.
+$$
+This is called the \term{defining relation}. From the generator or from the defining relation we may obtain the remaining \term{aliases} / \term{confounded factors} by multiplying both sides of $1=ABCD$ by A, B, C, AB, AC, BC to obtain:
+\begin{align*}
+        A &= BCD \quad &&B = ACD \quad &&&C = ABD \\
+        AB &= CD \quad &&AC = BD \quad &&&BC = AD.
+\end{align*}
 \term{generator}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Resolution}
-
-
-\term{resolution}
-
-
-\term{confounded} ... estimated effects are the same. this is the joint effect of ...
-
+The minimal order of $LHS+RHS$ is called the \term{resolution} of the design. Here the resolution is IV. The greater the resolution the better. This is because at high resolution we ensure that the main factors are only confounded by higher order interactions. We note that when estimating effects, the estimator of confounded factors is the same, in our example for instance:
+$$
+    \hat{D} = \hat{ABC}.
+$$
+This will encapsulate the joint effect of both D and ABC, which again shows that high resolution is good as we often neglect the higher order interactions anyways. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Blocking}
@@ -139,7 +151,7 @@ The motivation for \term{blocking} is that the conditions of the experiments may
 $$
     Y_i \mapsto Y_i + h.
 $$
-If we choose experiments such that for a given factor, the number of high and low level ($+$ and $-$) are equal, the effect is of this factor is unchanged by the added $h$. We usually consider the main factors of greatest importance. Consider for example a $2^3$ experiment done over 2 days. We say it is divided in 2 \term{blocks}. Let block I be done with ABC at $-$ and block II at $+$. We obtain the following:
+If we choose experiments such that for a given factor, the number of high and low level ($+$ and $-$) are equal, the effect of this factor is unchanged by the added $h$. We usually consider the main factors of greatest importance. Consider for example a $2^3$ experiment done over 2 days. We say it is divided in 2 \term{blocks}. Let block I be done with ABC at $-$ and block II at $+$. We obtain the following:
 
 \begin{figure}[H]\centering
     \begin{tabular}{*7c}
@@ -160,10 +172,11 @@ If we choose experiments such that for a given factor, the number of high and lo
         \midrule
         + & + & + & + & + & + & + \\
         + & - & - & - & - & + & + \\
-        - & + & - & - & + & - & + \\
         - & - & + & + & - & - & + \\
+        - & + & - & - & + & - & + \\
         \bottomrule
     \end{tabular}        
+    \caption{The two blocks when partitioning by the sign of ABC.}
 \end{figure}
 
-bad if main factor is confounded with the block effect!!
+In this example our choice is good. Only the 3-factor interaction is affected by the supposed change in response since all other have equally many $+$ and $-$. It would be much wose if a main factor were confounded with the block effect. 
