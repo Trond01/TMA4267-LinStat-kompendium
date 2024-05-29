@@ -133,7 +133,7 @@ We define the \term{interaction between two factors} as half the main effect of 
 \end{align*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Inference about effect}
+\subsubsection{Inference about $\s^2_{\textrm{Effect}}$}
 
 We have seen that $\hat{\textrm{Effect}_j} \sim N(\textrm{Effect}_j, \frac{4\s^2}{n})$. To make inference about the effect/coefficients we need to make inference about $\s^2$. We cannot use estimator from multiple linear regression since for MLR we have $\sh^2=\frac{\textrm{SSE}}{n-p}$ and here $n=p$. If we don't have replicates in our experiment, to increase $n$, we have to resort to one of two methods.
 \begin{enumerate}
@@ -160,9 +160,29 @@ We have seen that $\hat{\textrm{Effect}_j} \sim N(\textrm{Effect}_j, \frac{4\s^2
         
 \end{enumerate}
 
-In the case of replications ($n\cdot 2^k$ experiment) we use results from multiple linear regression:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Inference about effect}
+Having estimated $\sh^2$, we turn to inference about the effect. Hypothesis about effect being $0$ can equivalently be written as
 $$
-    \sh^2 = \frac{SSE}{n-2^k}, \quad \frac{\bh_j}{\sh / \sqrt{n}} \sim t_{n-2^k}.
+    \mathrm{H}_0: \textrm{Effect}_j=0 \quad\textrm{ VS }\quad \mathrm{H}_1:\textrm{Effect}_j\ne 0.
+$$
+As usual we test af significance $\alpha$. For known $\s_\textrm{Effect}$ is known, we use:
+$$
+    Z_j = \frac{\hat{\textrm{Effect}}_j}{\s_{\textrm{Effect}}} \sim N(0,1).
+$$
+For unknown $\s_\textrm{Effect}$ and no replications, for our two methods we use the test statistic is:
+$$
+    T_j = \frac{\hat{\textrm{Effect}}_j}{\sh_{\textrm{Effect}}}.
+$$
+\begin{enumerate}
+    \item If method 1 is used, $T_j \sim t_m$ under $\mathrm{H}_0$. Here $m$ is the number of neglected effects. 
+    \item If Lenths method is used, then $T_j \sim t_{m/3}$ under $\mathrm{H}_0$. Here $m$ is the total number of effects. 
+\end{enumerate}
+
+In the case of replications (ex. $N$ full runs gives $N\cdot 2^k$ experiment) we use results from multiple linear regression to estimate:
+$$
+    \sh^2 = \frac{\textrm{SSE}}{n-2^k}
+    \quad \frac{\bh_j}{\sh / \sqrt{n}} \sim t_{n-2^k}.
 $$
 
 

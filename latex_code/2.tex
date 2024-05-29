@@ -31,7 +31,7 @@ We choose to present one of several equivalent definitions. Here we first define
 \begin{definition}
     We say that $\X = (X_1,\dots, X_p)^\top$ is \term{multivariate normal} if there exists a ($p\times q$) matrix $\mA$ and $\M\in\R^p$ such that 
     $$
-        \X = \mA \Z + \M, \quad \Z \sim (0, \mI_q)
+        \X = \mA \Z + \M, \quad \Z \sim (0, \mI_q).
     $$
 \end{definition}
 \begin{theorem}
@@ -43,13 +43,13 @@ We choose to present one of several equivalent definitions. Here we first define
         \mb^\top \X = \mb^\top(\mA\Z + \M) = \mb^\top \mA \Z + \mb^\top\M \sim N. 
     $$
 \end{proof}
-From the definition we find $\ev{X} = \M, \var{X} = \mA\mA^\top =: \SS$. We write $\X \sim N(\M, \SS)$. It turns out that the statement from the theorem would give an equivalent definition!
+From the definition we find $\ev{\X} = \M, \var{\X} = \mA\mA^\top =: \SS$. We write $\X \sim N(\M, \SS)$. It turns out that the statement from the theorem would give an equivalent definition!
 %\subsection*{Lecture 5}
 \begin{theorem}
     Let $\X \sim N(\M, \SS)$. If $\SS > 0$, then the probability density function (PDF) of $\X$ is:
     \begin{equation}
         \boxed{
-            f_{\X} (\x) = \frac{1}{(2\pi)^{k/2}\det{\SS}^{1/2}} e^{-\frac{1}{2}(\x-\M)^\top\SS^{-1}(\x-\M)}
+            f_{\X} (\x) = \frac{1}{(2\pi)^{k/2}\det(\SS)^{1/2}} e^{-\frac{1}{2}(\x-\M)^\top\SS^{-1}(\x-\M)}
         }        
     \end{equation}
 \end{theorem}
@@ -132,6 +132,10 @@ The following is among the most important results in the course:
 \begin{corollary}
     Let $X = (X_1,\dots,X_p)^\top\sim N{\M, \SS}$. Then $X_i, X_j$ independent iff $\cov{X_i,X_j}=0$.
 \end{corollary}
+\begin{remark}
+    An important warning is that in the above all the $X_i$'s are jointly normal. The result is not true for any normally distributed $X_1, X_2$. Consider for example $X_1\sim N(0,1)$ and $X_2 = C X_1$ where C is a bernoulli distributed random variable with $P(C=1) = P(C=-1) = \frac{1}{2}$. Then also $X_2\sim N(0,1)$ and we find $\cov{X_1,X_2}=\ev{X_1X_2}=0$, but we do not have independence since $P(|X_1| \ne |X_2|) = 0$.  
+    % https://math.stackexchange.com/questions/4076553/is-multinormality-required-for-zero-covariance-to-imply-independence
+\end{remark}
 The next theorem tells us that we may \hermetegn{remove the dependent part} of a component from another:
 \begin{theorem}
     Let $\X\sim N(\M, \SS)$ be $p$-variate and $\X=(\X_1,\X_2)^\top$ with $\X_i\sim N(\M_i, \SS_i)$. Define $\X_2' = \X_2 - \SS_{21}\SS_{11}^{-1} \X_1$ Then:
@@ -143,16 +147,18 @@ The next theorem tells us that we may \hermetegn{remove the dependent part} of a
 
 \begin{theorem}
     With notation as in the previous theorem, the conditional distribution of $\X_2$ given $\X_1=\x_1$ is:
-    $$
-        \X_2 |_{\X_1 = \x_1} \sim N(\M_2 + \SS_{21}\SS_{11}^{-1}(\x_1-\M_1), \SS_{22}-\SS_{21}\SS_{11}^{-1}\SS_{12}).
-    $$
+    \begin{equation}
+        \boxed{
+            \X_2 |_{\X_1 = \x_1} \sim N(\M_2 + \SS_{21}\SS_{11}^{-1}(\x_1-\M_1), \SS_{22}-\SS_{21}\SS_{11}^{-1}\SS_{12})
+        }    
+    \end{equation}
 \end{theorem}
 
 \begin{theorem}
     If $\X\sim N(\M, \SS)$ and $\SS$ is non-singular. Then 
-    $$
-        \boxed{U = (\X-\M)\SS^{-1}(\X-\M) \sim \chi^2_p}
-    $$
+    \begin{equation}
+        \boxed{U = (\X-\M)\SS^{-1}(\X-\M) \sim \chi^2_p}        
+    \end{equation}
 \end{theorem}
 \begin{proof}
     By definition of the $\chi^2$-distribution we have $U=\Z^\top\Z=Z_1^2+\dots+Z_p^2 \sim \chi_p^2$ for $\Z\sim N(0, \mI_p)$. By the \term{Mahalanobis transformation} we have $\Z=\SS^{\frac{1}{2}}(\X-\M)$ from which the result follows. 
@@ -222,8 +228,8 @@ $$
 $$
 We note that 
 \begin{enumerate}
-    \item $\mC$ is symmetric
-    \item $\mC$ is idempotent
+    \item $\mC$ is symmetric.
+    \item $\mC$ is idempotent.
 \end{enumerate}
 For the estimators, we may prove:
 \begin{proposition}
@@ -323,8 +329,8 @@ The following theorem will be used extensivelly in the sequel.
 \begin{theorem}
     $\bs{Z}\sim N(0, \mI_p)$ and let $\bs{R}, \bs{S}$ be symmetric and idempotent of rank $r, s$ respectivelly. Suppose also $\bs{RS}=0$. Then 
     \begin{enumerate}
-        \item $\bs{Z}^\top \bs{R} \bs{Z} \sim \chi^2_r$
-        \item $\bs{Z}^\top \bs{R} \bs{Z}$ and $\bs{Z}^\top \bs{S} \bs{Z}$ are independent
+        \item $\bs{Z}^\top \bs{R} \bs{Z} \sim \chi^2_r$.
+        \item $\bs{Z}^\top \bs{R} \bs{Z}$ and $\bs{Z}^\top \bs{S} \bs{Z}$ are independent.
         \item $\frac{\bs{Z}^\top \bs{R} \bs{Z} / r}{\bs{Z}^\top \bs{S} \bs{Z}/s} \sim F_{r,s}$.
     \end{enumerate}
 \end{theorem}
@@ -338,7 +344,7 @@ The following theorem will be used extensivelly in the sequel.
         $$
         Note that $\Y=\bs{P}^\top\Z$ is $r$-variate normal and compute its expectation and variance to be $0$ and $\mI_r$. Then finally conclude that $\Y^\top \Y^\top\Y=Y_1^2+\dots+Y_r^2\sim\chi^2_r$.
         \item Compute $\cov{\bs{R}\Z, \bs{S}\Z} = \bs{R}\bs{S} = \zero$. Hence $\bs{R}\Z, \bs{S}\Z$. Then the measurable function $f(\x)=\x^\top \x$ gives independence of $\bs{Z}^\top \bs{R} \bs{Z}$ and $\bs{Z}^\top \bs{S} \bs{Z}$.
-        \item By definition of Fisher distribution.
+        \item By result 1 and 2 using definition of Fisher distribution.
     \end{enumerate}
 \end{proof}
 

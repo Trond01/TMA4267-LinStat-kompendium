@@ -119,7 +119,7 @@ We begin by remarking that $\X\B$ is a linear combination of colums of $\X$ and 
 \begin{proposition}
     We have:
     \begin{enumerate}
-        \item $\E\perp\hat{\Y}$ and $\Eh\perp\col{\X}$.
+        \item $\Eh\perp\hat{\Y}$ and $\Eh\perp\col{\X}$.
         \item $\sum_{i=1}^n \eh_i = 0$ and $\sum_{i=1}^n Y_i = \sum_{i=1}^n \hat{Y}_i$.
         \item $\Bh \sim N(\B, \s^2(\X^\top\X)^{-1})$.
         \item $\Eh \sim N(\zero, \s^2(\mI-\mH))$.
@@ -326,9 +326,9 @@ As usual we denote the significance level by $\alpha$. Our test statistic $F$ is
     \boxed{F = \frac{\mr{SSR}/(p-1)}{\mr{SSE}/(n-p)} \sim F_{p-1,n-p}}
 \end{align}
 And as usual the test is $F \geq f_{\alpha, p-1,n-p} \Rightarrow \mr{H}_0$ is rejected.
-\begin{proof}
-    \TODO{Uke 8}
-\end{proof}
+% \begin{proof}
+%     \TODO{Uke 8}
+% \end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{General F-test}
@@ -375,11 +375,14 @@ $$
 $$
 We claim that the under $\mr{H}_0$, we have
 \begin{equation}
-    \boxed{F = \frac{\brac{\mr{SSE}^R-\mr{SSE}} / r}{\mr{SSE}/(n-p)} \sim F_{r, n-p}}    
+    \boxed{F 
+    = \frac{\brac{\mr{SSE}^R-\mr{SSE}} / r}{\mr{SSE}/(n-p)} 
+    = \frac{(\mA\Bh-\bs{d})^\top(\mA(\X^\top\X)^{-1}\mA)^{-1}(\mA\Bh-\bs{d}) / r}{\mr{SSE}/(n-p)} 
+    \sim F_{r, n-p}}    
 \end{equation}
-\begin{proof}
-    \TODO{Uke 8}
-\end{proof}
+% \begin{proof}
+%     \TODO{Uke 8}
+% \end{proof}
 
 %\subsection*{Lecture 15}
 %... example ...
@@ -426,6 +429,7 @@ We claim that the under $\mr{H}_0$, we have
 % \end{figure}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Transformations of data}
 Some models common in applications are:

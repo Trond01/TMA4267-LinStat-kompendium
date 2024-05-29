@@ -34,10 +34,10 @@ A matrix is said to be \term{positive definite} if $Q(\x)>0$ for all $\x\ne0$ an
 \end{proof}
 From this we obtain two more usefull results. 
 \begin{enumerate}
-    \item If $A>0$ the inverse exists and the determinant is $>0$
-    \item If $A>0$ there exists a unique positive definite square root with decomposition:
+    \item If $\mA>0$ the inverse exists and the determinant is $>0$
+    \item If $\mA>0$ there exists a unique positive definite square root with decomposition:
     $$
-        A^{1/2} = \mG\mL^{1/2}\mG^\top.
+        \mA^{1/2} = \mG\mL^{1/2}\mG^\top.
     $$
 \end{enumerate}
 
@@ -47,7 +47,7 @@ From this we obtain two more usefull results.
 
 A \term{random vector} $\X$ is a vector where each component is a \term{random variable}. Similarly, we define a \term{random matrix} as a matrix with random variables as component. As in the univariate case, we define the \term{cumulative distribution function} (CDF) by:
 $$
-    F(x)=\p{\X\leq \x} = \p{X_1\leq x_1,\dots,X_p\leq x_p}.
+    F(\x)=\p{\X\leq \x} = \p{X_1\leq x_1,\dots,X_p\leq x_p}.
 $$
 A random vector is said to be \term{absolutelly continuous} if there exists a \term{probability density function} (PDF) $f$ such that:
 $$
@@ -80,7 +80,7 @@ $$
 
 We say that the random vectors $\X_A, \X_B$ are \term{independent} if 
 $$
-    F(x_1,\dots,x_p)=F_A(x_1,\dots,x_k)F_B(x_{k+1},\dots,x_p) \qall x_1,\dots x_p.
+    F(x_1,\dots,x_p)=F_A(x_1,\dots,x_k)F_B(x_{k+1},\dots,x_p) \qall x_1,\dots x_p \in \R^p.
 $$
 In the continuous case we have independence iff $f=f_A\cdot f_B$. In this case $f_{\x_B|\X_A=\x_A} = f_B(\x_B)$.
 Similar definition for independence when $\X$ has $N$ components and not just 2.
@@ -322,7 +322,7 @@ Important properties include:
 \end{enumerate}
 However, it does noe exist for for instance the student-t distribution. It only exists when all moments exist. We shall now define the \term{characteristic function}, which \textbf{always} exists:
 $$
-    \phi_X(t) = \ev{e^{itX}}.
+    \phi_X(t) = \ev{e^{itX}} = \int_\mathbb{R} f(x) e^{itx} dx.
 $$
 It has similar properties:
 \begin{enumerate}
@@ -339,7 +339,7 @@ We list some important properties.
 \begin{enumerate}
     \item If $\phi_{\X}(t)$ is absolutelly integrable, the (Fourier) inversion formula holds:
     $$
-        f_{\X} = \frac{1}{(2\pi)^p} \int_{\R} e^{-i\mt^\top\x} \phi_{\X}(t) dt.
+        f_{\X}(\x) = \frac{1}{(2\pi)^p} \int_{\R^p} e^{-i\mt^\top\x} \phi_{\X}(\mt) d\mt.
     $$
     \item Denote $t_{(1)} = (t_1,\dots,0)^\top, \dots, t_{(p)}=(0,\dots,t_p)^\top$. Then 
     $$
