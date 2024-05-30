@@ -77,7 +77,7 @@ $$
 or we may use the \term{maximum likelihood estimator} (MLE):
 $$
     \Bh 
-    = \argmax_{\B\in\R^{k+1}} L(\beta), \quad L(\beta) = \prod_{i=1}^n f(Y_i).
+    = \argmax_{\B\in\R^{k+1}} L(\B), \quad L(\B) = \prod_{i=1}^n f(Y_i).
 $$
 It turns out that with our assumptions the result is the same. For the LSE, differentiating the sum of squares and equating to zero yields:
 \begin{equation}
@@ -109,7 +109,7 @@ $$
 Hence our unbiased estimator is:
 \begin{equation}
     \boxed{
-        \Sh^2 = \frac{1}{n-p}(\Y-\X\B)^\top(\Y-\X\B).
+        \Sh^2 = \frac{1}{n-p}\Eh^\top\Eh = \frac{1}{n-p}(\Y-\X\hat{\B})^\top(\Y-\X\hat{\B}).
     }    
 \end{equation}
 

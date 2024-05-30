@@ -208,8 +208,8 @@ We want to estimate $\M, \SS$. Again we denote:
 \begin{align*}
     \Mh &= \bar{\X} = \frac{1}{n} \sum_{i=1}^n \X_i = \frac{1}{n}\X^\top \one, \\
     \bs{S}^2 
-    &= \frac{1}{n} \sum_{i=1}^n (\X_i-\bar{\X})^\top(\X_i-\bar{\X}) 
-    = \frac{1}{n} \X^\top\brac{\mI-\frac{1}{n} \one\one^\top}\X.
+    &= \frac{1}{n} \sum_{i=1}^n (\X_i-\bar{\X})(\X_i-\bar{\X})^\top 
+    = \frac{1}{n} \X^\top\brac{\mI-\frac{1}{n} \one\one^\top}\X \TODO{?}.
 \end{align*}
 The matrix $\mC=\mI-\frac{1}{n} \one\one^\top$ is called the \term{centering matrix} because its action is to remove the mean of a vector:
 $$
@@ -257,7 +257,7 @@ For the estimators, we may prove:
 \end{proof}
 Hence we obtain an unbiased estimator as
 $$
-    \bs{S} = \frac{1}{n-1} \sum_{i=1}^n (\X_i-\bar{\X})(\X_i-\bar{\X})^\top.
+    \bs{S}^2 = \frac{1}{n-1} \sum_{i=1}^n (\X_i-\bar{\X})(\X_i-\bar{\X})^\top.
 $$
 
 %\subsection*{Lecture 8}
